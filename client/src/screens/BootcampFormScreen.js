@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, Form, FormCheck } from "react-bootstrap";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Row, Col, Card, Form, FormCheck } from "react-bootstrap";
+import { updateBootcamp, createBootcamp } from "../actions/bootcampActions";
 
 const initialState = {
   name: "",
@@ -17,8 +18,9 @@ const initialState = {
   housing: false,
 };
 
-const BootcampFormScreen = ({ match }) => {
+const BootcampFormScreen = ({ match, history }) => {
   const bootcampId = match.params.id;
+  const dispatch = useDispatch();
   const [bootcamp, setBootcamp] = useState(initialState);
 
   const { bootcamps } = useSelector((state) => state.bootcamps);
@@ -47,9 +49,14 @@ const BootcampFormScreen = ({ match }) => {
     setBootcamp({ ...bootcamp, careers: value });
   };
 
-  const SubmitBoocamp = (e) => {
+  const SubmitBoocamp = async (e) => {
     e.preventDefault();
-    console.log(bootcamp);
+    if (bootcampId) {
+      await dispatch(updateBootcamp(bootcamp));
+    } else {
+      await dispatch(createBootcamp(bootcamp));
+    }
+    history.push(`/bootcamps`);
   };
 
   return (

@@ -21,15 +21,27 @@ import {
 
 export const bootcampsReducer = (state = { bootcamps: [] }, action) => {
   switch (action.type) {
+    case BOOTCAMP_UPDATE_REQUEST:
     case BOOTCAMP_LIST_REQUEST:
-      return { loading: true, bootcamps: [] };
+      return { ...state, loading: true };
     case BOOTCAMP_LIST_SUCCESS:
       return {
         loading: false,
         bootcamps: action.payload,
       };
+    case BOOTCAMP_UPDATE_SUCCESS:
+      return {
+        loading: false,
+        bootcamps: state.bootcamps.map((bootcamp) =>
+          bootcamp.id === action.payload.data.id
+            ? action.payload.data
+            : bootcamp
+        ),
+      };
+    case BOOTCAMP_UPDATE_FAIL:
+    case BOOTCAMP_DELETE_FAIL:
     case BOOTCAMP_LIST_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }
@@ -58,21 +70,6 @@ export const bootcampCreateReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case BOOTCAMP_CREATE_RESET:
       return {};
-    default:
-      return state;
-  }
-};
-
-export const bootcampUpdateReducer = (state = { bootcamp: {} }, action) => {
-  switch (action.type) {
-    case BOOTCAMP_UPDATE_REQUEST:
-      return { loading: true };
-    case BOOTCAMP_UPDATE_SUCCESS:
-      return { loading: false, success: true, bootcamp: action.payload };
-    case BOOTCAMP_UPDATE_FAIL:
-      return { loading: false, error: action.payload };
-    case BOOTCAMP_UPDATE_RESET:
-      return { bootcamp: {} };
     default:
       return state;
   }
