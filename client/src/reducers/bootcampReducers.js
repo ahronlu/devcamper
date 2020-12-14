@@ -21,8 +21,10 @@ import {
 
 export const bootcampsReducer = (state = { bootcamps: [] }, action) => {
   switch (action.type) {
+    case BOOTCAMP_DELETE_REQUEST:
     case BOOTCAMP_UPDATE_REQUEST:
     case BOOTCAMP_LIST_REQUEST:
+    case BOOTCAMP_CREATE_REQUEST:
       return { ...state, loading: true };
     case BOOTCAMP_LIST_SUCCESS:
       return {
@@ -38,38 +40,18 @@ export const bootcampsReducer = (state = { bootcamps: [] }, action) => {
             : bootcamp
         ),
       };
+    case BOOTCAMP_DELETE_SUCCESS:
+      return {
+        ...state,
+        bootcamps: state.bootcamps.filter(
+          (bootcamp) => bootcamp.id !== action.payload
+        ),
+      };
     case BOOTCAMP_UPDATE_FAIL:
     case BOOTCAMP_DELETE_FAIL:
     case BOOTCAMP_LIST_FAIL:
-      return { ...state, loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-export const bootcampDeleteReducer = (state = {}, action) => {
-  switch (action.type) {
-    case BOOTCAMP_DELETE_REQUEST:
-      return { loading: true };
-    case BOOTCAMP_DELETE_SUCCESS:
-      return { loading: false, success: true };
-    case BOOTCAMP_DELETE_FAIL:
-      return { loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-export const bootcampCreateReducer = (state = {}, action) => {
-  switch (action.type) {
-    case BOOTCAMP_CREATE_REQUEST:
-      return { loading: true };
-    case BOOTCAMP_CREATE_SUCCESS:
-      return { loading: false, success: true, bootcamp: action.payload };
     case BOOTCAMP_CREATE_FAIL:
-      return { loading: false, error: action.payload };
-    case BOOTCAMP_CREATE_RESET:
-      return {};
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }

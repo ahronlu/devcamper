@@ -60,6 +60,7 @@ export const deleteBootcamp = (id) => async (dispatch, getState) => {
 
     dispatch({
       type: BOOTCAMP_DELETE_SUCCESS,
+      payload: id,
     });
   } catch (error) {
     dispatch({

@@ -29,7 +29,6 @@ const BootcampFormScreen = ({ match, history }) => {
     console.log(bootcampId);
     bootcamps &&
       setBootcamp(bootcamps.find((bootcamp) => bootcamp.id === bootcampId));
-    console.log(bootcamp);
   }, [bootcampId, bootcamps]);
 
   const handleChange = (e) => {

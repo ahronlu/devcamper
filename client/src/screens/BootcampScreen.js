@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Alert, Card, Col, Spinner, Row, ListGroup } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-// import { listBootcampDetails } from "../actions/bootcampActions";
 
 const BootcampScreen = ({ match }) => {
-  const dispatch = useDispatch();
   const [bootcamp, setBootcamp] = useState(null);
 
-  const { bootcamps } = useSelector((state) => state.bootcamps);
+  const { bootcamps, error, loading } = useSelector((state) => state.bootcamps);
 
   useEffect(() => {
     setBootcamp(bootcamps.find((bootcamp) => bootcamp.id === match.params.id));
@@ -16,9 +14,9 @@ const BootcampScreen = ({ match }) => {
 
   return (
     <>
-      {/* {error && <Alert variant="danger">{error}</Alert>} */}
+      {error && <Alert variant="danger">{error}</Alert>}
 
-      {!bootcamp ? (
+      {!bootcamp && loading ? (
         <Spinner animation="border" />
       ) : (
         <Row>

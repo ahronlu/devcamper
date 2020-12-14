@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Card, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { deleteBootcamp } from "../actions/bootcampActions";
 
 const ManageBootcampScreen = () => {
+  const dispatch = useDispatch();
   const [bootcamp, setBootcamp] = useState(null);
   const { bootcamps } = useSelector((state) => state.bootcamps);
   const { userInfo } = useSelector((state) => state.userLogin);
+
+  const handleDelete = () => {
+    dispatch(deleteBootcamp(bootcamp.id));
+  };
 
   useEffect(() => {
     bootcamps &&
@@ -33,12 +39,12 @@ const ManageBootcampScreen = () => {
                     <Col md={8}>
                       <div className="card-body">
                         <h5 className="card-title">
-                          <a href="bootcamp.html">
+                          <Link to={`/bootcamps/${bootcamp.id}`}>
                             {bootcamp.name}
                             <span className="float-right badge badge-success">
                               {bootcamp.averageRating}
                             </span>
-                          </a>
+                          </Link>
                         </h5>
                         <span className="badge badge-dark mb-2">
                           {bootcamp.location.city}, {bootcamp.location.state}
@@ -84,7 +90,10 @@ const ManageBootcampScreen = () => {
                 >
                   Manage Courses
                 </Link>
-                <button className="btn btn-danger btn-block">
+                <button
+                  onClick={handleDelete}
+                  className="btn btn-danger btn-block"
+                >
                   Remove Bootcamp
                 </button>
               </>
