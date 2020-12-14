@@ -13,6 +13,7 @@ import { listBootcamps } from "./actions/bootcampActions";
 import { listReviews } from "./actions/reviewActions";
 import ReviewsScreen from "./screens/ReviewsScreen";
 import ManageBootcampScreen from "./screens/ManageBootcampScreen";
+import BootcampFormScreen from "./screens/BootcampFormScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,8 @@ function App() {
           <Route path="/login" component={LoginScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route exact path="/bootcamps" component={BootcampsScreen} />
+          <Route path="/bootcamps/create" component={BootcampFormScreen} />
+          <Route path="/bootcamps/:id/edit" component={BootcampFormScreen} />
           <Route exact path="/bootcamps/:id" component={BootcampScreen} />
           <Route path="/bootcamps/:id/reviews" component={ReviewsScreen} />
           <Route path="/manage-account" component={ManageAccountScreen} />

@@ -1,9 +1,9 @@
 import React from "react";
-import { Col, Form, Row } from "react-bootstrap";
+import { Col, Container, Form, Row } from "react-bootstrap";
 
 const HomeScreen = () => {
   return (
-    <section className="showcase">
+    <Container className="showcase fluid">
       <div className="dark-overlay">
         <div className="showcase-inner">
           <h1 className="display-4">Find a Code Bootcamp</h1>
@@ -39,7 +39,7 @@ const HomeScreen = () => {
           </Form>
         </div>
       </div>
-    </section>
+    </Container>
   );
 };
 

@@ -8,7 +8,7 @@ const BootcampScreen = ({ match }) => {
   const dispatch = useDispatch();
   const [bootcamp, setBootcamp] = useState(null);
 
-  const { bootcamps } = useSelector((state) => state.bootcampList);
+  const { bootcamps } = useSelector((state) => state.bootcamps);
 
   useEffect(() => {
     setBootcamp(bootcamps.find((bootcamp) => bootcamp.id === match.params.id));

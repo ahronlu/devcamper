@@ -2,9 +2,6 @@ import {
   BOOTCAMP_LIST_REQUEST,
   BOOTCAMP_LIST_SUCCESS,
   BOOTCAMP_LIST_FAIL,
-  BOOTCAMP_DETAILS_REQUEST,
-  BOOTCAMP_DETAILS_SUCCESS,
-  BOOTCAMP_DETAILS_FAIL,
   BOOTCAMP_DELETE_REQUEST,
   BOOTCAMP_DELETE_SUCCESS,
   BOOTCAMP_DELETE_FAIL,
@@ -20,12 +17,9 @@ import {
   BOOTCAMP_CREATE_REVIEW_SUCCESS,
   BOOTCAMP_CREATE_REVIEW_FAIL,
   BOOTCAMP_CREATE_REVIEW_RESET,
-  BOOTCAMP_TOP_REQUEST,
-  BOOTCAMP_TOP_SUCCESS,
-  BOOTCAMP_TOP_FAIL,
 } from "../constants/bootcampConstants";
 
-export const bootcampListReducer = (state = { bootcamps: [] }, action) => {
+export const bootcampsReducer = (state = { bootcamps: [] }, action) => {
   switch (action.type) {
     case BOOTCAMP_LIST_REQUEST:
       return { loading: true, bootcamps: [] };
@@ -35,19 +29,6 @@ export const bootcampListReducer = (state = { bootcamps: [] }, action) => {
         bootcamps: action.payload,
       };
     case BOOTCAMP_LIST_FAIL:
-      return { loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-export const bootcampDetailsReducer = (state = { bootcamp: {} }, action) => {
-  switch (action.type) {
-    case BOOTCAMP_DETAILS_REQUEST:
-      return { loading: true, ...state };
-    case BOOTCAMP_DETAILS_SUCCESS:
-      return { loading: false, bootcamp: action.payload };
-    case BOOTCAMP_DETAILS_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
@@ -107,19 +88,6 @@ export const bootcampReviewCreateReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case BOOTCAMP_CREATE_REVIEW_RESET:
       return {};
-    default:
-      return state;
-  }
-};
-
-export const bootcampTopRatedReducer = (state = { bootcamps: [] }, action) => {
-  switch (action.type) {
-    case BOOTCAMP_TOP_REQUEST:
-      return { loading: true, bootcamps: [] };
-    case BOOTCAMP_TOP_SUCCESS:
-      return { loading: false, bootcamps: action.payload };
-    case BOOTCAMP_TOP_FAIL:
-      return { loading: false, error: action.payload };
     default:
       return state;
   }

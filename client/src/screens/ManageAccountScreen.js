@@ -11,10 +11,7 @@ const ManageAccountScreen = ({ history }) => {
   const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
-  const { loading, error, user } = userDetails;
-
-  const userUpdateDetails = useSelector((state) => state.userUpdateDetails);
-  const { success } = userUpdateDetails;
+  const { loading, error, user, success } = userDetails;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -23,11 +20,11 @@ const ManageAccountScreen = ({ history }) => {
     if (!userInfo) {
       history.push("/login");
     } else {
-      if (!user.data) {
+      if (!user.name) {
         dispatch(getUserDetails());
       } else {
-        setName(user.data.name);
-        setEmail(user.data.email);
+        setName(user.name);
+        setEmail(user.email);
       }
     }
   }, [userInfo, history, dispatch, user]);

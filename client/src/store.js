@@ -5,21 +5,16 @@ import {
   userLoginReducer,
   userRegisterReducer,
   userDetailsReducer,
-  userUpdateDetailsReducer,
 } from "./reducers/userReducers";
-import {
-  bootcampListReducer,
-  bootcampDetailsReducer,
-} from "./reducers/bootcampReducers";
-import { reviewListReducer } from "./reducers/reviewReducers";
+import { bootcampsReducer } from "./reducers/bootcampReducers";
+import { reviewsReducer } from "./reducers/reviewReducers";
 
 const reducer = combineReducers({
-  bootcampList: bootcampListReducer,
+  bootcamps: bootcampsReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
-  userUpdateDetails: userUpdateDetailsReducer,
-  reviewList: reviewListReducer,
+  reviews: reviewsReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

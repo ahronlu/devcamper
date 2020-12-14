@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const ManageBootcampScreen = () => {
   const [bootcamp, setBootcamp] = useState(null);
-  const { bootcamps } = useSelector((state) => state.bootcampList);
+  const { bootcamps } = useSelector((state) => state.bootcamps);
   const { userInfo } = useSelector((state) => state.userLogin);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const ManageBootcampScreen = () => {
                   />
                 </Form>
                 <Link
-                  to="/edit-bootcamp"
+                  to={`/bootcamps/${bootcamp._id}/edit`}
                   className="btn btn-primary btn-block mt-2"
                 >
                   Edit Bootcamp Details

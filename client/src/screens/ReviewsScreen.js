@@ -9,8 +9,8 @@ const ReviewsScreen = ({ match }) => {
   const [bootcampReviews, setBootcampReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { reviews } = useSelector((state) => state.reviewList);
-  const { bootcamps } = useSelector((state) => state.bootcampList);
+  const { reviews } = useSelector((state) => state.reviews);
+  const { bootcamps } = useSelector((state) => state.bootcamps);
 
   useEffect(() => {
     bootcamps && setBootcamp(bootcamps.find((b) => b.id === bootcampId));
