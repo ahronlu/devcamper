@@ -102,7 +102,7 @@ const BootcampFormScreen = ({ match, history }) => {
       {loading ? (
         <Spinner animation="border" />
       ) : (
-        <Form onSubmit={SubmitBoocamp}>
+        <Form onSubmit={(e) => SubmitBoocamp(e)}>
           <Row>
             <Col md={6}>
               <Card className="bg-white py-2 px-4">
