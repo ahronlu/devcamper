@@ -3,7 +3,7 @@ import { Col, Container, Form, Row } from "react-bootstrap";
 
 const HomeScreen = () => {
   return (
-    <Container className="showcase fluid">
+    <div className="showcase ">
       <div className="dark-overlay">
         <div className="showcase-inner">
           <h1 className="display-4">Find a Code Bootcamp</h1>
@@ -39,7 +39,7 @@ const HomeScreen = () => {
           </Form>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

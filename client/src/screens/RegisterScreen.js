@@ -88,7 +88,7 @@ const RegisterScreen = ({ history }) => {
                 />
               </Form.Group>
 
-              <div className="card card-body mb-3">
+              <Card.Body className="mb-3">
                 <h5>User Role</h5>
                 <div className="form-check">
                   <input
@@ -113,18 +113,18 @@ const RegisterScreen = ({ history }) => {
                   />
                   <label className="form-check-label">Bootcamp Publisher</label>
                 </div>
-              </div>
+              </Card.Body>
               <p className="text-danger">
                 * You must be affiliated with the bootcamp in some way in order
                 to add it to DevCamper.
               </p>
-              <div className="form-group">
+              <Form.Group>
                 <Form.Control
                   type="submit"
                   value={loading ? "Loading..." : "Register"}
                   className="btn btn-primary btn-block"
                 />
-              </div>
+              </Form.Group>
             </Form>
           </Card.Body>
         </Card>

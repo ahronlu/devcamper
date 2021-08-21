@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Form, Spinner, Alert } from "react-bootstrap";
+import { Row, Col, Form, Spinner, Alert, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { login } from "../actions/userActions";
@@ -27,8 +27,8 @@ const LoginScreen = ({ history }) => {
   return (
     <Row>
       <Col md={6} className="m-auto">
-        <div className="card bg-white p-4 mb-4">
-          <div className="card-body">
+        <Card className="bg-white p-4 mb-4">
+          <Card.Body>
             <h1>
               <i className="fas fa-sign-in-alt"></i> Login
             </h1>
@@ -74,8 +74,8 @@ const LoginScreen = ({ history }) => {
               {" "}
               Forgot Password? <Link to="/reset-password">Reset Password</Link>
             </p>
-          </div>
-        </div>
+          </Card.Body>
+        </Card>
       </Col>
     </Row>
   );

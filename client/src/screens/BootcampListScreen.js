@@ -121,7 +121,7 @@ const BootcampListScreen = (props) => {
                           </Badge>
                         </Link>
                       </Card.Title>
-                      <Badge pill className="badge badge-dark mb-2">
+                      <Badge pill className="badge-dark mb-2">
                         {bootcamp.location.city}, {bootcamp.location.country}
                       </Badge>
                       <Card.Text>

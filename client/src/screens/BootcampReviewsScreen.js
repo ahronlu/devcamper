@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Col, Row, Spinner } from "react-bootstrap";
+import { Badge, Card, Col, Row, Spinner } from "react-bootstrap";
 import { listBootcampDetails } from "../actions/bootcampActions";
 
 const BootcampReviewsScreen = ({ match }) => {
@@ -39,7 +39,7 @@ const BootcampReviewsScreen = ({ match }) => {
                     Rating:{" "}
                     <span className="text-success">{review.rating}</span>
                   </Card.Title>
-                  <p className="card-text">{review.text}</p>
+                  <Card.Text>{review.text}</Card.Text>
                   <p className="text-muted">Writtern By {review.user.name}</p>
                 </Card.Body>
               </div>
@@ -48,9 +48,12 @@ const BootcampReviewsScreen = ({ match }) => {
 
           <Col md={4}>
             <h1 className="text-center my-4">
-              <span className="badge badge-secondary badge-success rounded-circle p-3">
+              <Badge
+                pill
+                className=" badge-secondary badge-success rounded-circle p-3"
+              >
                 {bootcamp && bootcamp.averageRating}
-              </span>
+              </Badge>
               Rating
             </h1>
             <Link

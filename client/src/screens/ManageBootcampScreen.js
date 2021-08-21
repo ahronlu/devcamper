@@ -1,63 +1,72 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Card, Col, Form, Row } from "react-bootstrap";
+import { Badge, Card, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { deleteBootcamp } from "../actions/bootcampActions";
+import { getUserDetails } from "../actions/userActions";
 
-const ManageBootcampScreen = () => {
+const ManageBootcampScreen = ({ history }) => {
   const dispatch = useDispatch();
-  const [bootcamp, setBootcamp] = useState(null);
-  const { bootcamps } = useSelector((state) => state.bootcampList);
-  const { userInfo } = useSelector((state) => state.userLogin);
+
+  const userDetails = useSelector((state) => state.userDetails);
+  const { loading, error, user, success } = userDetails;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const handleDelete = () => {
-    dispatch(deleteBootcamp(bootcamp.id));
+    dispatch(deleteBootcamp());
   };
 
   useEffect(() => {
-    bootcamps &&
-      setBootcamp(bootcamps.find((bootcamp) => bootcamp.user === userInfo.id));
-  }, [bootcamps, userInfo]);
+    if (!userInfo) history.push("/login");
+    if (userInfo.role === "user") history.push("/");
+    if (!user.name) {
+      dispatch(getUserDetails());
+    }
+  }, [userInfo, history, dispatch, user]);
+
+  const bootcamp = user && user.bootcamps[0];
 
   return (
     <Row>
       <Col md={8} className="m-auto">
         <Card className="card bg-white py-2 px-4">
-          <div className="card-body">
+          <Card.Body>
             <h1 className="mb-4">Manage Bootcamp</h1>
             {bootcamp ? (
               <>
-                <div className="card mb-3">
-                  <div className="row no-gutters">
-                    <div className="col-md-4">
+                <Card className="mb-3">
+                  <Row className="no-gutters">
+                    <Col md={4}>
                       <img
                         src="img/image_1.jpg"
                         className="card-img"
                         alt="..."
                       />
-                    </div>
+                    </Col>
                     <Col md={8}>
-                      <div className="card-body">
-                        <h5 className="card-title">
+                      <Card.Body>
+                        <Card.Title>
                           <Link to={`/bootcamp/${bootcamp.id}`}>
                             {bootcamp.name}
-                            <span className="float-right badge badge-success">
+                            <Badge pill className="float-right badge-success">
                               {bootcamp.averageRating}
-                            </span>
+                            </Badge>
                           </Link>
-                        </h5>
-                        <span className="badge badge-dark mb-2">
+                        </Card.Title>
+                        <Badge pill className="badge-dark mb-2">
                           {bootcamp.location.city}, {bootcamp.location.state}
-                        </span>
-                        <p className="card-text">
+                        </Badge>
+                        <Card.Text>
                           {bootcamp.careers.map((c, i) =>
                             i < bootcamp.careers.length - 1 ? c + ", " : c
                           )}
-                        </p>
-                      </div>
+                        </Card.Text>
+                      </Card.Body>
                     </Col>
-                  </div>
-                </div>
+                  </Row>
+                </Card>
                 <Form className="mb-4">
                   <Form.Group>
                     <div className="custom-file">
@@ -115,7 +124,7 @@ const ManageBootcampScreen = () => {
               * You must be affiliated with the bootcamp in some way in order to
               add it to DevCamper.
             </p>
-          </div>
+          </Card.Body>
         </Card>
       </Col>
     </Row>
