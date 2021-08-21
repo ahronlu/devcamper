@@ -7,7 +7,7 @@ import { deleteBootcamp } from "../actions/bootcampActions";
 const ManageBootcampScreen = () => {
   const dispatch = useDispatch();
   const [bootcamp, setBootcamp] = useState(null);
-  const { bootcamps } = useSelector((state) => state.bootcamps);
+  const { bootcamps } = useSelector((state) => state.bootcampList);
   const { userInfo } = useSelector((state) => state.userLogin);
 
   const handleDelete = () => {
@@ -97,7 +97,17 @@ const ManageBootcampScreen = () => {
                   Remove Bootcamp
                 </button>
               </>
-            ) : null}
+            ) : (
+              <>
+                <p className="lead">You have not yet added a bootcamp</p>
+                <Link
+                  to="/bootcamps/create"
+                  className="btn btn-primary btn-block"
+                >
+                  Add Bootcamp
+                </Link>
+              </>
+            )}
             <p className="text-muted mt-5">
               * You can only add one bootcamp per account.
             </p>

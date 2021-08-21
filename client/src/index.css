@@ -4,7 +4,7 @@ img {
 .showcase {
   position: absolute;
   background: url("./showcase.jpg") no-repeat center center/cover;
-  min-height: 100vh;
+  min-height: 60vh;
   width: 100%;
   color: #fff;
 }

@@ -2,6 +2,9 @@ import {
   BOOTCAMP_LIST_REQUEST,
   BOOTCAMP_LIST_SUCCESS,
   BOOTCAMP_LIST_FAIL,
+  BOOTCAMP_DETAILS_REQUEST,
+  BOOTCAMP_DETAILS_SUCCESS,
+  BOOTCAMP_DETAILS_FAIL,
   BOOTCAMP_DELETE_REQUEST,
   BOOTCAMP_DELETE_SUCCESS,
   BOOTCAMP_DELETE_FAIL,
@@ -19,39 +22,76 @@ import {
   BOOTCAMP_CREATE_REVIEW_RESET,
 } from "../constants/bootcampConstants";
 
-export const bootcampsReducer = (state = { bootcamps: [] }, action) => {
+export const bootcampListReducer = (state = { bootcamps: [] }, action) => {
   switch (action.type) {
-    case BOOTCAMP_DELETE_REQUEST:
-    case BOOTCAMP_UPDATE_REQUEST:
     case BOOTCAMP_LIST_REQUEST:
-    case BOOTCAMP_CREATE_REQUEST:
       return { ...state, loading: true };
     case BOOTCAMP_LIST_SUCCESS:
       return {
         loading: false,
         bootcamps: action.payload,
       };
-    case BOOTCAMP_UPDATE_SUCCESS:
-      return {
-        loading: false,
-        bootcamps: state.bootcamps.map((bootcamp) =>
-          bootcamp.id === action.payload.data.id
-            ? action.payload.data
-            : bootcamp
-        ),
-      };
-    case BOOTCAMP_DELETE_SUCCESS:
-      return {
-        ...state,
-        bootcamps: state.bootcamps.filter(
-          (bootcamp) => bootcamp.id !== action.payload
-        ),
-      };
-    case BOOTCAMP_UPDATE_FAIL:
-    case BOOTCAMP_DELETE_FAIL:
     case BOOTCAMP_LIST_FAIL:
-    case BOOTCAMP_CREATE_FAIL:
       return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const bootcampDetailsReducer = (
+  state = { bootcamp: { reviews: [] } },
+  action
+) => {
+  switch (action.type) {
+    case BOOTCAMP_DETAILS_REQUEST:
+      return { loading: true, ...state };
+    case BOOTCAMP_DETAILS_SUCCESS:
+      return { loading: false, bootcamp: action.payload };
+    case BOOTCAMP_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const bootcampDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case BOOTCAMP_DELETE_REQUEST:
+      return { loading: true };
+    case BOOTCAMP_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case BOOTCAMP_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const bootcampCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case BOOTCAMP_CREATE_REQUEST:
+      return { loading: true };
+    case BOOTCAMP_CREATE_SUCCESS:
+      return { loading: false, success: true, bootcamp: action.payload };
+    case BOOTCAMP_CREATE_FAIL:
+      return { loading: false, error: action.payload };
+    case BOOTCAMP_CREATE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const bootcampUpdateReducer = (state = { bootcamp: {} }, action) => {
+  switch (action.type) {
+    case BOOTCAMP_UPDATE_REQUEST:
+      return { loading: true };
+    case BOOTCAMP_UPDATE_SUCCESS:
+      return { loading: false, success: true, bootcamp: action.payload };
+    case BOOTCAMP_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    case BOOTCAMP_UPDATE_RESET:
+      return { bootcamp: {} };
     default:
       return state;
   }

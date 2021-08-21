@@ -6,11 +6,21 @@ import {
   userRegisterReducer,
   userDetailsReducer,
 } from "./reducers/userReducers";
-import { bootcampsReducer } from "./reducers/bootcampReducers";
+import {
+  bootcampCreateReducer,
+  bootcampDeleteReducer,
+  bootcampDetailsReducer,
+  bootcampListReducer,
+  bootcampUpdateReducer,
+} from "./reducers/bootcampReducers";
 import { reviewsReducer } from "./reducers/reviewReducers";
 
 const reducer = combineReducers({
-  bootcamps: bootcampsReducer,
+  bootcampList: bootcampListReducer,
+  bootcampDetails: bootcampDetailsReducer,
+  bootcampDelete: bootcampDeleteReducer,
+  bootcampCreate: bootcampCreateReducer,
+  bootcampUpdate: bootcampUpdateReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,

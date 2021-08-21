@@ -30,10 +30,15 @@ exports.getReviews = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/reviews/:id
 // @access    Public
 exports.getReview = asyncHandler(async (req, res, next) => {
-  const review = await Review.findById(req.params.id).populate({
-    path: "bootcamp",
-    select: "name description",
-  });
+  const review = await Review.findById(req.params.id)
+    .populate({
+      path: "bootcamp",
+      select: "name description",
+    })
+    .populate({
+      path: "user",
+      select: "name",
+    });
 
   if (!review) {
     return next(

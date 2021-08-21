@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Col, Row, Spinner } from "react-bootstrap";
+import { Card, Col, Row, Spinner } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 const ReviewsScreen = ({ match }) => {
@@ -10,7 +10,7 @@ const ReviewsScreen = ({ match }) => {
   const [loading, setLoading] = useState(true);
 
   const { reviews } = useSelector((state) => state.reviews);
-  const { bootcamps } = useSelector((state) => state.bootcamps);
+  const { bootcamps } = useSelector((state) => state.bootcampList);
 
   useEffect(() => {
     bootcamps && setBootcamp(bootcamps.find((b) => b.id === bootcampId));
@@ -36,17 +36,17 @@ const ReviewsScreen = ({ match }) => {
             </Link>
             {bootcampReviews.map((review) => (
               <div key={review._id} className="card mb-3">
-                <h5 className="card-header bg-dark text-white">
+                <Card.Header className="bg-dark text-white">
                   {review.title}
-                </h5>
-                <div className="card-body">
-                  <h5 className="card-title">
+                </Card.Header>
+                <Card.Body>
+                  <Card.Title>
                     Rating:{" "}
                     <span className="text-success">{review.rating}</span>
-                  </h5>
+                  </Card.Title>
                   <p className="card-text">{review.text}</p>
                   <p className="text-muted">Writtern By {review.user.name}</p>
-                </div>
+                </Card.Body>
               </div>
             ))}
           </Col>
@@ -59,7 +59,7 @@ const ReviewsScreen = ({ match }) => {
               Rating
             </h1>
             <Link
-              to={`/bootcamps/${bootcampId}/reviews/add`}
+              to={`/bootcamps/${bootcampId}/add-review`}
               className="btn btn-primary btn-block my-3"
             >
               <i className="fas fa-pencil-alt"></i> Review This Bootcamp

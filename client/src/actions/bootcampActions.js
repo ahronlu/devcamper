@@ -15,6 +15,9 @@ import {
   BOOTCAMP_CREATE_REVIEW_REQUEST,
   BOOTCAMP_CREATE_REVIEW_SUCCESS,
   BOOTCAMP_CREATE_REVIEW_FAIL,
+  BOOTCAMP_DETAILS_REQUEST,
+  BOOTCAMP_DETAILS_SUCCESS,
+  BOOTCAMP_DETAILS_FAIL,
 } from "../constants/bootcampConstants";
 
 export const listBootcamps = () => async (dispatch) => {
@@ -32,6 +35,29 @@ export const listBootcamps = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: BOOTCAMP_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const listBootcampDetails = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: BOOTCAMP_DETAILS_REQUEST });
+
+    const {
+      data: { data },
+    } = await axios.get(`/api/v1/bootcamps/${id}`);
+
+    dispatch({
+      type: BOOTCAMP_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: BOOTCAMP_DETAILS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -103,6 +129,7 @@ export const createBootcamp = (bootcamp) => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     });
+    throw Error(error);
   }
 };
 
@@ -144,38 +171,40 @@ export const updateBootcamp = (bootcamp) => async (dispatch, getState) => {
   }
 };
 
-export const createBootcampReview = (bootcampId, review) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({
-      type: BOOTCAMP_CREATE_REVIEW_REQUEST,
-    });
+export const createBootcampReview =
+  (bootcampId, review) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: BOOTCAMP_CREATE_REVIEW_REQUEST,
+      });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    await axios.post(`/api/v1/bootcamps/${bootcampId}/reviews`, review, config);
+      await axios.post(
+        `/api/v1/bootcamps/${bootcampId}/reviews`,
+        review,
+        config
+      );
 
-    dispatch({
-      type: BOOTCAMP_CREATE_REVIEW_SUCCESS,
-    });
-  } catch (error) {
-    dispatch({
-      type: BOOTCAMP_CREATE_REVIEW_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      dispatch({
+        type: BOOTCAMP_CREATE_REVIEW_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type: BOOTCAMP_CREATE_REVIEW_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

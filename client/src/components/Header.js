@@ -27,13 +27,17 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
               {userInfo ? (
-                <NavDropdown title="Account">
-                  <LinkContainer to="/manage-bootcamp">
-                    <NavDropdown.Item>Manage Bootcamp</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to="/manage-reviews">
-                    <NavDropdown.Item>Manage Reviews</NavDropdown.Item>
-                  </LinkContainer>
+                <NavDropdown title={userInfo.name}>
+                  {userInfo.role === "publisher" && (
+                    <LinkContainer to="/manage-bootcamp">
+                      <NavDropdown.Item>Manage Bootcamp</NavDropdown.Item>
+                    </LinkContainer>
+                  )}
+                  {userInfo.role === "admin" && (
+                    <LinkContainer to="/manage-reviews">
+                      <NavDropdown.Item>Manage Reviews</NavDropdown.Item>
+                    </LinkContainer>
+                  )}
                   <LinkContainer to="/manage-account">
                     <NavDropdown.Item>Manage Account</NavDropdown.Item>
                   </LinkContainer>

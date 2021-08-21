@@ -3,8 +3,10 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Col, Row, Card, Form, Spinner, Alert } from "react-bootstrap";
 
-const BootcampsScreen = () => {
-  const { bootcamps, loading, error } = useSelector((state) => state.bootcamps);
+const BootcampListScreen = () => {
+  const { bootcamps, loading, error } = useSelector(
+    (state) => state.bootcampList
+  );
 
   return (
     <>
@@ -131,4 +133,4 @@ const BootcampsScreen = () => {
   );
 };
 
-export default BootcampsScreen;
+export default BootcampListScreen;

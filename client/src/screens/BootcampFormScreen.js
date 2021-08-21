@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Card, Form, FormCheck } from "react-bootstrap";
-import { updateBootcamp, createBootcamp } from "../actions/bootcampActions";
+import {
+  updateBootcamp,
+  createBootcamp,
+  listBootcampDetails,
+} from "../actions/bootcampActions";
 
 const initialState = {
   name: "",
@@ -21,20 +25,20 @@ const initialState = {
 const BootcampFormScreen = ({ match, history }) => {
   const bootcampId = match.params.id;
   const dispatch = useDispatch();
-  const [bootcamp, setBootcamp] = useState(initialState);
+  const [bootcampDetails, setBootcampDetails] = useState(initialState);
 
-  const { bootcamps } = useSelector((state) => state.bootcamps);
+  const bootcampDetailss = useSelector((state) => state.bootcampDetails);
+  const { loading, error, bootcamp } = bootcampDetailss;
 
   useEffect(() => {
-    console.log(bootcampId);
-    bootcamps &&
-      setBootcamp(bootcamps.find((bootcamp) => bootcamp.id === bootcampId));
-  }, [bootcampId, bootcamps]);
+    dispatch(listBootcampDetails(match.params.id));
+    bootcampId && bootcamp && setBootcampDetails(bootcamp);
+  }, [match, dispatch]);
 
   const handleChange = (e) => {
     e.target.type === "checkbox"
-      ? setBootcamp({ ...bootcamp, [e.target.name]: e.target.checked })
-      : setBootcamp({ ...bootcamp, [e.target.name]: e.target.value });
+      ? setBootcampDetails({ ...bootcamp, [e.target.name]: e.target.checked })
+      : setBootcampDetails({ ...bootcamp, [e.target.name]: e.target.value });
   };
 
   const handleCareersChange = (e) => {
@@ -45,26 +49,29 @@ const BootcampFormScreen = ({ match, history }) => {
         value.push(options[i].value);
       }
     }
-    setBootcamp({ ...bootcamp, careers: value });
+    setBootcampDetails({ ...bootcamp, careers: value });
   };
 
   const SubmitBoocamp = async (e) => {
     e.preventDefault();
-    if (bootcampId) {
-      await dispatch(updateBootcamp(bootcamp));
-    } else {
-      await dispatch(createBootcamp(bootcamp));
+    try {
+      if (bootcampId) {
+        await dispatch(updateBootcamp(bootcamp));
+      } else {
+        await dispatch(createBootcamp(bootcamp));
+      }
+    } catch (err) {
+      console.error(err);
     }
-    history.push(`/bootcamps`);
   };
 
   return (
     <>
-      <h1 className="mb-2">Add Bootcamp</h1>
+      <h1 className="mb-2">{bootcampId ? "Update" : "Add"} Bootcamp</h1>
       <p>
         Important: You must be affiliated with a bootcamp to add to DevCamper
       </p>
-      {bootcamp && (
+      {bootcampDetails ? (
         <Form onSubmit={SubmitBoocamp}>
           <Row>
             <Col md={6}>
@@ -79,7 +86,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       type="text"
                       name="name"
-                      value={bootcamp.name}
+                      value={bootcampDetails.nDetailsame}
                       placeholder="Bootcamp Name"
                       onChange={handleChange}
                       required
@@ -90,10 +97,10 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       type="text"
                       name="address"
-                      value={bootcamp.location.formattedAddress}
+                      value={bootcampDetails.location.formattedAddress}
                       onChange={(e) =>
-                        setBootcamp({
-                          ...bootcamp,
+                        setBootcampDetails({
+                          ...bootcampDetails,
                           location: { formattedAddress: e.target.value },
                         })
                       }
@@ -109,7 +116,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       type="text"
                       name="phone"
-                      value={bootcamp.phone}
+                      value={bootcampDetails.phone}
                       onChange={handleChange}
                       placeholder="Phone"
                     />
@@ -119,7 +126,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       type="text"
                       name="email"
-                      value={bootcamp.email}
+                      value={bootcampDetails.email}
                       onChange={handleChange}
                       placeholder="Contact Email"
                     />
@@ -129,7 +136,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       type="text"
                       name="website"
-                      value={bootcamp.website}
+                      value={bootcampDetails.website}
                       onChange={handleChange}
                       placeholder="Website URL"
                     />
@@ -146,7 +153,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       as="textarea"
                       name="description"
-                      value={bootcamp.description}
+                      value={bootcampDetails.description}
                       onChange={handleChange}
                       rows="5"
                       placeholder="Description (What you offer, etc)"
@@ -161,7 +168,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       as="select"
                       name="careers"
-                      value={bootcamp.careers}
+                      value={bootcampDetails.careers}
                       onChange={handleCareersChange}
                       multiple
                     >
@@ -180,7 +187,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <FormCheck.Input
                       type="checkbox"
                       name="housing"
-                      checked={bootcamp.housing}
+                      checked={bootcampDetails.housing}
                       onChange={handleChange}
                       id="housing"
                     />
@@ -190,7 +197,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <FormCheck.Input
                       type="checkbox"
                       name="jobAssistance"
-                      checked={bootcamp.jobAssistance}
+                      checked={bootcampDetails.jobAssistance}
                       onChange={handleChange}
                       id="jobAssistance"
                     />
@@ -202,7 +209,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <FormCheck.Input
                       type="checkbox"
                       name="jobGuarantee"
-                      checked={bootcamp.jobGuarantee}
+                      checked={bootcampDetails.jobGuarantee}
                       onChange={handleChange}
                       id="jobGuarantee"
                     />
@@ -214,7 +221,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <FormCheck.Input
                       type="checkbox"
                       name="acceptGi"
-                      value={bootcamp.acceptGi}
+                      value={bootcampDetails.acceptGi}
                       onChange={handleChange}
                       id="acceptGi"
                     />
@@ -244,7 +251,7 @@ const BootcampFormScreen = ({ match, history }) => {
             </Link>
           </Form.Group>
         </Form>
-      )}
+      ) : null}
     </>
   );
 };
