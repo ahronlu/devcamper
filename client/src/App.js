@@ -27,7 +27,7 @@ function App() {
           <Route path="/bootcamp/create" component={BootcampFormScreen} />
           <Route path="/bootcamp/:id/edit" component={BootcampFormScreen} />
           <Route exact path="/bootcamp/:id" component={BootcampScreen} />
-          <Route path="//:id/reviews" component={BootcampReviewsScreen} />
+          <Route path="/bootcamp/:id/reviews" component={BootcampReviewsScreen} />
           <Route path="/bootcamp/:id/add-review" component={ReviewAddScreen} />
           <Route path="/manage-account" component={ManageAccountScreen} />
           <Route path="/manage-bootcamp" component={ManageBootcampScreen} />
