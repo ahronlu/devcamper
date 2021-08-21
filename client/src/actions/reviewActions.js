@@ -26,7 +26,7 @@ export const listReviews = () => async (dispatch) => {
 
     const {
       data: { data },
-    } = await axios.get("/api/v1/reviews");
+    } = await axios.get("/api/reviews");
 
     dispatch({
       type: REVIEW_LIST_SUCCESS,
@@ -49,11 +49,11 @@ export const listReviewDetails = (id) => async (dispatch) => {
 
     const {
       data: { data },
-    } = await axios.get(`/api/v1/reviews/${id}`);
+    } = await axios.get(`/api/reviews/${id}`);
 
     const {
       data: { data: courses },
-    } = await axios.get(`/api/v1/reviews/${id}/courses`);
+    } = await axios.get(`/api/reviews/${id}/courses`);
 
     data.courses = courses;
 
@@ -88,7 +88,7 @@ export const deleteReview = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/v1/reviews/${id}`, config);
+    await axios.delete(`/api/reviews/${id}`, config);
 
     dispatch({
       type: REVIEW_DELETE_SUCCESS,
@@ -120,7 +120,7 @@ export const createReview = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/v1/reviews`, {}, config);
+    const { data } = await axios.post(`/api/reviews`, {}, config);
 
     dispatch({
       type: REVIEW_CREATE_SUCCESS,
@@ -155,7 +155,7 @@ export const updateReview = (review) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `/api/v1/reviews/${review._id}`,
+      `/api/reviews/${review._id}`,
       review,
       config
     );
@@ -175,38 +175,36 @@ export const updateReview = (review) => async (dispatch, getState) => {
   }
 };
 
-export const createReviewReview = (reviewId, review) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({
-      type: REVIEW_CREATE_REVIEW_REQUEST,
-    });
+export const createReviewReview =
+  (reviewId, review) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: REVIEW_CREATE_REVIEW_REQUEST,
+      });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    await axios.post(`/api/v1/reviews/${reviewId}/reviews`, review, config);
+      await axios.post(`/api/reviews/${reviewId}/reviews`, review, config);
 
-    dispatch({
-      type: REVIEW_CREATE_REVIEW_SUCCESS,
-    });
-  } catch (error) {
-    dispatch({
-      type: REVIEW_CREATE_REVIEW_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      dispatch({
+        type: REVIEW_CREATE_REVIEW_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type: REVIEW_CREATE_REVIEW_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

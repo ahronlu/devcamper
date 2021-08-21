@@ -5,7 +5,7 @@ const sendEmail = require("../utils/sendEmail");
 const User = require("../models/User");
 
 // @desc    Register user
-// @route   POST /api/v1/auth/register
+// @route   POST /api/auth/register
 // @access  Public
 exports.register = asyncHandler(async (req, res, next) => {
   const { name, email, password, role } = req.body;
@@ -22,7 +22,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Login user
-// @route   POST /api/v1/auth/login
+// @route   POST /api/auth/login
 // @access  Public
 exports.login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
@@ -50,7 +50,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Get current logged in user
-// @route   POST /api/v1/auth/me
+// @route   POST /api/auth/me
 // @access  Private
 exports.getMe = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id);
@@ -59,7 +59,7 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Log user out / clear cookie
-// @route   GET /api/v1/auth/logout
+// @route   GET /api/auth/logout
 // @access  Private
 exports.logout = asyncHandler(async (req, res, next) => {
   res.cookie("token", "none", {
@@ -71,7 +71,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Update user detilas
-// @route   PUT /api/v1/auth/updatedetails
+// @route   PUT /api/auth/updatedetails
 // @access  Private
 exports.updateDetails = asyncHandler(async (req, res, next) => {
   const fieldsToUpdate = {
@@ -88,7 +88,7 @@ exports.updateDetails = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Update password
-// @route   PUT /api/v1/auth/updatepassword
+// @route   PUT /api/auth/updatepassword
 // @access  Private
 exports.updatePassword = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("+password");
@@ -105,7 +105,7 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Forgot password
-// @route   POST /api/v1/auth/forgotpassword
+// @route   POST /api/auth/forgotpassword
 // @access  Public
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
@@ -122,7 +122,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   // Create reset url
   const resetUrl = `${req.protocol}://${req.get(
     "host"
-  )}/api/v1/auth/resetpassword/${resetToken}`;
+  )}/api/auth/resetpassword/${resetToken}`;
 
   const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
 
@@ -148,7 +148,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 });
 
 // @desc    Reset password
-// @route   PUT /api/v1/auth/resetpassword/:resettoken
+// @route   PUT /api/auth/resetpassword/:resettoken
 // @access  Public
 exports.resetPassword = asyncHandler(async (req, res, next) => {
   // Get hashed token

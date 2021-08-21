@@ -22,7 +22,7 @@ import {
   REVIEW_CREATE_REVIEW_RESET,
 } from "../constants/reviewConstants";
 
-export const reviewsReducer = (state = { reviews: [] }, action) => {
+export const reviewListReducer = (state = { reviews: [] }, action) => {
   switch (action.type) {
     case REVIEW_LIST_REQUEST:
       return { loading: true, reviews: [] };
@@ -38,7 +38,7 @@ export const reviewsReducer = (state = { reviews: [] }, action) => {
   }
 };
 
-export const reviewDetailsReducer = (state = { review: {} }, action) => {
+export const reviewDetailsReducer = (state = { reviews: [] }, action) => {
   switch (action.type) {
     case REVIEW_DETAILS_REQUEST:
       return { loading: true, ...state };

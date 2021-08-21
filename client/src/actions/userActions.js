@@ -23,7 +23,7 @@ export const login = (email, password) => async (dispatch) => {
     const config = { headers: { "Content-Type": "application/json" } };
 
     const { data } = await axios.post(
-      "/api/v1/auth/login",
+      "/api/auth/login",
       {
         email,
         password,
@@ -57,7 +57,7 @@ export const register = (name, email, password, role) => async (dispatch) => {
     const config = { headers: { "Content-Type": "application/json" } };
 
     const { data } = await axios.post(
-      "/api/v1/auth/register",
+      "/api/auth/register",
       { name, email, password, role },
       config
     );
@@ -88,7 +88,7 @@ export const getUserDetails = () => async (dispatch, getState) => {
 
     const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
-    const { data } = await axios.get("/api/v1/auth/me", config);
+    const { data } = await axios.get("/api/auth/me", config);
 
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
   } catch (error) {
@@ -117,11 +117,7 @@ export const updateUserDetails = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      "/api/v1/auth/updatedetails",
-      user,
-      config
-    );
+    const { data } = await axios.put("/api/auth/updatedetails", user, config);
 
     dispatch({ type: USER_UPDATE_DETAILS_SUCCESS, payload: data });
   } catch (error) {

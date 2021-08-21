@@ -22,14 +22,18 @@ import {
   BOOTCAMP_CREATE_REVIEW_RESET,
 } from "../constants/bootcampConstants";
 
-export const bootcampListReducer = (state = { bootcamps: [] }, action) => {
+export const bootcampListReducer = (
+  state = { bootcamps: [], pagination: {} },
+  action
+) => {
   switch (action.type) {
     case BOOTCAMP_LIST_REQUEST:
       return { ...state, loading: true };
     case BOOTCAMP_LIST_SUCCESS:
       return {
         loading: false,
-        bootcamps: action.payload,
+        bootcamps: action.payload.bootcamps,
+        pages: action.payload.pages,
       };
     case BOOTCAMP_LIST_FAIL:
       return { ...state, loading: false, error: action.payload };

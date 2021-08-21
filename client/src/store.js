@@ -13,7 +13,10 @@ import {
   bootcampListReducer,
   bootcampUpdateReducer,
 } from "./reducers/bootcampReducers";
-import { reviewsReducer } from "./reducers/reviewReducers";
+import {
+  reviewListReducer,
+  reviewDetailsReducer,
+} from "./reducers/reviewReducers";
 
 const reducer = combineReducers({
   bootcampList: bootcampListReducer,
@@ -24,7 +27,8 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
-  reviews: reviewsReducer,
+  reviewList: reviewListReducer,
+  reviewDetails: reviewDetailsReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

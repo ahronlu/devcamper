@@ -1,12 +1,21 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Col, Row, Card, Form, Spinner, Alert } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { Col, Row, Card, Form, Spinner, Alert, Badge } from "react-bootstrap";
+import { listBootcamps } from "../actions/bootcampActions";
+import Paginate from "../components/Paginate";
 
-const BootcampListScreen = () => {
-  const { bootcamps, loading, error } = useSelector(
+const BootcampListScreen = ({ match }) => {
+  const dispatch = useDispatch();
+  const page = match.params.page || 1;
+
+  const { bootcamps, pages, loading, error } = useSelector(
     (state) => state.bootcampList
   );
+
+  useEffect(() => {
+    dispatch(listBootcamps(page));
+  }, [dispatch, page]);
 
   return (
     <>
@@ -20,7 +29,6 @@ const BootcampListScreen = () => {
                   <Form.Group>
                     <Form.Control
                       type="text"
-                      className="form-control"
                       name="miles"
                       placeholder="Miles From"
                     />
@@ -30,7 +38,6 @@ const BootcampListScreen = () => {
                   <Form.Group>
                     <Form.Control
                       type="text"
-                      className="form-control"
                       name="zipcode"
                       placeholder="Enter Zipcode"
                     />
@@ -92,9 +99,11 @@ const BootcampListScreen = () => {
           </Form>
         </Col>
         <Col md={8}>
-          {loading && <Spinner animation="border" />}
           {error && <Alert variant="danger">{error}</Alert>}
-          {bootcamps &&
+          {loading ? (
+            <Spinner animation="border" />
+          ) : (
+            bootcamps &&
             bootcamps.map((bootcamp) => (
               <Card key={bootcamp.id} className="mb-3">
                 <Row className="no-gutters">
@@ -106,14 +115,14 @@ const BootcampListScreen = () => {
                       <Card.Title>
                         <Link to={`/bootcamps/${bootcamp.id}`}>
                           {bootcamp.name}
-                          <span className="float-right badge badge-success">
+                          <Badge pill className="float-right badge-success">
                             {bootcamp.averageRating}
-                          </span>
+                          </Badge>
                         </Link>
                       </Card.Title>
-                      <span className="badge badge-dark mb-2">
+                      <Badge pill className="badge badge-dark mb-2">
                         {bootcamp.location.city}, {bootcamp.location.country}
-                      </span>
+                      </Badge>
                       <Card.Text>
                         {bootcamp.careers.map((c, i) => (
                           <span key={i}>
@@ -126,7 +135,9 @@ const BootcampListScreen = () => {
                   </Col>
                 </Row>
               </Card>
-            ))}
+            ))
+          )}
+          {pages ? <Paginate pages={pages} page={page} /> : null}
         </Col>
       </Row>
     </>

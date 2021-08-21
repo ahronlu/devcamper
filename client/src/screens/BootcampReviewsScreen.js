@@ -1,29 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Card, Col, Row, Spinner } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { listBootcampDetails } from "../actions/bootcampActions";
 
-const ReviewsScreen = ({ match }) => {
+const BootcampReviewsScreen = ({ match }) => {
+  const dispatch = useDispatch();
+
   const bootcampId = match.params.id;
-  const [bootcamp, setBootcamp] = useState(null);
-  const [bootcampReviews, setBootcampReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  const { reviews } = useSelector((state) => state.reviews);
-  const { bootcamps } = useSelector((state) => state.bootcampList);
+  const bootcampDetails = useSelector((state) => state.bootcampDetails);
+  const { loading, error, bootcamp } = bootcampDetails;
 
   useEffect(() => {
-    bootcamps && setBootcamp(bootcamps.find((b) => b.id === bootcampId));
-    reviews &&
-      setBootcampReviews(
-        reviews.filter((review) => review.bootcamp === bootcampId)
-      );
-    setLoading(false);
-  }, [bootcamps, bootcamp, bootcampId, reviews]);
+    dispatch(listBootcampDetails(bootcampId));
+  }, [bootcampId, dispatch]);
 
   return (
     <Row>
-      {!bootcampReviews.length ? (
+      {loading ? (
         <Spinner animation="border" />
       ) : (
         <>
@@ -34,7 +29,7 @@ const ReviewsScreen = ({ match }) => {
             >
               <i className="fas fa-chevron-left"></i> Bootcamp Info
             </Link>
-            {bootcampReviews.map((review) => (
+            {bootcamp.reviews.map((review) => (
               <div key={review._id} className="card mb-3">
                 <Card.Header className="bg-dark text-white">
                   {review.title}
@@ -71,4 +66,4 @@ const ReviewsScreen = ({ match }) => {
   );
 };
 
-export default ReviewsScreen;
+export default BootcampReviewsScreen;

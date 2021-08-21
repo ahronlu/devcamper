@@ -20,28 +20,30 @@ import {
   BOOTCAMP_DETAILS_FAIL,
 } from "../constants/bootcampConstants";
 
-export const listBootcamps = () => async (dispatch) => {
-  try {
-    dispatch({ type: BOOTCAMP_LIST_REQUEST });
+export const listBootcamps =
+  (page = 1) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: BOOTCAMP_LIST_REQUEST });
 
-    const {
-      data: { data },
-    } = await axios.get("/api/v1/bootcamps");
+      const {
+        data: { data, pages },
+      } = await axios.get(`/api/bootcamps?limit=2&page=${page}`);
 
-    dispatch({
-      type: BOOTCAMP_LIST_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: BOOTCAMP_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      dispatch({
+        type: BOOTCAMP_LIST_SUCCESS,
+        payload: { bootcamps: data, pages },
+      });
+    } catch (error) {
+      dispatch({
+        type: BOOTCAMP_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 export const listBootcampDetails = (id) => async (dispatch) => {
   try {
@@ -49,7 +51,7 @@ export const listBootcampDetails = (id) => async (dispatch) => {
 
     const {
       data: { data },
-    } = await axios.get(`/api/v1/bootcamps/${id}`);
+    } = await axios.get(`/api/bootcamps/${id}`);
 
     dispatch({
       type: BOOTCAMP_DETAILS_SUCCESS,
@@ -82,7 +84,7 @@ export const deleteBootcamp = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`/api/v1/bootcamps/${id}`, config);
+    await axios.delete(`/api/bootcamps/${id}`, config);
 
     dispatch({
       type: BOOTCAMP_DELETE_SUCCESS,
@@ -115,7 +117,7 @@ export const createBootcamp = (bootcamp) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/v1/bootcamps`, bootcamp, config);
+    const { data } = await axios.post(`/api/bootcamps`, bootcamp, config);
 
     dispatch({
       type: BOOTCAMP_CREATE_SUCCESS,
@@ -151,7 +153,7 @@ export const updateBootcamp = (bootcamp) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `/api/v1/bootcamps/${bootcamp._id}`,
+      `/api/bootcamps/${bootcamp._id}`,
       bootcamp,
       config
     );
@@ -189,11 +191,7 @@ export const createBootcampReview =
         },
       };
 
-      await axios.post(
-        `/api/v1/bootcamps/${bootcampId}/reviews`,
-        review,
-        config
-      );
+      await axios.post(`/api/bootcamps/${bootcampId}/reviews`, review, config);
 
       dispatch({
         type: BOOTCAMP_CREATE_REVIEW_SUCCESS,
