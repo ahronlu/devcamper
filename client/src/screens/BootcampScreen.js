@@ -71,13 +71,13 @@ const BootcampScreen = ({ match }) => {
               </h1>
 
               <Link
-                to={`/bootcamps/${bootcamp.id}/reviews`}
+                to={`/bootcamp/${bootcamp.id}/reviews`}
                 className="btn btn-dark btn-block my-3"
               >
                 <i className="fas fa-comments"></i> Read Reviews
               </Link>
               <Link
-                to={`/bootcamps/${bootcamp.id}/add-review`}
+                to={`/bootcamp/${bootcamp.id}/add-review`}
                 className="btn btn-light btn-block my-3"
               >
                 <i className="fas fa-pencil-alt"></i> Write a Review

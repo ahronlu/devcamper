@@ -5,9 +5,10 @@ import { Col, Row, Card, Form, Spinner, Alert, Badge } from "react-bootstrap";
 import { listBootcamps } from "../actions/bootcampActions";
 import Paginate from "../components/Paginate";
 
-const BootcampListScreen = ({ match }) => {
+const BootcampListScreen = (props) => {
+  console.log(props.location.search);
   const dispatch = useDispatch();
-  const page = match.params.page || 1;
+  const page = props.match.params.page || 1;
 
   const { bootcamps, pages, loading, error } = useSelector(
     (state) => state.bootcampList
@@ -113,7 +114,7 @@ const BootcampListScreen = ({ match }) => {
                   <Col md={8}>
                     <Card.Body>
                       <Card.Title>
-                        <Link to={`/bootcamps/${bootcamp.id}`}>
+                        <Link to={`/bootcamp/${bootcamp.id}`}>
                           {bootcamp.name}
                           <Badge pill className="float-right badge-success">
                             {bootcamp.averageRating}

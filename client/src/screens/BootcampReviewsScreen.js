@@ -24,7 +24,7 @@ const BootcampReviewsScreen = ({ match }) => {
         <>
           <Col md={8}>
             <Link
-              to={`/bootcamps/${bootcampId}`}
+              to={`/bootcamp/${bootcampId}`}
               className="btn btn-secondary my-3"
             >
               <i className="fas fa-chevron-left"></i> Bootcamp Info
@@ -54,7 +54,7 @@ const BootcampReviewsScreen = ({ match }) => {
               Rating
             </h1>
             <Link
-              to={`/bootcamps/${bootcampId}/add-review`}
+              to={`/bootcamp/${bootcampId}/add-review`}
               className="btn btn-primary btn-block my-3"
             >
               <i className="fas fa-pencil-alt"></i> Review This Bootcamp

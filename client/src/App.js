@@ -32,14 +32,11 @@ function App() {
           <Route path="/register" component={RegisterScreen} />
           <Route exact path="/bootcamps/:page" component={BootcampListScreen} />
           <Route exact path="/bootcamps/" component={BootcampListScreen} />
-          <Route path="/bootcamps/create" component={BootcampFormScreen} />
-          <Route path="/bootcamps/:id/edit" component={BootcampFormScreen} />
-          <Route exact path="/bootcamps/:id" component={BootcampScreen} />
-          <Route
-            path="/bootcamps/:id/reviews"
-            component={BootcampReviewsScreen}
-          />
-          <Route path="/bootcamps/:id/add-review" component={ReviewAddScreen} />
+          <Route path="/bootcamp/create" component={BootcampFormScreen} />
+          <Route path="/bootcamp/:id/edit" component={BootcampFormScreen} />
+          <Route exact path="/bootcamp/:id" component={BootcampScreen} />
+          <Route path="//:id/reviews" component={BootcampReviewsScreen} />
+          <Route path="/bootcamp/:id/add-review" component={ReviewAddScreen} />
           <Route path="/manage-account" component={ManageAccountScreen} />
           <Route path="/manage-bootcamp" component={ManageBootcampScreen} />
         </Switch>

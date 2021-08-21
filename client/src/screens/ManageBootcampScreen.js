@@ -39,7 +39,7 @@ const ManageBootcampScreen = () => {
                     <Col md={8}>
                       <div className="card-body">
                         <h5 className="card-title">
-                          <Link to={`/bootcamps/${bootcamp.id}`}>
+                          <Link to={`/bootcamp/${bootcamp.id}`}>
                             {bootcamp.name}
                             <span className="float-right badge badge-success">
                               {bootcamp.averageRating}
@@ -79,7 +79,7 @@ const ManageBootcampScreen = () => {
                   />
                 </Form>
                 <Link
-                  to={`/bootcamps/${bootcamp._id}/edit`}
+                  to={`/bootcamp/${bootcamp._id}/edit`}
                   className="btn btn-primary btn-block mt-2"
                 >
                   Edit Bootcamp Details
@@ -101,7 +101,7 @@ const ManageBootcampScreen = () => {
               <>
                 <p className="lead">You have not yet added a bootcamp</p>
                 <Link
-                  to="/bootcamps/create"
+                  to="/bootcamp/create"
                   className="btn btn-primary btn-block"
                 >
                   Add Bootcamp

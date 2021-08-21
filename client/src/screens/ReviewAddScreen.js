@@ -24,7 +24,7 @@ function ReviewAddScreen({ match }) {
           <Card className="bg-white py-2 px-4">
             <Card.Body>
               <Link
-                to={`/bootcamps/${match.params.id}`}
+                to={`/bootcamp/${match.params.id}`}
                 className="btn btn-link text-secondary my-3"
               >
                 <i className="fas fa-chevron-left" aria-hidden="true"></i>{" "}
