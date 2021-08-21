@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Container, Form, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 
 const HomeScreen = () => {
   return (

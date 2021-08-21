@@ -28,7 +28,9 @@ export const listBootcamps =
 
       const {
         data: { data, pages },
-      } = await axios.get(`/api/bootcamps?limit=2&page=${page}`);
+      } = await axios.get(`/api/bootcamps?limit=4&page=${page}`);
+
+      console.log(pages);
 
       dispatch({
         type: BOOTCAMP_LIST_SUCCESS,

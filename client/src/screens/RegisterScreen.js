@@ -28,6 +28,7 @@ const RegisterScreen = ({ history }) => {
     console.log(name, email, password, role);
     dispatch(register(name, email, password, role));
   };
+
   return (
     <Row>
       <Col md={6} className="m-auto">

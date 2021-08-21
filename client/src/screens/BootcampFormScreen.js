@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Card, Form, FormCheck } from "react-bootstrap";
 import {
-  updateBootcamp,
-  createBootcamp,
-  listBootcampDetails,
-} from "../actions/bootcampActions";
+  Alert,
+  Row,
+  Col,
+  Card,
+  Form,
+  FormCheck,
+  Spinner,
+} from "react-bootstrap";
+import { updateBootcamp, createBootcamp } from "../actions/bootcampActions";
+import { getUserDetails } from "../actions/userActions";
 
 const initialState = {
   name: "",
@@ -14,6 +19,7 @@ const initialState = {
   website: "",
   phone: "",
   email: "",
+  address: "",
   location: { formattedAddress: "" },
   careers: [],
   jobAssistance: false,
@@ -24,21 +30,43 @@ const initialState = {
 
 const BootcampFormScreen = ({ match, history }) => {
   const bootcampId = match.params.id;
-  const dispatch = useDispatch();
-  const [bootcampDetails, setBootcampDetails] = useState(initialState);
 
-  const bootcampDetailss = useSelector((state) => state.bootcampDetails);
-  const { loading, error, bootcamp } = bootcampDetailss;
+  const [bootcamp, setBootcamp] = useState(initialState);
+
+  const dispatch = useDispatch();
+
+  const bootcampUpdate = useSelector((state) => state.bootcampUpdate);
+  const {
+    loading: updateLoading,
+    error: updateError,
+    success: updateSuccess,
+  } = bootcampUpdate;
+
+  const bootcampCreate = useSelector((state) => state.bootcampCreate);
+  const {
+    loading: createLoading,
+    error: createError,
+    success: createSuccess,
+  } = bootcampCreate;
+
+  const userDetails = useSelector((state) => state.userDetails);
+  const { loading, user } = userDetails;
 
   useEffect(() => {
-    dispatch(listBootcampDetails(match.params.id));
-    bootcampId && bootcamp && setBootcampDetails(bootcamp);
-  }, [match, dispatch]);
+    dispatch(getUserDetails());
+    bootcampId && user?.bootcamps && setBootcamp(user.bootcamps[0]);
+  }, [match, bootcampId, dispatch]);
 
   const handleChange = (e) => {
     e.target.type === "checkbox"
-      ? setBootcampDetails({ ...bootcamp, [e.target.name]: e.target.checked })
-      : setBootcampDetails({ ...bootcamp, [e.target.name]: e.target.value });
+      ? setBootcamp({
+          ...bootcamp,
+          [e.target.name]: e.target.checked,
+        })
+      : setBootcamp({
+          ...bootcamp,
+          [e.target.name]: e.target.value,
+        });
   };
 
   const handleCareersChange = (e) => {
@@ -49,7 +77,7 @@ const BootcampFormScreen = ({ match, history }) => {
         value.push(options[i].value);
       }
     }
-    setBootcampDetails({ ...bootcamp, careers: value });
+    setBootcamp({ ...bootcamp, careers: value });
   };
 
   const SubmitBoocamp = async (e) => {
@@ -71,7 +99,9 @@ const BootcampFormScreen = ({ match, history }) => {
       <p>
         Important: You must be affiliated with a bootcamp to add to DevCamper
       </p>
-      {bootcampDetails ? (
+      {loading ? (
+        <Spinner animation="border" />
+      ) : (
         <Form onSubmit={SubmitBoocamp}>
           <Row>
             <Col md={6}>
@@ -86,7 +116,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       type="text"
                       name="name"
-                      value={bootcampDetails.nDetailsame}
+                      value={bootcamp.name}
                       placeholder="Bootcamp Name"
                       onChange={handleChange}
                       required
@@ -97,10 +127,11 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       type="text"
                       name="address"
-                      value={bootcampDetails.location.formattedAddress}
+                      value={bootcamp.address}
                       onChange={(e) =>
-                        setBootcampDetails({
-                          ...bootcampDetails,
+                        setBootcamp({
+                          ...bootcamp,
+                          address: e.target.value,
                           location: { formattedAddress: e.target.value },
                         })
                       }
@@ -116,7 +147,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       type="text"
                       name="phone"
-                      value={bootcampDetails.phone}
+                      value={bootcamp.phone}
                       onChange={handleChange}
                       placeholder="Phone"
                     />
@@ -126,7 +157,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       type="text"
                       name="email"
-                      value={bootcampDetails.email}
+                      value={bootcamp.email}
                       onChange={handleChange}
                       placeholder="Contact Email"
                     />
@@ -136,7 +167,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       type="text"
                       name="website"
-                      value={bootcampDetails.website}
+                      value={bootcamp.website}
                       onChange={handleChange}
                       placeholder="Website URL"
                     />
@@ -153,7 +184,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       as="textarea"
                       name="description"
-                      value={bootcampDetails.description}
+                      value={bootcamp.description}
                       onChange={handleChange}
                       rows="5"
                       placeholder="Description (What you offer, etc)"
@@ -168,7 +199,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <Form.Control
                       as="select"
                       name="careers"
-                      value={bootcampDetails.careers}
+                      value={bootcamp.careers}
                       onChange={handleCareersChange}
                       multiple
                     >
@@ -187,7 +218,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <FormCheck.Input
                       type="checkbox"
                       name="housing"
-                      checked={bootcampDetails.housing}
+                      checked={bootcamp.housing}
                       onChange={handleChange}
                       id="housing"
                     />
@@ -197,7 +228,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <FormCheck.Input
                       type="checkbox"
                       name="jobAssistance"
-                      checked={bootcampDetails.jobAssistance}
+                      checked={bootcamp.jobAssistance}
                       onChange={handleChange}
                       id="jobAssistance"
                     />
@@ -209,7 +240,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <FormCheck.Input
                       type="checkbox"
                       name="jobGuarantee"
-                      checked={bootcampDetails.jobGuarantee}
+                      checked={bootcamp.jobGuarantee}
                       onChange={handleChange}
                       id="jobGuarantee"
                     />
@@ -221,7 +252,7 @@ const BootcampFormScreen = ({ match, history }) => {
                     <FormCheck.Input
                       type="checkbox"
                       name="acceptGi"
-                      value={bootcampDetails.acceptGi}
+                      value={bootcamp.acceptGi}
                       onChange={handleChange}
                       id="acceptGi"
                     />
@@ -237,6 +268,11 @@ const BootcampFormScreen = ({ match, history }) => {
               </Card>
             </Col>
           </Row>
+          {updateLoading || (createLoading && <Spinner animation="border" />)}
+          {updateError && <Alert variant="danger">{updateError}</Alert>}
+          {createError && <Alert variant="danger">{createError}</Alert>}
+          {updateSuccess && <Alert variant="success">Bootcamp Updated</Alert>}
+          {createSuccess && <Alert variant="success">Bootcamp Created</Alert>}
           <Form.Group>
             <Form.Control
               type="submit"
@@ -251,7 +287,7 @@ const BootcampFormScreen = ({ match, history }) => {
             </Link>
           </Form.Group>
         </Form>
-      ) : null}
+      )}
     </>
   );
 };
