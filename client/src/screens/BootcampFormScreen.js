@@ -20,7 +20,6 @@ const initialState = {
   phone: "",
   email: "",
   address: "",
-  location: { formattedAddress: "" },
   careers: [],
   jobAssistance: false,
   jobGuarantee: false,
@@ -128,13 +127,7 @@ const BootcampFormScreen = ({ match, history }) => {
                       type="text"
                       name="address"
                       value={bootcamp.address}
-                      onChange={(e) =>
-                        setBootcamp({
-                          ...bootcamp,
-                          address: e.target.value,
-                          location: { formattedAddress: e.target.value },
-                        })
-                      }
+                      onChange={handleChange}
                       placeholder="Full Address"
                       required
                     />
