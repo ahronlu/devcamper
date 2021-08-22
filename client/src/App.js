@@ -10,6 +10,7 @@ import ManageAccountScreen from "./screens/ManageAccountScreen";
 import BootcampScreen from "./screens/BootcampScreen";
 import BootcampReviewsScreen from "./screens/BootcampReviewsScreen";
 import ManageBootcampScreen from "./screens/ManageBootcampScreen";
+import ManageCoursesScreen from "./screens/ManageCoursesScreen";
 import BootcampFormScreen from "./screens/BootcampFormScreen";
 import ReviewAddScreen from "./screens/ReviewAddScreen";
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/bootcamp/:id/add-review" component={ReviewAddScreen} />
           <Route path="/manage-account" component={ManageAccountScreen} />
           <Route path="/manage-bootcamp" component={ManageBootcampScreen} />
+          <Route path="/manage-courses" component={ManageCoursesScreen} />
         </Container>
       </Switch>
     </BrowserRouter>
