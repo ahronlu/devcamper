@@ -45,7 +45,7 @@ const ManageCoursesScreen = ({ history }) => {
             <Card.Body>
               <Link to="/manage-bootcamp" class="btn btn-link text-secondary my-3"><i class="fas fa-chevron-left"></i> Manage Bootcamp</Link>
               <h1 className="mb-4">Manage Courses</h1>
-              {bootcamp.courses.length ? (
+              {bootcamp.courses ? (
                 <>
                 </>
               ) : (
