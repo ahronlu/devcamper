@@ -32,7 +32,7 @@ function App() {
           <Route path="/bootcamp/:id/add-review" component={ReviewAddScreen} />
           <Route path="/manage-account" component={ManageAccountScreen} />
           <Route path="/manage-bootcamp" component={ManageBootcampScreen} />
-          <Route path="/manage-courses" component={ManageCoursesScreen}/>
+          <Route path="/manage-courses" component={ManageCoursesScreen} />
         </Container>
       </Switch>
     </BrowserRouter>
