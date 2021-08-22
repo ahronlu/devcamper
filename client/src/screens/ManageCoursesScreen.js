@@ -51,7 +51,7 @@ const ManageCoursesScreen = ({ history }) => {
               ) : (
                 <>
 		  <p class="lead">You have not yet added any courses</p>
-		  <Link to="add-course" class="btn btn-primary btn-block">Add Your first course</Link>
+		  <Link to={`/bootcamp/${bootcamp.id}/add-course`} class="btn btn-primary btn-block">Add Your first course</Link>
                 </>
               )}
               <p className="text-muted mt-5">
