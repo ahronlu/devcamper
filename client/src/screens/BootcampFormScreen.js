@@ -54,7 +54,7 @@ const BootcampFormScreen = ({ match, history }) => {
 
   useEffect(() => {
     dispatch(getUserDetails());
-    bootcampId && user?.bootcamps && setBootcamp(user.bootcamps[0]);
+    bootcampId && user?.bootcamps && setBootcamp({...user.bootcamps[0], address: `${user.bootcamps[0].location.street}, ${user.bootcamps[0].location.city}, ${user.bootcamps[0].location.state}, ${user.bootcamps[0].location.zipcode}`});
   }, [match, bootcampId, dispatch]);
 
   const handleChange = (e) => {
