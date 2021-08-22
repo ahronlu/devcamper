@@ -13,6 +13,7 @@ import ManageBootcampScreen from "./screens/ManageBootcampScreen";
 import ManageCoursesScreen from "./screens/ManageCoursesScreen";
 import BootcampFormScreen from "./screens/BootcampFormScreen";
 import ReviewAddScreen from "./screens/ReviewAddScreen";
+import CourseFormScreen from "./screens/CourseFormScreen";
 
 function App() {
   return (
