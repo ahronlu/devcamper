@@ -33,6 +33,8 @@ function App() {
           <Route path="/manage-account" component={ManageAccountScreen} />
           <Route path="/manage-bootcamp" component={ManageBootcampScreen} />
           <Route path="/manage-courses" component={ManageCoursesScreen} />
+          <Route path="/bootcamp/:id/add-course" component={CourseFormScreen} />
+          <Route path="/bootcamp/:id/course/:id/edit" component={CourseFormScreen} />
         </Container>
       </Switch>
     </BrowserRouter>
