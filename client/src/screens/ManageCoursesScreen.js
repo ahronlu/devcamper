@@ -43,19 +43,15 @@ const ManageCoursesScreen = ({ history }) => {
             <Spinner animation="border" />
           ) : (
             <Card.Body>
-              <Link to="/manage-bootcamp" class="btn btn-link text-secondary my-3"
-								><i class="fas fa-chevron-left"></i> Manage Bootcamp</Link>
+              <Link to="/manage-bootcamp" class="btn btn-link text-secondary my-3"><i class="fas fa-chevron-left"></i> Manage Bootcamp</Link>
               <h1 className="mb-4">Manage Courses</h1>
-
               {bootcamp.courses.length ? (
                 <>
                 </>
               ) : (
                 <>
-   							<p class="lead">
-								  You have not yet added any courses
-							  </p>
-							  <Link to="add-course" class="btn btn-primary btn-block">Add Your first course</a>
+		  <p class="lead">You have not yet added any courses</p>
+		  <Link to="add-course" class="btn btn-primary btn-block">Add Your first course</Link>
                 </>
               )}
               <p className="text-muted mt-5">
