@@ -108,6 +108,19 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, data: {} });
 });
 
+// @desc    Get logged in user bootcamp
+// @route   GET /api/bootcamps/getmybootcamp
+// @access  Private
+exports.getMyBootcamp = asyncHandler(async (req, res) => {
+  const bootcamp = await Bootcamp.findOne({ user: req.user.id }).populate(
+    "courses reviews"
+  );
+
+  if (!bootcamp) return res.json({ succes: true, data: null });
+
+  res.json({ success: true, data: bootcamp });
+});
+
 // @desc    Get bootcamps within a radius
 // @route   GET /api/bootcamps/radius/:zipcode/:distance
 // @access  Private

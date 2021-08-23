@@ -20,6 +20,7 @@ import {
   BOOTCAMP_CREATE_REVIEW_SUCCESS,
   BOOTCAMP_CREATE_REVIEW_FAIL,
   BOOTCAMP_CREATE_REVIEW_RESET,
+  BOOTCAMP_DETAILS_RESET,
 } from "../constants/bootcampConstants";
 
 export const bootcampListReducer = (
@@ -53,6 +54,8 @@ export const bootcampDetailsReducer = (
       return { loading: false, bootcamp: action.payload };
     case BOOTCAMP_DETAILS_FAIL:
       return { loading: false, error: action.payload };
+    case BOOTCAMP_DETAILS_RESET:
+      return { bootcamp: { reviews: [] } };
     default:
       return state;
   }

@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Alert, Badge, Card, Col, Form, Row, Spinner } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { deleteBootcamp } from "../actions/bootcampActions";
+import { deleteBootcamp, getMyBootcamp } from "../actions/bootcampActions";
 import { getUserDetails } from "../actions/userActions";
+import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 
 const ManageBootcampScreen = ({ history }) => {
   const dispatch = useDispatch();
 
-  const userDetails = useSelector((state) => state.userDetails);
-  const { loading, user } = userDetails;
+  const bootcampDetails = useSelector((state) => state.bootcampDetails);
+  const { loading, bootcamp, error } = bootcampDetails;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -23,17 +24,15 @@ const ManageBootcampScreen = ({ history }) => {
 
   const handleDelete = () => {
     dispatch(deleteBootcamp(bootcamp.id));
+    dispatch({ type: BOOTCAMP_DETAILS_RESET });
+    bootcamp = null;
   };
 
   useEffect(() => {
     if (!userInfo) history.push("/login");
     else if (userInfo.role === "user") history.push("/");
-    if (!user.name) {
-      dispatch(getUserDetails());
-    }
-  }, [user, history, dispatch, user]);
-
-  const bootcamp = user && user.bootcamps && user.bootcamps[0];
+    else dispatch(getMyBootcamp());
+  }, [userInfo, history, dispatch]);
 
   return (
     <Row>
@@ -66,13 +65,17 @@ const ManageBootcampScreen = ({ history }) => {
                               </Badge>
                             </Link>
                           </Card.Title>
-                          <Badge pill className="badge-dark mb-2">
-                            {bootcamp.location.city}, {bootcamp.location.state}
-                          </Badge>
+                          {bootcamp.location && (
+                            <Badge pill className="badge-dark mb-2">
+                              {bootcamp.location.city},{" "}
+                              {bootcamp.location.state}
+                            </Badge>
+                          )}
                           <Card.Text>
-                            {bootcamp.careers.map((c, i) =>
-                              i < bootcamp.careers.length - 1 ? c + ", " : c
-                            )}
+                            {bootcamp.careers &&
+                              bootcamp.careers.map((c, i) =>
+                                i < bootcamp.careers.length - 1 ? c + ", " : c
+                              )}
                           </Card.Text>
                         </Card.Body>
                       </Col>

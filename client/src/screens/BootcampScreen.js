@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Card, Col, Spinner, Row, ListGroup } from "react-bootstrap";
 import { listBootcampDetails } from "../actions/bootcampActions";
+import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 
 const BootcampScreen = ({ match }) => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const BootcampScreen = ({ match }) => {
 
   useEffect(() => {
     dispatch(listBootcampDetails(match.params.id));
+    return () => dispatch({ type: BOOTCAMP_DETAILS_RESET });
   }, [match, dispatch]);
 
   return (
