@@ -11,7 +11,6 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { updateBootcamp, createBootcamp, getMyBootcamp } from "../actions/bootcampActions";
-import { getUserDetails } from "../actions/userActions";
 
 const initialState = {
   name: "",
@@ -33,6 +32,9 @@ const BootcampFormScreen = ({ match, history }) => {
   const [bootcamp, setBootcamp] = useState(initialState);
 
   const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const bootcampUpdate = useSelector((state) => state.bootcampUpdate);
   const {
