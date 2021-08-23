@@ -23,9 +23,10 @@ const ManageBootcampScreen = ({ history }) => {
   } = bootcampDelete;
 
   const handleDelete = () => {
+    if (!window.confirm("Are you sure?")) return;
     dispatch(deleteBootcamp(bootcamp.id));
     dispatch({ type: BOOTCAMP_DETAILS_RESET });
-    bootcamp = null;
+    window.location.reload();
   };
 
   useEffect(() => {

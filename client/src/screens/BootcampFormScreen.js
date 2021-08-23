@@ -10,7 +10,15 @@ import {
   FormCheck,
   Spinner,
 } from "react-bootstrap";
-import { updateBootcamp, createBootcamp, getMyBootcamp } from "../actions/bootcampActions";
+import {
+  updateBootcamp,
+  createBootcamp,
+  getMyBootcamp,
+} from "../actions/bootcampActions";
+import {
+  BOOTCAMP_CREATE_RESET,
+  BOOTCAMP_UPDATE_RESET,
+} from "../constants/bootcampConstants";
 
 const initialState = {
   name: "",
@@ -54,11 +62,39 @@ const BootcampFormScreen = ({ match, history }) => {
   const { loading, error, bootcamp: myBootcamp } = bootcampDetails;
 
   useEffect(() => {
-    if(!userInfo) history.push('login');
-    if(userInfo.role === 'user') history.push('/');
-    dispatch(getMyBootcamp());
-    bootcampId && myBootcamp && setBootcamp({...myBootcamp, address: `${myBootcamp.location.street}, ${myBootcamp.location.city}, ${myBootcamp.location.state}, ${myBootcamp.location.zipcode}`});
-  }, [myBootcamp, bootcampId, dispatch]);
+    if (!userInfo) history.push("login");
+    if (userInfo.role === "user") history.push("/");
+    if (updateSuccess) {
+      dispatch({ type: BOOTCAMP_UPDATE_RESET });
+      history.push("/");
+    }
+    if (createSuccess) {
+      dispatch({ type: BOOTCAMP_CREATE_RESET });
+      history.push("/");
+    }
+
+    if (!myBootcamp.name) {
+      dispatch(getMyBootcamp());
+    } else {
+      console.log(1);
+      setBootcamp({
+        ...myBootcamp,
+        address:
+          myBootcamp.location &&
+          `${myBootcamp.location.street}, ${myBootcamp.location.city}, ${myBootcamp.location.state}, ${myBootcamp.location.zipcode}`,
+      });
+    }
+  }, [
+    bootcampId,
+    dispatch,
+    userInfo,
+    history,
+    myBootcamp,
+    updateSuccess,
+    createSuccess,
+    bootcamp._id,
+    bootcamp.name,
+  ]);
 
   const handleChange = (e) => {
     e.target.type === "checkbox"
