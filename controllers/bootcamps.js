@@ -112,6 +112,8 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 // @route   GET /api/bootcamps/getmybootcamp
 // @access  Private
 exports.getMyBootcamp = asyncHandler(async (req, res) => {
+  req.body.user = req.user.id;
+  
   const bootcamp = await Bootcamp.findOne({ user: req.user.id }).populate(
     "courses reviews"
   );
