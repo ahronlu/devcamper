@@ -17,6 +17,13 @@ import {
   reviewListReducer,
   reviewDetailsReducer,
 } from "./reducers/reviewReducers";
+import {
+  courseCreateReducer,
+  courseDeleteReducer,
+  courseDetailsReducer,
+  courseUpdateReducer,
+  courstListReducer,
+} from "./reducers/courseReducer";
 
 const reducer = combineReducers({
   bootcampList: bootcampListReducer,
@@ -29,6 +36,11 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   reviewList: reviewListReducer,
   reviewDetails: reviewDetailsReducer,
+  courseList: courstListReducer,
+  courseDetails: courseDetailsReducer,
+  courseDelete: courseDeleteReducer,
+  courseCreate: courseCreateReducer,
+  courseUpdate: courseUpdateReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

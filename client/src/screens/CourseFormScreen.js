@@ -10,8 +10,17 @@ import {
   FormCheck,
   Spinner,
 } from "react-bootstrap";
-import { updateBootcamp, createBootcamp } from "../actions/bootcampActions";
+import {
+  updateBootcamp,
+  createBootcamp,
+  getMyBootcamp,
+} from "../actions/bootcampActions";
 import { getUserDetails } from "../actions/userActions";
+import {
+  createCourse,
+  listCourseDetails,
+  updateCourse,
+} from "../actions/courseActions";
 
 const initialState = {
   name: "",
@@ -35,19 +44,30 @@ const CourseFormScreen = ({ match, history }) => {
 
   const dispatch = useDispatch();
 
-  const bootcampUpdate = useSelector((state) => state.bootcampUpdate);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const courseUpdate = useSelector((state) => state.courseUpdate);
   const {
     loading: updateLoading,
     error: updateError,
     success: updateSuccess,
-  } = bootcampUpdate;
+  } = courseUpdate;
 
-  const userDetails = useSelector((state) => state.userDetails);
-  const { loading, user } = userDetails;
+  const bootcampDetails = useSelector((state) => state.bootcampDetails);
+  const { loading: bootcampLoading, bootcamp } = bootcampDetails;
+
+  const courseDetails = useSelector((state) => state.courseDetails);
+  const { loading, course: myCourse } = courseDetails;
 
   useEffect(() => {
-    dispatch(getUserDetails());
-  }, [match, dispatch]);
+    if (!userInfo) history.push("/login");
+    else if (userInfo.role === "user") history.push("/");
+    else {
+      dispatch(listCourseDetails(courseId));
+      dispatch(getMyBootcamp());
+    }
+  }, [courseId, dispatch]);
 
   const handleChange = (e) => {
     e.target.type === "checkbox"
@@ -72,13 +92,13 @@ const CourseFormScreen = ({ match, history }) => {
   //     setCourse({ ...course });
   //   };
 
-  const SubmitBoocamp = async (e) => {
+  const submitCourse = async (e) => {
     e.preventDefault();
     try {
       if (courseId) {
-        await dispatch(updateBootcamp());
+        await dispatch(updateCourse());
       } else {
-        await dispatch(createBootcamp());
+        await dispatch(createCourse());
       }
     } catch (err) {
       console.error(err);
@@ -96,7 +116,7 @@ const CourseFormScreen = ({ match, history }) => {
             >
               <i class="fas fa-chevron-left"></i> Manage Courses
             </a>
-            <h1 class="mb-2">DevWorks Bootcamp</h1>
+            <h1 class="mb-2">{bootcamp.name}</h1>
             <h3 class="text-primary mb-4">Add Course</h3>
             <form action="manage-bootcamp.html">
               <div class="form-group">

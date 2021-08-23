@@ -16,14 +16,10 @@ import {
   MY_COURSE_UPDATE_SUCCESS,
   MY_COURSE_UPDATE_FAIL,
   MY_COURSE_UPDATE_RESET,
-  MY_COURSE_CREATE_REVIEW_REQUEST,
-  MY_COURSE_CREATE_REVIEW_SUCCESS,
-  MY_COURSE_CREATE_REVIEW_FAIL,
-  MY_COURSE_CREATE_REVIEW_RESET,
   MY_COURSE_DETAILS_RESET,
 } from "../constants/courseConstants";
 
-export const bootcampListReducer = (
+export const courstListReducer = (
   state = { bootcamps: [], pagination: {} },
   action
 ) => {
@@ -43,7 +39,7 @@ export const bootcampListReducer = (
   }
 };
 
-export const bootcampDetailsReducer = (state = { course: {} }, action) => {
+export const courseDetailsReducer = (state = { course: {} }, action) => {
   switch (action.type) {
     case MY_COURSE_DETAILS_REQUEST:
       return { loading: true, ...state };
