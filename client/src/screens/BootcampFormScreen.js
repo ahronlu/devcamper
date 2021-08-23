@@ -72,17 +72,17 @@ const BootcampFormScreen = ({ match, history }) => {
       dispatch({ type: BOOTCAMP_CREATE_RESET });
       history.push("/");
     }
-
-    if (!mybootcamp || !myBootcamp.name) {
-      dispatch(getMyBootcamp());
-    } else {
-      console.log(1);
-      setBootcamp({
-        ...myBootcamp,
-        address:
-          myBootcamp.location &&
-          `${myBootcamp.location.street}, ${myBootcamp.location.city}, ${myBootcamp.location.state}, ${myBootcamp.location.zipcode}`,
-      });
+    if (bootcampId) {
+      if (!myBootcamp || !myBootcamp.name) {
+        dispatch(getMyBootcamp());
+      } else {
+        setBootcamp({
+          ...myBootcamp,
+          address:
+            myBootcamp.location &&
+            `${myBootcamp.location.street}, ${myBootcamp.location.city}, ${myBootcamp.location.state}, ${myBootcamp.location.zipcode}`,
+        });
+      }
     }
   }, [
     bootcampId,
