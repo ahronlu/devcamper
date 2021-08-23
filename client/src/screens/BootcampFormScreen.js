@@ -73,7 +73,7 @@ const BootcampFormScreen = ({ match, history }) => {
       history.push("/");
     }
 
-    if (!myBootcamp.name) {
+    if (!mybootcamp || !myBootcamp.name) {
       dispatch(getMyBootcamp());
     } else {
       console.log(1);
