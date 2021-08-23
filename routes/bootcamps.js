@@ -5,6 +5,7 @@ const {
   createBootcamp,
   updateBootcamp,
   deleteBootcamp,
+  getMyBootcamp,
   getBootcampInRadius,
   bootcampPhotoUpload,
 } = require('../controllers/bootcamps');
@@ -40,5 +41,7 @@ router
   .get(getBootcamp)
   .put(protect, authorize('publisher', 'admin'), updateBootcamp)
   .delete(protect, authorize('publisher', 'admin'), deleteBootcamp);
+
+router.route('/getmybootcamp').get(protect, authorize('publisher'), getMyBootcamp);
 
 module.exports = router;
