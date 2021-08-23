@@ -227,7 +227,7 @@ export const getMyBootcamp = (id) => async (dispatch, getState) => {
 
     const {
       data: { data },
-    } = await axios.delete(`/api/bootcamps/getmybootcamp`, config);
+    } = await axios.get(`/api/bootcamps/getmybootcamp`, config);
 
     dispatch({
       type: BOOTCAMP_DETAILS_SUCCESS,
