@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Alert, Badge, Card, Col, Form, Row, Spinner } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { deleteBootcamp, getMyBootcamp } from "../actions/bootcampActions";
-import { getUserDetails } "../actions/userActions";
+import { getUserDetails } from "../actions/userActions";
 
 const ManageBootcampScreen = ({ history }) => {
   const dispatch = useDispatch();
