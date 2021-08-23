@@ -20,7 +20,6 @@ const initialState = {
   phone: "",
   email: "",
   address: "",
-  location: { formattedAddress: "" },
   careers: [],
   jobAssistance: false,
   jobGuarantee: false,
