@@ -22,7 +22,7 @@ import {
   courseDeleteReducer,
   courseDetailsReducer,
   courseUpdateReducer,
-  courstListReducer,
+  courseListReducer,
 } from "./reducers/courseReducer";
 
 const reducer = combineReducers({
@@ -36,7 +36,7 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   reviewList: reviewListReducer,
   reviewDetails: reviewDetailsReducer,
-  courseList: courstListReducer,
+  courseList: courseListReducer,
   courseDetails: courseDetailsReducer,
   courseDelete: courseDeleteReducer,
   courseCreate: courseCreateReducer,

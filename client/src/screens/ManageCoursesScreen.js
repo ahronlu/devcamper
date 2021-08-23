@@ -5,6 +5,7 @@ import { Alert, Badge, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { deleteBootcamp, getMyBootcamp } from "../actions/bootcampActions";
 import { getUserDetails } from "../actions/userActions";
 import { deleteCourse, listMyCourses } from "../actions/courseActions";
+import BootcampItem from "../components/BootcampItem";
 
 const ManageCoursesScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -32,14 +33,17 @@ const ManageCoursesScreen = ({ history }) => {
   useEffect(() => {
     if (!userInfo) history.push("/login");
     else if (userInfo.role === "user") history.push("/");
-    else dispatch(getMyBootcamp());
-  }, [history, dispatch]);
+    else {
+      !bootcamp?.id && dispatch(getMyBootcamp());
+      bootcamp?.id && dispatch(listMyCourses(bootcamp.id));
+    }
+  }, [history, dispatch, bootcamp.id]);
 
   return (
     <Row>
       <Col md={8} className="m-auto">
         <Card className="card bg-white py-2 px-4">
-          {loading ? (
+          {loading && !bootcamp ? (
             <Spinner animation="border" />
           ) : (
             <Card.Body>
@@ -50,26 +54,20 @@ const ManageCoursesScreen = ({ history }) => {
                 <i class="fas fa-chevron-left"></i> Manage Bootcamp
               </Link>
               <h1 className="mb-4">Manage Courses</h1>
-              {bootcamp?.courses.length ? (
+              {bootcamp?.location && <BootcampItem bootcamp={bootcamp} />}
+              <Link
+                to={`/bootcamp/${bootcamp?.id}/add-course`}
+                class="btn btn-primary btn-block"
+              >
+                Add Bootcamp Course
+              </Link>
+              {courses?.length ? (
                 <></>
               ) : (
                 <>
                   <p class="lead">You have not yet added any courses</p>
-                  <Link
-                    to={`/bootcamp/${bootcamp?.id}/add-course`}
-                    class="btn btn-primary btn-block"
-                  >
-                    Add Your first course
-                  </Link>
                 </>
               )}
-              <p className="text-muted mt-5">
-                * You can only add one bootcamp per account.
-              </p>
-              <p className="text-muted">
-                * You must be affiliated with the bootcamp in some way in order
-                to add it to DevCamper.
-              </p>
             </Card.Body>
           )}
         </Card>

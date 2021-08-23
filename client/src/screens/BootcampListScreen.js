@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Col, Row, Card, Form, Spinner, Alert, Badge } from "react-bootstrap";
+import { Col, Row, Card, Form, Spinner, Alert } from "react-bootstrap";
 import { listBootcamps } from "../actions/bootcampActions";
 import Paginate from "../components/Paginate";
+import BootcampItem from "../components/BootcampItem";
 
 const BootcampListScreen = (props) => {
   console.log(props.location.search);
@@ -106,36 +106,7 @@ const BootcampListScreen = (props) => {
           ) : (
             bootcamps &&
             bootcamps.map((bootcamp) => (
-              <Card key={bootcamp.id} className="mb-3">
-                <Row className="no-gutters">
-                  <Col className="md-4">
-                    <img src="img/image_1.jpg" className="card-img" alt="..." />
-                  </Col>
-                  <Col md={8}>
-                    <Card.Body>
-                      <Card.Title>
-                        <Link to={`/bootcamp/${bootcamp.id}`}>
-                          {bootcamp.name}
-                          <Badge pill className="float-right badge-success">
-                            {bootcamp.averageRating}
-                          </Badge>
-                        </Link>
-                      </Card.Title>
-                      <Badge pill className="badge-dark mb-2">
-                        {bootcamp.location.city}, {bootcamp.location.country}
-                      </Badge>
-                      <Card.Text>
-                        {bootcamp.careers.map((c, i) => (
-                          <span key={i}>
-                            {c}
-                            {i < bootcamps.length - 1 && ", "}
-                          </span>
-                        ))}
-                      </Card.Text>
-                    </Card.Body>
-                  </Col>
-                </Row>
-              </Card>
+              <BootcampItem key={bootcamp.id} bootcamp={bootcamp} />
             ))
           )}
           {pages ? <Paginate pages={pages} page={page} /> : null}

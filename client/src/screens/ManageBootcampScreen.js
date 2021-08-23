@@ -5,6 +5,7 @@ import { Alert, Badge, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { deleteBootcamp, getMyBootcamp } from "../actions/bootcampActions";
 import { getUserDetails } from "../actions/userActions";
 import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
+import BootcampItem from "../components/BootcampItem";
 
 const ManageBootcampScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -45,43 +46,9 @@ const ManageBootcampScreen = ({ history }) => {
             <Card.Body>
               <h1 className="mb-4">Manage Bootcamp</h1>
 
-              {bootcamp ? (
+              {bootcamp?.location ? (
                 <>
-                  <Card className="mb-3">
-                    <Row className="no-gutters">
-                      <Col md={4}>
-                        <img
-                          src="img/image_1.jpg"
-                          className="card-img"
-                          alt="..."
-                        />
-                      </Col>
-                      <Col md={8}>
-                        <Card.Body>
-                          <Card.Title>
-                            <Link to={`/bootcamp/${bootcamp.id}`}>
-                              {bootcamp.name}
-                              <Badge pill className="float-right badge-success">
-                                {bootcamp.averageRating}
-                              </Badge>
-                            </Link>
-                          </Card.Title>
-                          {bootcamp.location && (
-                            <Badge pill className="badge-dark mb-2">
-                              {bootcamp.location.city},{" "}
-                              {bootcamp.location.state}
-                            </Badge>
-                          )}
-                          <Card.Text>
-                            {bootcamp.careers &&
-                              bootcamp.careers.map((c, i) =>
-                                i < bootcamp.careers.length - 1 ? c + ", " : c
-                              )}
-                          </Card.Text>
-                        </Card.Body>
-                      </Col>
-                    </Row>
-                  </Card>
+                  <BootcampItem bootcamp={bootcamp} />
                   <Form className="mb-4">
                     <Form.Group>
                       <div className="custom-file">

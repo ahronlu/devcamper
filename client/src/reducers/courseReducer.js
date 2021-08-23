@@ -19,7 +19,7 @@ import {
   MY_COURSE_DETAILS_RESET,
 } from "../constants/courseConstants";
 
-export const courstListReducer = (
+export const courseListReducer = (
   state = { bootcamps: [], pagination: {} },
   action
 ) => {

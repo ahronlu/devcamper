@@ -13,7 +13,8 @@ import ManageBootcampScreen from "./screens/ManageBootcampScreen";
 import ManageCoursesScreen from "./screens/ManageCoursesScreen";
 import BootcampFormScreen from "./screens/BootcampFormScreen";
 import ReviewAddScreen from "./screens/ReviewAddScreen";
-import CourseFormScreen from "./screens/CourseFormScreen";
+import AddCourseScreen from "./screens/AddCourseScreen";
+import EditCourseScreen from "./screens/EditCourseScreen";
 
 function App() {
   return (
@@ -29,13 +30,19 @@ function App() {
           <Route path="/bootcamp/create" component={BootcampFormScreen} />
           <Route path="/bootcamp/:id/edit" component={BootcampFormScreen} />
           <Route exact path="/bootcamp/:id" component={BootcampScreen} />
-          <Route path="/bootcamp/:id/reviews" component={BootcampReviewsScreen} />
+          <Route
+            path="/bootcamp/:id/reviews"
+            component={BootcampReviewsScreen}
+          />
           <Route path="/bootcamp/:id/add-review" component={ReviewAddScreen} />
           <Route path="/manage-account" component={ManageAccountScreen} />
           <Route path="/manage-bootcamp" component={ManageBootcampScreen} />
           <Route path="/manage-courses" component={ManageCoursesScreen} />
-          <Route path="/bootcamp/:id/add-course" component={CourseFormScreen} />
-          <Route path="/bootcamp/:id/course/:id/edit" component={CourseFormScreen} />
+          <Route path="/bootcamp/:id/add-course" component={AddCourseScreen} />
+          <Route
+            path="/bootcamp/:id/course/:id/edit"
+            component={EditCourseScreen}
+          />
         </Container>
       </Switch>
     </BrowserRouter>

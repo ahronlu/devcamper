@@ -23,21 +23,15 @@ import {
 } from "../actions/courseActions";
 
 const initialState = {
-  name: "",
+  title: "",
+  duration: "",
+  tuition: "",
+  minimumSkill: "",
   description: "",
-  website: "",
-  phone: "",
-  email: "",
-  address: "",
-  location: { formattedAddress: "" },
-  careers: [],
-  jobAssistance: false,
-  jobGuarantee: false,
-  acceptGi: false,
-  housing: false,
+  scholarshipAvailable: "",
 };
 
-const CourseFormScreen = ({ match, history }) => {
+const AddCourseScreen = ({ match, history }) => {
   const courseId = match.params.id;
 
   const [course, setCourse] = useState(initialState);
@@ -118,64 +112,79 @@ const CourseFormScreen = ({ match, history }) => {
             </a>
             <h1 class="mb-2">{bootcamp.name}</h1>
             <h3 class="text-primary mb-4">Add Course</h3>
-            <form action="manage-bootcamp.html">
-              <div class="form-group">
+            <Form onSubmit={submitCourse}>
+              <Form.Control>
                 <label>Course Title</label>
                 <input
                   type="text"
                   name="title"
+                  value={course.title}
+                  onChange={handleChange}
                   class="form-control"
                   placeholder="Title"
                 />
-              </div>
-              <div class="form-group">
+              </Form.Control>
+              <Form.Control>
                 <label>Duration</label>
                 <input
                   type="number"
                   name="duration"
+                  value={course.duration}
+                  onChange={handleChange}
                   placeholder="Duration"
                   class="form-control"
                 />
                 <small class="form-text text-muted">
                   Enter number of weeks course lasts
                 </small>
-              </div>
-              <div class="form-group">
+              </Form.Control>
+              <Form.Control>
                 <label>Course Tuition</label>
                 <input
                   type="number"
                   name="tuition"
+                  value={course.tuition}
+                  onChange={handleChange}
                   placeholder="Tuition"
                   class="form-control"
                 />
                 <small class="form-text text-muted">USD Currency</small>
-              </div>
-              <div class="form-group">
+              </Form.Control>
+              <Form.Control>
                 <label>Minimum Skill Required</label>
-                <select name="minimumSkill" class="form-control">
+                <select
+                  name="minimumSkill"
+                  class="form-control"
+                  value={course.minimumSkill}
+                  onChange={handleChange}
+                >
                   <option value="beginner" selected>
                     Beginner (Any)
                   </option>
                   <option value="intermediate">Intermediate</option>
                   <option value="advanced">Advanced</option>
                 </select>
-              </div>
-              <div class="form-group">
+              </Form.Control>
+              <Form.Control>
                 <textarea
                   name="description"
                   rows="5"
                   class="form-control"
+                  value={course.description}
+                  onChange={handleChange}
                   placeholder="Course description summary"
                   maxlength="500"
                 ></textarea>
                 <small class="form-text text-muted">
                   No more than 500 characters
                 </small>
-              </div>
+              </Form.Control>
               <div class="form-check">
                 <input
                   class="form-check-input"
                   type="checkbox"
+                  value={course.scholarshipAvailable}
+                  onChange={handleChange}
                   name="scholarshipAvailable"
                   id="scholarshipAvailable"
                 />
@@ -190,7 +199,7 @@ const CourseFormScreen = ({ match, history }) => {
                   class="btn btn-dark btn-block"
                 />
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       </div>
@@ -198,4 +207,4 @@ const CourseFormScreen = ({ match, history }) => {
   );
 };
 
-export default CourseFormScreen;
+export default AddCourseScreen;
