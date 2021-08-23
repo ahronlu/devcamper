@@ -73,7 +73,7 @@ const BootcampFormScreen = ({ match, history }) => {
       history.push("/");
     }
     if (bootcampId) {
-      if (!myBootcamp || !myBootcamp.name) {
+      if (!myBootcamp || !myBootcamp._id) {
         dispatch(getMyBootcamp());
       } else {
         setBootcamp({
@@ -92,8 +92,6 @@ const BootcampFormScreen = ({ match, history }) => {
     myBootcamp,
     updateSuccess,
     createSuccess,
-    bootcamp._id,
-    bootcamp.name,
   ]);
 
   const handleChange = (e) => {
