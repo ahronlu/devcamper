@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Alert, Badge, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { deleteBootcamp } from "../actions/bootcampActions";
-import { getUserDetails } from "../actions/userActions";
+import { deleteBootcamp, getMyBootcamp } from "../actions/bootcampActions";
+import { getUserDetails } "../actions/userActions";
 
 const ManageBootcampScreen = ({ history }) => {
   const dispatch = useDispatch();
 
-  const userDetails = useSelector((state) => state.userDetails);
-  const { loading, user } = userDetails;
+  const bootcampDetails = useSelector((state) => state.bootcampDetails);
+  const { loading, bootcamp, error } = bootcampDetails;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -28,12 +28,8 @@ const ManageBootcampScreen = ({ history }) => {
   useEffect(() => {
     if (!userInfo) history.push("/login");
     else if (userInfo.role === "user") history.push("/");
-    if (!user.name) {
-      dispatch(getUserDetails());
-    }
-  }, [user, history, dispatch, user]);
-
-  const bootcamp = user && user.bootcamps && user.bootcamps[0];
+    else dispatch(getMyBootcamp());
+  }, [userInfo, history, dispatch]);
 
   return (
     <Row>
