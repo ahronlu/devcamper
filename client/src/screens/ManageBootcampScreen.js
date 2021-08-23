@@ -66,7 +66,7 @@ const ManageBootcampScreen = ({ history }) => {
                             {bootcamp.location.city}, {bootcamp.location.state}
                           </Badge>}
                           <Card.Text>
-                            {bootcamp.careers.map((c, i) =>
+                            {bootcamp.careers && bootcamp.careers.map((c, i) =>
                               i < bootcamp.careers.length - 1 ? c + ", " : c
                             )}
                           </Card.Text>
