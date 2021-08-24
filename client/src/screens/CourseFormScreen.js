@@ -108,45 +108,42 @@ const CourseFormScreen = ({ match, history }) => {
               (createLoading && <Spinner animation="border" />)}
             <h3 class="text-primary mb-4">Add Course</h3>
             <Form onSubmit={submitCourse}>
-              <div class="form-group">
-                <label>Course Title</label>
-                <input
+              <Form.Group>
+                <Form.Label>Course Title</Form.Label>
+                <Form.Control
                   type="text"
                   name="title"
                   value={course.title}
                   onChange={handleChange}
-                  class="form-control"
                   placeholder="Title"
                 />
-              </div>
-              <div class="form-group">
-                <label>Duration</label>
-                <input
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Duration</Form.Label>
+                <Form.Control
                   type="number"
                   name="weeks"
                   value={course.weeks}
                   onChange={handleChange}
                   placeholder="Duration"
-                  class="form-control"
                 />
                 <small class="form-text text-muted">
                   Enter number of weeks course lasts
                 </small>
-              </div>
-              <div class="form-group">
-                <label>Course Tuition</label>
-                <input
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Course Tuition</Form.Label>
+                <Form.Control
                   type="number"
                   name="tuition"
                   value={course.tuition}
                   onChange={handleChange}
                   placeholder="Tuition"
-                  class="form-control"
                 />
                 <small class="form-text text-muted">USD Currency</small>
-              </div>
-              <div class="form-group">
-                <label>Minimum Skill Required</label>
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Minimum Skill Required</Form.Label>
                 <select
                   name="minimumSkill"
                   class="form-control"
@@ -159,8 +156,8 @@ const CourseFormScreen = ({ match, history }) => {
                   <option value="intermediate">Intermediate</option>
                   <option value="advanced">Advanced</option>
                 </select>
-              </div>
-              <div class="form-group">
+              </Form.Group>
+              <Form.Group>
                 <textarea
                   name="description"
                   rows="5"
@@ -173,25 +170,24 @@ const CourseFormScreen = ({ match, history }) => {
                 <small class="form-text text-muted">
                   No more than 500 characters
                 </small>
-              </div>
-              <div class="form-check">
-                <input
-                  class="form-check-input"
+              </Form.Group>
+              <Form.Check>
+                <Form.Check.Input
                   type="checkbox"
                   name="scholarshipAvailable"
                   id="scholarshipAvailable"
                 />
-                <label class="form-check-label" for="scholarshipAvailable">
+                <Form.Label class="form-check-label" for="scholarshipAvailable">
                   Scholarship Available
-                </label>
-              </div>
-              <div class="form-group mt-4">
-                <input
+                </Form.Label>
+              </Form.Check>
+              <Form.Group class="mt-4">
+                <Form.Control
                   type="submit"
                   value="Add Course"
                   class="btn btn-dark btn-block"
                 />
-              </div>
+              </Form.Group>
             </Form>
           </div>
         </Card>

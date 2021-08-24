@@ -119,45 +119,42 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
             {courseError && <Alert variant="danger">{courseError}</Alert>}
             <h3 className="text-primary mb-4">Add Course</h3>
             <Form onSubmit={submitCourse}>
-              <Form.Control>
-                <label>Course Title</label>
-                <input
+              <Form.Group>
+                <Form.Label>Course Title</Form.Label>
+                <Form.Control
                   type="text"
                   name="title"
                   value={course.title}
                   onChange={handleChange}
-                  className="form-control"
                   placeholder="Title"
                 />
-              </Form.Control>
-              <Form.Control>
-                <label>Duration</label>
-                <input
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Duration</Form.Label>
+                <Form.Control
                   type="number"
                   name="duration"
                   value={course.duration}
                   onChange={handleChange}
                   placeholder="Duration"
-                  className="form-control"
                 />
                 <small className="form-text text-muted">
                   Enter number of weeks course lasts
                 </small>
-              </Form.Control>
-              <Form.Control>
-                <label>Course Tuition</label>
-                <input
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Course Tuition</Form.Label>
+                <Form.Control
                   type="number"
                   name="tuition"
                   value={course.tuition}
                   onChange={handleChange}
                   placeholder="Tuition"
-                  className="form-control"
                 />
                 <small className="form-text text-muted">USD Currency</small>
-              </Form.Control>
-              <Form.Control>
-                <label>Minimum Skill Required</label>
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Minimum Skill Required</Form.Label>
                 <select
                   name="minimumSkill"
                   className="form-control"
@@ -170,8 +167,8 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
                   <option value="intermediate">Intermediate</option>
                   <option value="advanced">Advanced</option>
                 </select>
-              </Form.Control>
-              <Form.Control>
+              </Form.Group>
+              <Form.Group>
                 <textarea
                   name="description"
                   rows="5"
@@ -184,27 +181,30 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
                 <small className="form-text text-muted">
                   No more than 500 characters
                 </small>
-              </Form.Control>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
+              </Form.Group>
+              <Form.Check>
+                <Form.Check.Input
+                  className="form-check-Form"
                   type="checkbox"
                   value={course.scholarshipAvailable}
                   onChange={handleChange}
                   name="scholarshipAvailable"
                   id="scholarshipAvailable"
                 />
-                <label className="form-check-label" for="scholarshipAvailable">
+                <Form.Label
+                  className="form-check-label"
+                  for="scholarshipAvailable"
+                >
                   Scholarship Available
-                </label>
-              </div>
-              <div className="form-group mt-4">
-                <input
+                </Form.Label>
+              </Form.Check>
+              <Form.Control className="mt-4">
+                <Form.Control
                   type="submit"
                   value="Add Course"
                   className="btn btn-dark btn-block"
                 />
-              </div>
+              </Form.Control>
             </Form>
           </Card.Body>
         </Card>

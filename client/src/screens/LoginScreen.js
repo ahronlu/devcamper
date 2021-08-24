@@ -75,7 +75,6 @@ const LoginScreen = ({ history }) => {
               </Form.Group>
             </Form>
             <p>
-              {" "}
               Forgot Password? <Link to="/reset-password">Reset Password</Link>
             </p>
           </Card.Body>

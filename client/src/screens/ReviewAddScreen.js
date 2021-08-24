@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Alert, Card, Col, Spinner, Row, Input } from "react-bootstrap";
+import { Alert, Card, Col, Spinner, Row, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function ReviewAddScreen({ match }) {
@@ -36,11 +36,11 @@ function ReviewAddScreen({ match }) {
                 You must have attended and graduated this bootcamp to review
               </p>
               <form onSubmit={submit}>
-                <div className="form-group">
-                  <label for="rating">
+                <Form.Group>
+                  <Form.Control htmlFor="rating">
                     Rating: <span className="text-primary">8</span>
-                  </label>
-                  <input
+                  </Form.Control>
+                  <Form.Control
                     type="range"
                     className="custom-range"
                     min="1"
@@ -49,30 +49,30 @@ function ReviewAddScreen({ match }) {
                     value="8"
                     id="rating"
                   />
-                </div>
-                <div className="form-group">
-                  <input
+                </Form.Group>
+                <Form.Group>
+                  <Form.Control
                     type="text"
                     name="title"
                     className="form-control"
                     placeholder="Review title"
                   />
-                </div>
-                <div className="form-group">
+                </Form.Group>
+                <Form.Group>
                   <textarea
                     name="review"
                     rows="10"
                     className="form-control"
                     placeholder="Your review"
                   ></textarea>
-                </div>
-                <div className="form-group">
-                  <input
+                </Form.Group>
+                <Form.Group>
+                  <Form.Control
                     type="submit"
                     value="Submit Review"
                     className="btn btn-dark btn-block"
                   />
-                </div>
+                </Form.Group>
               </form>
             </Card.Body>
           </Card>
