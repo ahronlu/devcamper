@@ -11,6 +11,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { getMyBootcamp } from "../actions/bootcampActions";
+import { getUserDetails } from "../actions/userActions";
 import {
   createCourse,
   listCourseDetails,
@@ -19,19 +20,22 @@ import {
 
 const initialState = {
   title: "",
-  duration: "",
+  weeks: "",
   tuition: "",
-  minimumSkill: "",
+  minimumSkill: "beginner",
   description: "",
-  scholarshipAvailable: "",
 };
 
-const AddCourseScreen = ({ match, history, userInfo }) => {
-  const courseId = match.params.id;
+const CourseFormScreen = ({ match, history }) => {
+  const { bootcampId } = match.params;
+  const { courseId } = match.params;
 
   const [course, setCourse] = useState(initialState);
 
   const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const courseUpdate = useSelector((state) => state.courseUpdate);
   const {
@@ -40,6 +44,13 @@ const AddCourseScreen = ({ match, history, userInfo }) => {
     success: updateSuccess,
   } = courseUpdate;
 
+  const courseCreate = useSelector((state) => state.courseCreate);
+  const {
+    loading: createLoading,
+    error: createError,
+    success: createSuccess,
+  } = courseCreate;
+
   const bootcampDetails = useSelector((state) => state.bootcampDetails);
   const { loading: bootcampLoading, bootcamp } = bootcampDetails;
 
@@ -47,16 +58,16 @@ const AddCourseScreen = ({ match, history, userInfo }) => {
   const { loading, course: myCourse } = courseDetails;
 
   useEffect(() => {
-    if (userInfo.role === "user") history.push("/");
-    if (!myCourse || myCourse._id) {
-      dispatch(listCourseDetails(courseId));
+    if (!userInfo) history.push("/login");
+    else if (userInfo.role === "user") history.push("/");
+    else {
+      !bootcamp && dispatch(getMyBootcamp());
+      courseId && dispatch(listCourseDetails(courseId));
     }
-    if (!bootcamp || bootcamp._id) {
-      dispatch(getMyBootcamp());
-    }
-  }, [courseId, dispatch]);
+  }, [bootcampId, dispatch]);
 
   const handleChange = (e) => {
+    console.log(e.target.value);
     e.target.type === "checkbox"
       ? setCourse({
           ...course,
@@ -68,24 +79,14 @@ const AddCourseScreen = ({ match, history, userInfo }) => {
         });
   };
 
-  //   const handleCareersChange = (e) => {
-  //     const options = e.target;
-  //     let value = [];
-  //     for (let i = 0, l = options.length; i < l; i++) {
-  //       if (options[i].selected) {
-  //         value.push(options[i].value);
-  //       }
-  //     }
-  //     setCourse({ ...course });
-  //   };
-
   const submitCourse = async (e) => {
     e.preventDefault();
+    console.log(course);
     try {
       if (courseId) {
-        await dispatch(updateCourse());
+        await dispatch(updateCourse(course));
       } else {
-        await dispatch(createCourse());
+        await dispatch(createCourse(bootcampId, course));
       }
     } catch (err) {
       console.error(err);
@@ -95,18 +96,19 @@ const AddCourseScreen = ({ match, history, userInfo }) => {
   return (
     <div class="row">
       <div class="col-md-8 m-auto">
-        <div class="card bg-white py-2 px-4">
+        <Card class="bg-white py-2 px-4">
           <div class="card-body">
-            <a
-              href="manage-courses.html"
-              class="btn btn-link text-secondary my-3"
-            >
+            <Link to="manage-courses" class="btn btn-link text-secondary my-3">
               <i class="fas fa-chevron-left"></i> Manage Courses
-            </a>
+            </Link>
             <h1 class="mb-2">{bootcamp.name}</h1>
+            {loading ||
+              updateLoading ||
+              bootcampLoading ||
+              (createLoading && <Spinner animation="border" />)}
             <h3 class="text-primary mb-4">Add Course</h3>
             <Form onSubmit={submitCourse}>
-              <Form.Control>
+              <div class="form-group">
                 <label>Course Title</label>
                 <input
                   type="text"
@@ -116,13 +118,13 @@ const AddCourseScreen = ({ match, history, userInfo }) => {
                   class="form-control"
                   placeholder="Title"
                 />
-              </Form.Control>
-              <Form.Control>
+              </div>
+              <div class="form-group">
                 <label>Duration</label>
                 <input
                   type="number"
-                  name="duration"
-                  value={course.duration}
+                  name="weeks"
+                  value={course.weeks}
                   onChange={handleChange}
                   placeholder="Duration"
                   class="form-control"
@@ -130,8 +132,8 @@ const AddCourseScreen = ({ match, history, userInfo }) => {
                 <small class="form-text text-muted">
                   Enter number of weeks course lasts
                 </small>
-              </Form.Control>
-              <Form.Control>
+              </div>
+              <div class="form-group">
                 <label>Course Tuition</label>
                 <input
                   type="number"
@@ -142,8 +144,8 @@ const AddCourseScreen = ({ match, history, userInfo }) => {
                   class="form-control"
                 />
                 <small class="form-text text-muted">USD Currency</small>
-              </Form.Control>
-              <Form.Control>
+              </div>
+              <div class="form-group">
                 <label>Minimum Skill Required</label>
                 <select
                   name="minimumSkill"
@@ -157,8 +159,8 @@ const AddCourseScreen = ({ match, history, userInfo }) => {
                   <option value="intermediate">Intermediate</option>
                   <option value="advanced">Advanced</option>
                 </select>
-              </Form.Control>
-              <Form.Control>
+              </div>
+              <div class="form-group">
                 <textarea
                   name="description"
                   rows="5"
@@ -171,13 +173,11 @@ const AddCourseScreen = ({ match, history, userInfo }) => {
                 <small class="form-text text-muted">
                   No more than 500 characters
                 </small>
-              </Form.Control>
+              </div>
               <div class="form-check">
                 <input
                   class="form-check-input"
                   type="checkbox"
-                  value={course.scholarshipAvailable}
-                  onChange={handleChange}
                   name="scholarshipAvailable"
                   id="scholarshipAvailable"
                 />
@@ -194,10 +194,10 @@ const AddCourseScreen = ({ match, history, userInfo }) => {
               </div>
             </Form>
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   );
 };
 
-export default AddCourseScreen;
+export default CourseFormScreen;

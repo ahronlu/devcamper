@@ -100,7 +100,11 @@ const BootcampListScreen = (props) => {
           </Form>
         </Col>
         <Col md={8}>
-          {error && <Alert variant="danger">{error}</Alert>}
+          {error && (
+            <Alert variant="danger" dismissible>
+              {error}
+            </Alert>
+          )}
           {loading ? (
             <Spinner animation="border" />
           ) : (

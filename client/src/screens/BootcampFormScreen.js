@@ -35,7 +35,7 @@ const initialState = {
 };
 
 const BootcampFormScreen = ({ match, history, userInfo }) => {
-  const bootcampId = match.params.id;
+  const { bootcampId } = match.params;
 
   const [bootcamp, setBootcamp] = useState(initialState);
 
@@ -296,10 +296,26 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
             </Col>
           </Row>
           {updateLoading || (createLoading && <Spinner animation="border" />)}
-          {updateError && <Alert variant="danger">{updateError}</Alert>}
-          {createError && <Alert variant="danger">{createError}</Alert>}
-          {updateSuccess && <Alert variant="success">Bootcamp Updated</Alert>}
-          {createSuccess && <Alert variant="success">Bootcamp Created</Alert>}
+          {updateError && (
+            <Alert variant="danger" dismissible>
+              {updateError}
+            </Alert>
+          )}
+          {createError && (
+            <Alert variant="danger" dismissible>
+              {createError}
+            </Alert>
+          )}
+          {updateSuccess && (
+            <Alert variant="success" dismissible>
+              Bootcamp Updated
+            </Alert>
+          )}
+          {createSuccess && (
+            <Alert variant="success" dismissible>
+              Bootcamp Created
+            </Alert>
+          )}
           <Form.Group>
             <Form.Control
               type="submit"

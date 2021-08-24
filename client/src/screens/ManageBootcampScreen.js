@@ -23,19 +23,22 @@ const ManageBootcampScreen = ({ history, userInfo }) => {
     if (!window.confirm("Are you sure?")) return;
     dispatch(deleteBootcamp(bootcamp.id));
     dispatch({ type: BOOTCAMP_DETAILS_RESET });
-    window.location.reload();
   };
 
   useEffect(() => {
     if (userInfo.role === "user") history.push("/");
     else dispatch(getMyBootcamp());
-  }, [userInfo, history, dispatch]);
+  }, [userInfo, history, deleteSuccess, dispatch]);
 
   return (
     <Row>
       <Col md={8} className="m-auto">
         <Card className="card bg-white py-2 px-4">
-          {error && <Alert variant="danger">{error}</Alert>}
+          {error && (
+            <Alert variant="danger" dismissible>
+              {error}
+            </Alert>
+          )}
           {loading ? (
             <Spinner animation="border" />
           ) : (
@@ -84,9 +87,10 @@ const ManageBootcampScreen = ({ history, userInfo }) => {
                     Remove Bootcamp
                   </button>
                   {deleteLoading && <Spinner animation="boder" />}
-                  {deleteError && <Alert variant="danger">{deleteError}</Alert>}
-                  {deleteSuccess && (
-                    <Alert variant="success">Bootcamp Deleted</Alert>
+                  {deleteError && (
+                    <Alert variant="danger" dismissible>
+                      {deleteError}
+                    </Alert>
                   )}
                 </>
               ) : (

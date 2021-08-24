@@ -33,7 +33,7 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
       !bootcamp?.id && dispatch(getMyBootcamp());
       bootcamp?.id && dispatch(listMyCourses(bootcamp.id));
     }
-  }, [history, dispatch, bootcamp.id]);
+  }, [history, dispatch, deleteSuccess, bootcamp.id]);
 
   return (
     <Row>
@@ -41,8 +41,11 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
         <Card className="card bg-white py-2 px-4">
           {deleteLoading && <Spinner animation="border" />}
           {deleteLoading && <Spinner animation="boder" />}
-          {deleteError && <Alert variant="danger">{deleteError}</Alert>}
-          {deleteSuccess && <Alert variant="success">Bootcamp Deleted</Alert>}
+          {deleteError && (
+            <Alert variant="danger" dismissible>
+              {deleteError}
+            </Alert>
+          )}
           {loading && !bootcamp ? (
             <Spinner animation="border" />
           ) : (
@@ -57,7 +60,7 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
               {bootcamp?.location && <BootcampItem bootcamp={bootcamp} />}
               <Link
                 to={`/bootcamp/${bootcamp?.id}/add-course`}
-                class="btn btn-primary btn-block"
+                class="btn btn-primary btn-block mb-3"
               >
                 Add Bootcamp Course
               </Link>

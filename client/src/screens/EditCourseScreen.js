@@ -40,11 +40,26 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
     success: updateSuccess,
   } = courseUpdate;
 
+  const courseCreate = useSelector((state) => state.courseCreate);
+  const {
+    loading: createLoading,
+    error: createError,
+    success: createSuccess,
+  } = courseCreate;
+
   const bootcampDetails = useSelector((state) => state.bootcampDetails);
-  const { loading: bootcampLoading, bootcamp } = bootcampDetails;
+  const {
+    loading: bootcampLoading,
+    bootcamp,
+    error: bootcampError,
+  } = bootcampDetails;
 
   const courseDetails = useSelector((state) => state.courseDetails);
-  const { loading, course: myCourse } = courseDetails;
+  const {
+    loading: courseLoading,
+    course: myCourse,
+    error: courseError,
+  } = courseDetails;
 
   useEffect(() => {
     if (userInfo.role === "user") history.push("/");
@@ -68,17 +83,6 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
         });
   };
 
-  //   const handleCareersChange = (e) => {
-  //     const options = e.target;
-  //     let value = [];
-  //     for (let i = 0, l = options.length; i < l; i++) {
-  //       if (options[i].selected) {
-  //         value.push(options[i].value);
-  //       }
-  //     }
-  //     setCourse({ ...course });
-  //   };
-
   const submitCourse = async (e) => {
     e.preventDefault();
     try {
@@ -93,18 +97,27 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
   };
 
   return (
-    <div class="row">
-      <div class="col-md-8 m-auto">
-        <div class="card bg-white py-2 px-4">
-          <div class="card-body">
-            <a
-              href="manage-courses.html"
-              class="btn btn-link text-secondary my-3"
+    <Row>
+      <Col md={8} className="m-auto">
+        <Card className="bg-white py-2 px-4">
+          <Card.Body className="card-body">
+            <Link
+              to="/manage-courses"
+              className="btn btn-link text-secondary my-3"
             >
-              <i class="fas fa-chevron-left"></i> Manage Courses
-            </a>
-            <h1 class="mb-2">{bootcamp.name}</h1>
-            <h3 class="text-primary mb-4">Add Course</h3>
+              <i className="fas fa-chevron-left"></i> Manage Courses
+            </Link>
+            <h1 className="mb-2">{bootcamp.name}</h1>
+            {updateLoading ||
+              courseLoading ||
+              bootcampLoading ||
+              bootcampLoading ||
+              (createLoading && <Spinner animation="border" />)}
+            {updateError && <Alert variant="danger">{updateError}</Alert>}
+            {createError && <Alert variant="danger">{createError}</Alert>}
+            {bootcampError && <Alert variant="danger">{bootcampError}</Alert>}
+            {courseError && <Alert variant="danger">{courseError}</Alert>}
+            <h3 className="text-primary mb-4">Add Course</h3>
             <Form onSubmit={submitCourse}>
               <Form.Control>
                 <label>Course Title</label>
@@ -113,7 +126,7 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
                   name="title"
                   value={course.title}
                   onChange={handleChange}
-                  class="form-control"
+                  className="form-control"
                   placeholder="Title"
                 />
               </Form.Control>
@@ -125,9 +138,9 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
                   value={course.duration}
                   onChange={handleChange}
                   placeholder="Duration"
-                  class="form-control"
+                  className="form-control"
                 />
-                <small class="form-text text-muted">
+                <small className="form-text text-muted">
                   Enter number of weeks course lasts
                 </small>
               </Form.Control>
@@ -139,15 +152,15 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
                   value={course.tuition}
                   onChange={handleChange}
                   placeholder="Tuition"
-                  class="form-control"
+                  className="form-control"
                 />
-                <small class="form-text text-muted">USD Currency</small>
+                <small className="form-text text-muted">USD Currency</small>
               </Form.Control>
               <Form.Control>
                 <label>Minimum Skill Required</label>
                 <select
                   name="minimumSkill"
-                  class="form-control"
+                  className="form-control"
                   value={course.minimumSkill}
                   onChange={handleChange}
                 >
@@ -162,41 +175,41 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
                 <textarea
                   name="description"
                   rows="5"
-                  class="form-control"
+                  className="form-control"
                   value={course.description}
                   onChange={handleChange}
                   placeholder="Course description summary"
                   maxlength="500"
                 ></textarea>
-                <small class="form-text text-muted">
+                <small className="form-text text-muted">
                   No more than 500 characters
                 </small>
               </Form.Control>
-              <div class="form-check">
+              <div className="form-check">
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="checkbox"
                   value={course.scholarshipAvailable}
                   onChange={handleChange}
                   name="scholarshipAvailable"
                   id="scholarshipAvailable"
                 />
-                <label class="form-check-label" for="scholarshipAvailable">
+                <label className="form-check-label" for="scholarshipAvailable">
                   Scholarship Available
                 </label>
               </div>
-              <div class="form-group mt-4">
+              <div className="form-group mt-4">
                 <input
                   type="submit"
                   value="Add Course"
-                  class="btn btn-dark btn-block"
+                  className="btn btn-dark btn-block"
                 />
               </div>
             </Form>
-          </div>
-        </div>
-      </div>
-    </div>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

@@ -33,7 +33,11 @@ const LoginScreen = ({ history }) => {
               <i className="fas fa-sign-in-alt"></i> Login
             </h1>
             {loading && <Spinner animation="border" />}
-            {error && <Alert variant="danger">{error}</Alert>}
+            {error && (
+              <Alert variant="danger" dismissible>
+                {error}
+              </Alert>
+            )}
             <p>
               Log in to list your bootcamp or rate, review and favorite
               bootcamps

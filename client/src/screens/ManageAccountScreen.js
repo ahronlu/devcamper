@@ -36,8 +36,16 @@ const ManageAccountScreen = ({ history, userInfo }) => {
           ) : (
             <Card.Body>
               <h1 className="mb-2">Manage Account</h1>
-              {error && <Alert variant="danger">{error}</Alert>}
-              {success && <Alert variant="success">Account Updated</Alert>}
+              {error && (
+                <Alert variant="danger" dismissible>
+                  {error}
+                </Alert>
+              )}
+              {success && (
+                <Alert variant="success" dismissible>
+                  Account Updated
+                </Alert>
+              )}
               <Form onSubmit={submit}>
                 <Form.Group>
                   <Form.Label>Name</Form.Label>

@@ -5,9 +5,9 @@ import { Badge, Card, Col, Row, Spinner } from "react-bootstrap";
 import { listBootcampDetails } from "../actions/bootcampActions";
 
 const BootcampReviewsScreen = ({ match }) => {
-  const dispatch = useDispatch();
+  const { bootcampId } = match.params;
 
-  const bootcampId = match.params.id;
+  const dispatch = useDispatch();
 
   const bootcampDetails = useSelector((state) => state.bootcampDetails);
   const { loading, error, bootcamp } = bootcampDetails;

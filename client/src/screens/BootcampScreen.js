@@ -18,7 +18,11 @@ const BootcampScreen = ({ match }) => {
 
   return (
     <>
-      {error && <Alert variant="danger">{error}</Alert>}
+      {error && (
+        <Alert variant="danger" dismissible>
+          {error}
+        </Alert>
+      )}
 
       {!bootcamp && loading ? (
         <Spinner animation="border" />

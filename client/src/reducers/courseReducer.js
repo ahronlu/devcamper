@@ -19,17 +19,14 @@ import {
   MY_COURSE_DETAILS_RESET,
 } from "../constants/courseConstants";
 
-export const courseListReducer = (
-  state = { bootcamps: [], pagination: {} },
-  action
-) => {
+export const courseListReducer = (state = { courses: [] }, action) => {
   switch (action.type) {
     case MY_COURSE_LIST_REQUEST:
       return { ...state, loading: true };
     case MY_COURSE_LIST_SUCCESS:
       return {
         loading: false,
-        bootcamps: action.payload.bootcamps,
+        courses: action.payload.courses,
         pages: action.payload.pages,
       };
     case MY_COURSE_LIST_FAIL:

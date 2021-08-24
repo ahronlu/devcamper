@@ -38,7 +38,11 @@ const RegisterScreen = ({ history }) => {
               <i className="fas fa-user-plus"></i> Register
             </h1>
             {loading && <Spinner animation="border" />}
-            {error && <Alert variant="danger">{error}</Alert>}
+            {error && (
+              <Alert variant="danger" dismissible>
+                {error}
+              </Alert>
+            )}
             <p>
               Register to list your bootcamp or rate, review and favorite
               bootcamps
