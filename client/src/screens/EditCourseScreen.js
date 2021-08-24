@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Alert,
-  Row,
-  Col,
-  Card,
-  Form,
-  FormCheck,
-  Spinner,
-} from "react-bootstrap";
+import { Alert, Row, Col, Card, Form, Spinner } from "react-bootstrap";
 import { getMyBootcamp } from "../actions/bootcampActions";
 import {
   createCourse,
@@ -27,7 +19,7 @@ const initialState = {
 };
 
 const EditCourseScreen = ({ match, history, userInfo }) => {
-  const courseId = match.params.id;
+  const { courseId } = match.params;
 
   const [course, setCourse] = useState(initialState);
 
@@ -100,7 +92,7 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
     <Row>
       <Col md={8} className="m-auto">
         <Card className="bg-white py-2 px-4">
-          <Card.Body className="card-body">
+          <Card.Body>
             <Link
               to="/manage-courses"
               className="btn btn-link text-secondary my-3"
@@ -138,9 +130,9 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
                   onChange={handleChange}
                   placeholder="Duration"
                 />
-                <small className="form-text text-muted">
+                <Form.Text className="text-muted">
                   Enter number of weeks course lasts
-                </small>
+                </Form.Text>
               </Form.Group>
               <Form.Group>
                 <Form.Label>Course Tuition</Form.Label>
@@ -151,7 +143,7 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
                   onChange={handleChange}
                   placeholder="Tuition"
                 />
-                <small className="form-text text-muted">USD Currency</small>
+                <Form.Text className="text-muted">USD Currency</Form.Text>
               </Form.Group>
               <Form.Group>
                 <Form.Label>Minimum Skill Required</Form.Label>
@@ -178,25 +170,21 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
                   placeholder="Course description summary"
                   maxlength="500"
                 ></textarea>
-                <small className="form-text text-muted">
+                <Form.Text className="text-muted">
                   No more than 500 characters
-                </small>
+                </Form.Text>
               </Form.Group>
               <Form.Check>
                 <Form.Check.Input
-                  className="form-check-Form"
                   type="checkbox"
                   value={course.scholarshipAvailable}
                   onChange={handleChange}
                   name="scholarshipAvailable"
                   id="scholarshipAvailable"
                 />
-                <Form.Label
-                  className="form-check-label"
-                  for="scholarshipAvailable"
-                >
+                <Form.Check.Label for="scholarshipAvailable">
                   Scholarship Available
-                </Form.Label>
+                </Form.Check.Label>
               </Form.Check>
               <Form.Control className="mt-4">
                 <Form.Control

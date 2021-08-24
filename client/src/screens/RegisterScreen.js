@@ -95,29 +95,27 @@ const RegisterScreen = ({ history }) => {
 
               <Card.Body className="mb-3">
                 <h5>User Role</h5>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
+                <Form.Check>
+                  <Form.Check.Input
                     type="radio"
                     name="role"
                     value="user"
                     onChange={(e) => setRole(e.target.value)}
                     checked
                   />
-                  <label className="form-check-label">
+                  <Form.Check.Label>
                     Regular User (Browse, Write reviews, etc)
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
+                  </Form.Check.Label>
+                </Form.Check>
+                <Form.Check>
+                  <Form.Check.Input
                     type="radio"
                     name="role"
                     value="publisher"
                     onChange={(e) => setRole(e.target.value)}
                   />
-                  <label className="form-check-label">Bootcamp Publisher</label>
-                </div>
+                  <Form.Check.Label>Bootcamp Publisher</Form.Check.Label>
+                </Form.Check>
               </Card.Body>
               <p className="text-danger">
                 * You must be affiliated with the bootcamp in some way in order

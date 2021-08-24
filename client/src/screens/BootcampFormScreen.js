@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Alert,
-  Row,
-  Col,
-  Card,
-  Form,
-  FormCheck,
-  Spinner,
-} from "react-bootstrap";
+import { Alert, Row, Col, Card, Form, Spinner } from "react-bootstrap";
 import {
   updateBootcamp,
   createBootcamp,
@@ -165,9 +157,9 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
                       placeholder="Full Address"
                       required
                     />
-                    <small className="form-text text-muted">
+                    <Form.Text className="text-muted">
                       Street, city, state, etc
-                    </small>
+                    </Form.Text>
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Phone Number</Form.Label>
@@ -217,9 +209,9 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
                       placeholder="Description (What you offer, etc)"
                       maxLength="500"
                     ></Form.Control>
-                    <small className="form-text text-muted">
+                    <Form.Text className="text-muted">
                       No more than 500 characters
-                    </small>
+                    </Form.Text>
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Careers</Form.Label>
@@ -242,50 +234,52 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
                     </Form.Control>
                   </Form.Group>
                   <Form.Check>
-                    <FormCheck.Input
+                    <Form.Check.Input
                       type="checkbox"
                       name="housing"
                       checked={bootcamp.housing}
                       onChange={handleChange}
                       id="housing"
                     />
-                    <FormCheck.Label htmlFor="housing">Housing</FormCheck.Label>
+                    <Form.Check.Label htmlFor="housing">
+                      Housing
+                    </Form.Check.Label>
                   </Form.Check>
                   <Form.Check>
-                    <FormCheck.Input
+                    <Form.Check.Input
                       type="checkbox"
                       name="jobAssistance"
                       checked={bootcamp.jobAssistance}
                       onChange={handleChange}
                       id="jobAssistance"
                     />
-                    <FormCheck.Label htmlFor="jobAssistance">
+                    <Form.Check.Label htmlFor="jobAssistance">
                       Job Assistance
-                    </FormCheck.Label>
+                    </Form.Check.Label>
                   </Form.Check>
                   <Form.Check>
-                    <FormCheck.Input
+                    <Form.Check.Input
                       type="checkbox"
                       name="jobGuarantee"
                       checked={bootcamp.jobGuarantee}
                       onChange={handleChange}
                       id="jobGuarantee"
                     />
-                    <FormCheck.Label htmlFor="jobGuarantee">
+                    <Form.Check.Label htmlFor="jobGuarantee">
                       Job Guarantee
-                    </FormCheck.Label>
+                    </Form.Check.Label>
                   </Form.Check>
                   <Form.Check>
-                    <FormCheck.Input
+                    <Form.Check.Input
                       type="checkbox"
                       name="acceptGi"
                       value={bootcamp.acceptGi}
                       onChange={handleChange}
                       id="acceptGi"
                     />
-                    <FormCheck.Label htmlFor="acceptGi">
+                    <Form.Check.Label htmlFor="acceptGi">
                       Accepts GI Bill
-                    </FormCheck.Label>
+                    </Form.Check.Label>
                   </Form.Check>
                   <p className="text-muted my-4">
                     *After you add the bootcamp, you can add the specific

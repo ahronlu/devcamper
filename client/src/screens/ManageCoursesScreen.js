@@ -38,7 +38,7 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
   return (
     <Row>
       <Col md={8} className="m-auto">
-        <Card className="card bg-white py-2 px-4">
+        <Card className="bg-white py-2 px-4">
           {deleteLoading && <Spinner animation="border" />}
           {deleteLoading && <Spinner animation="boder" />}
           {deleteError && (
@@ -52,23 +52,45 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
             <Card.Body>
               <Link
                 to="/manage-bootcamp"
-                class="btn btn-link text-secondary my-3"
+                className="btn btn-link text-secondary my-3"
               >
-                <i class="fas fa-chevron-left"></i> Manage Bootcamp
+                <i className="fas fa-chevron-left"></i> Manage Bootcamp
               </Link>
               <h1 className="mb-4">Manage Courses</h1>
               {bootcamp?.location && <BootcampItem bootcamp={bootcamp} />}
               <Link
                 to={`/bootcamp/${bootcamp?.id}/add-course`}
-                class="btn btn-primary btn-block mb-3"
+                className="btn btn-primary btn-block mb-4"
               >
                 Add Bootcamp Course
               </Link>
               {courses?.length ? (
-                <></>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Title</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {courses.map((course) => (
+                      <tr key={course._id}>
+                        <td>{course.name}</td>
+                        <td>
+                          <a href="add-course.html" class="btn btn-secondary">
+                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                          </a>
+                          <button class="btn btn-danger">
+                            <i class="fas fa-times" aria-hidden="true"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               ) : (
                 <>
-                  <p class="lead">You have not yet added any courses</p>
+                  <p className="lead">You have not yet added any courses</p>
                 </>
               )}
             </Card.Body>

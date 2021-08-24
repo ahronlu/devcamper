@@ -6,13 +6,14 @@ import { listBootcampDetails } from "../actions/bootcampActions";
 import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 
 const BootcampScreen = ({ match }) => {
+  const { bootcampId } = match.params;
   const dispatch = useDispatch();
 
   const bootcampDetails = useSelector((state) => state.bootcampDetails);
   const { loading, error, bootcamp } = bootcampDetails;
 
   useEffect(() => {
-    dispatch(listBootcampDetails(match.params.id));
+    dispatch(listBootcampDetails(bootcampId));
     return () => dispatch({ type: BOOTCAMP_DETAILS_RESET });
   }, [match, dispatch]);
 
@@ -72,7 +73,7 @@ const BootcampScreen = ({ match }) => {
               <h1 className="text-center my-4">
                 <span className="badge badge-secondary badge-success rounded-circle p-3">
                   {bootcamp.averageRating}
-                </span>{" "}
+                </span>
                 Rating
               </h1>
 

@@ -33,7 +33,7 @@ const ManageBootcampScreen = ({ history, userInfo }) => {
   return (
     <Row>
       <Col md={8} className="m-auto">
-        <Card className="card bg-white py-2 px-4">
+        <Card className="bg-white py-2 px-4">
           {error && (
             <Alert variant="danger" dismissible>
               {error}

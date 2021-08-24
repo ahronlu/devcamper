@@ -30,7 +30,7 @@ const BootcampReviewsScreen = ({ match }) => {
               <i className="fas fa-chevron-left"></i> Bootcamp Info
             </Link>
             {bootcamp.reviews.map((review) => (
-              <div key={review._id} className="card mb-3">
+              <Card key={review._id} className="mb-3">
                 <Card.Header className="bg-dark text-white">
                   {review.title}
                 </Card.Header>
@@ -42,7 +42,7 @@ const BootcampReviewsScreen = ({ match }) => {
                   <Card.Text>{review.text}</Card.Text>
                   <p className="text-muted">Writtern By {review.user.name}</p>
                 </Card.Body>
-              </div>
+              </Card>
             ))}
           </Col>
 
