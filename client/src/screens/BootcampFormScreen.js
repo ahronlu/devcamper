@@ -34,15 +34,12 @@ const initialState = {
   housing: false,
 };
 
-const BootcampFormScreen = ({ match, history }) => {
+const BootcampFormScreen = ({ match, history, userInfo }) => {
   const bootcampId = match.params.id;
 
   const [bootcamp, setBootcamp] = useState(initialState);
 
   const dispatch = useDispatch();
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
 
   const bootcampUpdate = useSelector((state) => state.bootcampUpdate);
   const {
@@ -62,15 +59,14 @@ const BootcampFormScreen = ({ match, history }) => {
   const { loading, error, bootcamp: myBootcamp } = bootcampDetails;
 
   useEffect(() => {
-    if (!userInfo) history.push("login");
     if (userInfo.role === "user") history.push("/");
     if (updateSuccess) {
       dispatch({ type: BOOTCAMP_UPDATE_RESET });
-      history.push("/");
+      history.push("/manage-bootcamp");
     }
     if (createSuccess) {
       dispatch({ type: BOOTCAMP_CREATE_RESET });
-      history.push("/");
+      history.push("/manage-bootcamp");
     }
     if (bootcampId) {
       if (!myBootcamp || !myBootcamp._id) {

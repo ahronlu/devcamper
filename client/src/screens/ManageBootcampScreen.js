@@ -1,20 +1,16 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Alert, Badge, Card, Col, Form, Row, Spinner } from "react-bootstrap";
+import { Alert, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { deleteBootcamp, getMyBootcamp } from "../actions/bootcampActions";
-import { getUserDetails } from "../actions/userActions";
 import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 import BootcampItem from "../components/BootcampItem";
 
-const ManageBootcampScreen = ({ history }) => {
+const ManageBootcampScreen = ({ history, userInfo }) => {
   const dispatch = useDispatch();
 
   const bootcampDetails = useSelector((state) => state.bootcampDetails);
   const { loading, bootcamp, error } = bootcampDetails;
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
 
   const bootcampDelete = useSelector((state) => state.bootcampDelete);
   const {
@@ -31,8 +27,7 @@ const ManageBootcampScreen = ({ history }) => {
   };
 
   useEffect(() => {
-    if (!userInfo) history.push("/login");
-    else if (userInfo.role === "user") history.push("/");
+    if (userInfo.role === "user") history.push("/");
     else dispatch(getMyBootcamp());
   }, [userInfo, history, dispatch]);
 
@@ -40,6 +35,7 @@ const ManageBootcampScreen = ({ history }) => {
     <Row>
       <Col md={8} className="m-auto">
         <Card className="card bg-white py-2 px-4">
+          {error && <Alert variant="danger">{error}</Alert>}
           {loading ? (
             <Spinner animation="border" />
           ) : (
@@ -97,7 +93,7 @@ const ManageBootcampScreen = ({ history }) => {
                 <>
                   <p className="lead">You have not yet added a bootcamp</p>
                   <Link
-                    to="/bootcamp/create"
+                    to="/add-bootcamp"
                     className="btn btn-primary btn-block"
                   >
                     Add Bootcamp

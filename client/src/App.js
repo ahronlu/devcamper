@@ -15,6 +15,7 @@ import BootcampFormScreen from "./screens/BootcampFormScreen";
 import ReviewAddScreen from "./screens/ReviewAddScreen";
 import AddCourseScreen from "./screens/AddCourseScreen";
 import EditCourseScreen from "./screens/EditCourseScreen";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -27,19 +28,42 @@ function App() {
           <Route path="/register" component={RegisterScreen} />
           <Route exact path="/bootcamps/:page" component={BootcampListScreen} />
           <Route exact path="/bootcamps/" component={BootcampListScreen} />
-          <Route path="/bootcamp/create" component={BootcampFormScreen} />
-          <Route path="/bootcamp/:id/edit" component={BootcampFormScreen} />
+
+          <PrivateRoute
+            path="/bootcamp/:id/edit"
+            component={BootcampFormScreen}
+          />
           <Route exact path="/bootcamp/:id" component={BootcampScreen} />
+          <PrivateRoute
+            exact
+            path="/add-bootcamp"
+            component={BootcampFormScreen}
+          />
           <Route
             path="/bootcamp/:id/reviews"
             component={BootcampReviewsScreen}
           />
-          <Route path="/bootcamp/:id/add-review" component={ReviewAddScreen} />
-          <Route path="/manage-account" component={ManageAccountScreen} />
-          <Route path="/manage-bootcamp" component={ManageBootcampScreen} />
-          <Route path="/manage-courses" component={ManageCoursesScreen} />
-          <Route path="/bootcamp/:id/add-course" component={AddCourseScreen} />
-          <Route
+          <PrivateRoute
+            path="/bootcamp/:id/add-review"
+            component={ReviewAddScreen}
+          />
+          <PrivateRoute
+            path="/manage-account"
+            component={ManageAccountScreen}
+          />
+          <PrivateRoute
+            path="/manage-bootcamp"
+            component={ManageBootcampScreen}
+          />
+          <PrivateRoute
+            path="/manage-courses"
+            component={ManageCoursesScreen}
+          />
+          <PrivateRoute
+            path="/bootcamp/:id/add-course"
+            component={AddCourseScreen}
+          />
+          <PrivateRoute
             path="/bootcamp/:id/course/:id/edit"
             component={EditCourseScreen}
           />

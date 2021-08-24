@@ -10,12 +10,7 @@ import {
   FormCheck,
   Spinner,
 } from "react-bootstrap";
-import {
-  updateBootcamp,
-  createBootcamp,
-  getMyBootcamp,
-} from "../actions/bootcampActions";
-import { getUserDetails } from "../actions/userActions";
+import { getMyBootcamp } from "../actions/bootcampActions";
 import {
   createCourse,
   listCourseDetails,
@@ -31,15 +26,12 @@ const initialState = {
   scholarshipAvailable: "",
 };
 
-const AddCourseScreen = ({ match, history }) => {
+const AddCourseScreen = ({ match, history, userInfo }) => {
   const courseId = match.params.id;
 
   const [course, setCourse] = useState(initialState);
 
   const dispatch = useDispatch();
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
 
   const courseUpdate = useSelector((state) => state.courseUpdate);
   const {
@@ -55,10 +47,11 @@ const AddCourseScreen = ({ match, history }) => {
   const { loading, course: myCourse } = courseDetails;
 
   useEffect(() => {
-    if (!userInfo) history.push("/login");
-    else if (userInfo.role === "user") history.push("/");
-    else {
+    if (userInfo.role === "user") history.push("/");
+    if (!myCourse || myCourse._id) {
       dispatch(listCourseDetails(courseId));
+    }
+    if (!bootcamp || bootcamp._id) {
       dispatch(getMyBootcamp());
     }
   }, [courseId, dispatch]);

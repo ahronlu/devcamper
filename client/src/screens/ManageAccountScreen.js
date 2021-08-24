@@ -4,7 +4,7 @@ import { Alert, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getUserDetails, updateUserDetails } from "../actions/userActions";
 
-const ManageAccountScreen = ({ history }) => {
+const ManageAccountScreen = ({ history, userInfo }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
@@ -13,19 +13,12 @@ const ManageAccountScreen = ({ history }) => {
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user, success } = userDetails;
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
   useEffect(() => {
-    if (!userInfo) {
-      history.push("/login");
+    if (!user.name) {
+      dispatch(getUserDetails());
     } else {
-      if (!user.name) {
-        dispatch(getUserDetails());
-      } else {
-        setName(user.name);
-        setEmail(user.email);
-      }
+      setName(user.name);
+      setEmail(user.email);
     }
   }, [userInfo, history, dispatch, user]);
 

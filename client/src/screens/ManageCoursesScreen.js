@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Alert, Badge, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { deleteBootcamp, getMyBootcamp } from "../actions/bootcampActions";
-import { getUserDetails } from "../actions/userActions";
 import { deleteCourse, listMyCourses } from "../actions/courseActions";
 import BootcampItem from "../components/BootcampItem";
 
-const ManageCoursesScreen = ({ history }) => {
+const ManageCoursesScreen = ({ history, userInfo }) => {
   const dispatch = useDispatch();
 
   const bootcampDetails = useSelector((state) => state.bootcampDetails);
@@ -15,9 +14,6 @@ const ManageCoursesScreen = ({ history }) => {
 
   const courseList = useSelector((state) => state.courseList);
   const { courses } = courseList;
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
 
   const courseDelete = useSelector((state) => state.courseDelete);
   const {
@@ -43,6 +39,10 @@ const ManageCoursesScreen = ({ history }) => {
     <Row>
       <Col md={8} className="m-auto">
         <Card className="card bg-white py-2 px-4">
+          {deleteLoading && <Spinner animation="border" />}
+          {deleteLoading && <Spinner animation="boder" />}
+          {deleteError && <Alert variant="danger">{deleteError}</Alert>}
+          {deleteSuccess && <Alert variant="success">Bootcamp Deleted</Alert>}
           {loading && !bootcamp ? (
             <Spinner animation="border" />
           ) : (
