@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Row, Col, Form, Spinner, Alert, Card } from "react-bootstrap";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { Row, Col, Form, Spinner, Alert, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { login } from "../actions/userActions";
 
 const LoginScreen = ({ history }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid, dirtyFields },
+  } = useForm({
+    mode: "onChange",
+  });
 
   const dispatch = useDispatch();
 
@@ -19,8 +25,7 @@ const LoginScreen = ({ history }) => {
     }
   }, [history, userInfo]);
 
-  const submit = (e) => {
-    e.preventDefault();
+  const submit = ({ email, password }) => {
     dispatch(login(email, password));
   };
 
@@ -42,35 +47,55 @@ const LoginScreen = ({ history }) => {
               Log in to list your bootcamp or rate, review and favorite
               bootcamps
             </p>
-            <Form onSubmit={submit}>
+            <Form onSubmit={handleSubmit(submit)}>
               <Form.Group>
                 <Form.Label>Email Address</Form.Label>
                 <Form.Control
-                  type="email"
-                  name="email"
+                  isInvalid={!!errors.email}
+                  isValid={!errors.email && dirtyFields.email}
                   placeholder="Enter email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value:
+                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                      message: "Please enter a valid email",
+                    },
+                  })}
+                ></Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.email?.message}
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-4">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                   type="password"
-                  name="password"
                   placeholder="Enter password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                  isInvalid={!!errors.password}
+                  isValid={!errors.password && dirtyFields.password}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must have at least 6 characters",
+                    },
+                    pattern: {
+                      message:
+                        "Please enter a valid password with at least 6 chars",
+                    },
+                  })}
+                ></Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.password?.message}
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group>
                 <Form.Control
                   type="submit"
                   value={loading ? "Loading..." : "Login"}
                   className="btn btn-primary btn-block"
-                  disabled={loading}
+                  disabled={!isValid || isSubmitting}
                 />
               </Form.Group>
             </Form>

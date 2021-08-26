@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Alert, Card, Col, Form, Row, Spinner } from "react-bootstrap";
+import { Alert, Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { deleteBootcamp, getMyBootcamp } from "../actions/bootcampActions";
 import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 import BootcampItem from "../components/BootcampItem";
@@ -80,12 +80,13 @@ const ManageBootcampScreen = ({ history, userInfo }) => {
                   >
                     Manage Courses
                   </Link>
-                  <button
+                  <Button
                     onClick={handleDelete}
-                    className="btn btn-danger mb-2 btn-block"
+                    variant="danger"
+                    className="mb-2 btn-block"
                   >
                     Remove Bootcamp
-                  </button>
+                  </Button>
                   {deleteLoading && <Spinner animation="boder" />}
                   {deleteError && (
                     <Alert variant="danger" dismissible>

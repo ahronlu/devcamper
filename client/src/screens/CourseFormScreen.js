@@ -50,13 +50,14 @@ const CourseFormScreen = ({ match, history }) => {
   const { loading, course: myCourse } = courseDetails;
 
   useEffect(() => {
+    if (createSuccess) history.push("/manage-courses");
     if (!userInfo) history.push("/login");
     else if (userInfo.role === "user") history.push("/");
     else {
       !bootcamp && dispatch(getMyBootcamp());
       courseId && dispatch(listCourseDetails(courseId));
     }
-  }, [bootcampId, dispatch]);
+  }, [bootcampId, dispatch, createSuccess]);
 
   const handleChange = (e) => {
     console.log(e.target.value);

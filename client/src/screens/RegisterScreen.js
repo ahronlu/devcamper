@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Form, Card, Spinner, Alert } from "react-bootstrap";
+import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../actions/userActions";
+import { useForm } from "react-hook-form";
+import { Row, Col, Form, Card, Spinner, Alert } from "react-bootstrap";
+import { register as registerUser } from "../actions/userActions";
 
 const RegisterScreen = ({ history }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("user");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid, dirtyFields },
+    watch,
+  } = useForm({
+    mode: "onChange",
+  });
+
+  const password = useRef({});
+  password.current = watch("password", "");
 
   const dispatch = useDispatch();
 
@@ -17,16 +24,12 @@ const RegisterScreen = ({ history }) => {
 
   useEffect(() => {
     if (userInfo) {
-      console.log(userInfo);
       history.push("/");
     }
   }, [history, userInfo]);
 
-  const submit = (e) => {
-    if (confirmPassword !== password) return;
-    e.preventDefault();
-    console.log(name, email, password, role);
-    dispatch(register(name, email, password, role));
+  const submit = ({ name, email, password, role }) => {
+    dispatch(registerUser(name, email, password, role));
   };
 
   return (
@@ -47,60 +50,92 @@ const RegisterScreen = ({ history }) => {
               Register to list your bootcamp or rate, review and favorite
               bootcamps
             </p>
-            <Form onSubmit={submit}>
+            <Form onSubmit={handleSubmit(submit)}>
               <Form.Group>
                 <Form.Label>Name</Form.Label>
                 <Form.Control
-                  type="text"
-                  name="name"
-                  placeholder="Enter full name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
+                  placeholder="Enter name"
+                  isInvalid={!!errors.name}
+                  isValid={!errors.name && dirtyFields.name}
+                  {...register("name", {
+                    required: "Name is required",
+                  })}
+                ></Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.name?.message}
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group>
                 <Form.Label>Email Address</Form.Label>
                 <Form.Control
-                  type="email"
-                  name="email"
                   placeholder="Enter email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+                  isInvalid={!!errors.email}
+                  isValid={!errors.email && dirtyFields.email}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value:
+                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                      message: "Please enter a valid email",
+                    },
+                  })}
+                ></Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.email?.message}
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group>
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                   type="password"
-                  name="password"
                   placeholder="Enter password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                  isInvalid={!!errors.password}
+                  isValid={!errors.password && dirtyFields.password}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must have at least 6 characters",
+                    },
+                    pattern: {
+                      message:
+                        "Please enter a valid password with at least 6 chars",
+                    },
+                  })}
+                ></Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.password?.message}
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-4">
                 <Form.Label>Confirm Password</Form.Label>
                 <Form.Control
                   type="password"
-                  name="password2"
+                  isInvalid={!!errors.confirmPassword}
+                  isValid={
+                    !errors.confirmPassword && dirtyFields.confirmPassword
+                  }
                   placeholder="Confirm password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
+                  {...register("confirmPassword", {
+                    required: "Confirm Password is required",
+                    validate: {
+                      value: (value) =>
+                        value === password.current ||
+                        "The passwords do not match",
+                    },
+                  })}
+                ></Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.confirmPassword?.message}
+                </Form.Control.Feedback>
               </Form.Group>
-
               <Card.Body className="mb-3">
                 <h5>User Role</h5>
                 <Form.Check>
                   <Form.Check.Input
                     type="radio"
-                    name="role"
                     value="user"
-                    onChange={(e) => setRole(e.target.value)}
+                    {...register("role", { required: true })}
                     checked
                   />
                   <Form.Check.Label>
@@ -110,9 +145,8 @@ const RegisterScreen = ({ history }) => {
                 <Form.Check>
                   <Form.Check.Input
                     type="radio"
-                    name="role"
                     value="publisher"
-                    onChange={(e) => setRole(e.target.value)}
+                    {...register("role", { required: true })}
                   />
                   <Form.Check.Label>Bootcamp Publisher</Form.Check.Label>
                 </Form.Check>
@@ -124,6 +158,7 @@ const RegisterScreen = ({ history }) => {
               <Form.Group>
                 <Form.Control
                   type="submit"
+                  disabled={!isValid || isSubmitting}
                   value={loading ? "Loading..." : "Register"}
                   className="btn btn-primary btn-block"
                 />

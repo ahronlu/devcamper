@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Alert, Badge, Card, Col, Form, Row, Spinner } from "react-bootstrap";
-import { deleteBootcamp, getMyBootcamp } from "../actions/bootcampActions";
+import { Alert, Button, Card, Col, Row, Spinner } from "react-bootstrap";
+import { getMyBootcamp } from "../actions/bootcampActions";
 import { deleteCourse, listMyCourses } from "../actions/courseActions";
 import BootcampItem from "../components/BootcampItem";
 
@@ -23,15 +23,16 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
   } = courseDelete;
 
   const handleDelete = (id) => {
+    if (!window.confirm("Are you sure?")) return;
     dispatch(deleteCourse(id));
+    dispatch(listMyCourses(bootcamp.id));
   };
 
   useEffect(() => {
-    if (!userInfo) history.push("/login");
-    else if (userInfo.role === "user") history.push("/");
+    if (userInfo.role === "user") history.push("/");
     else {
       !bootcamp?.id && dispatch(getMyBootcamp());
-      bootcamp?.id && dispatch(listMyCourses(bootcamp.id));
+      bootcamp?.id && !courses.length && dispatch(listMyCourses(bootcamp.id));
     }
   }, [history, dispatch, deleteSuccess, bootcamp.id]);
 
@@ -75,14 +76,17 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
                   <tbody>
                     {courses.map((course) => (
                       <tr key={course._id}>
-                        <td>{course.name}</td>
+                        <td>{course.title}</td>
                         <td>
                           <a href="add-course.html" class="btn btn-secondary">
                             <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                           </a>
-                          <button class="btn btn-danger">
+                          <Button
+                            variant="danger"
+                            onClick={() => handleDelete(course._id)}
+                          >
                             <i class="fas fa-times" aria-hidden="true"></i>
-                          </button>
+                          </Button>
                         </td>
                       </tr>
                     ))}
