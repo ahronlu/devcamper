@@ -52,21 +52,23 @@ const CourseFormScreen = ({ match, history }) => {
   } = courseCreate;
 
   const bootcampDetails = useSelector((state) => state.bootcampDetails);
-  const { loading: bootcampLoading, bootcamp } = bootcampDetails;
+  const { bootcamp } = bootcampDetails;
 
   const courseDetails = useSelector((state) => state.courseDetails);
   const { loading, course } = courseDetails;
 
   useEffect(() => {
-    if (createSuccess || updateSuccess) history.push("/manage-courses");
-    if (!userInfo) history.push("/login");
-    else if (userInfo.role === "user") history.push("/");
+    if (userInfo.role === "user") history.push("/");
     else {
       !bootcamp && dispatch(getMyBootcamp());
       courseId && !course?.title && dispatch(listCourseDetails(courseId));
       course.title && fields.map((f) => setValue(f, course[f]));
     }
-  }, [bootcampId, dispatch, createSuccess, updateSuccess, course]);
+  }, [bootcampId, dispatch, createSuccess]);
+
+  useEffect(() => {
+    if (createSuccess || updateSuccess) history.push("/manage-courses");
+  }, [updateSuccess, course]);
 
   const submitCourse = async (data) => {
     try {
@@ -83,6 +85,16 @@ const CourseFormScreen = ({ match, history }) => {
   return (
     <Row>
       <Col md={8} className="m-auto">
+        {updateError && (
+          <Alert variant="danger" dismissible>
+            {updateError}
+          </Alert>
+        )}
+        {createError && (
+          <Alert variant="danger" dismissible>
+            {createError}
+          </Alert>
+        )}
         {loading ? (
           <Spinner animation="border" />
         ) : (
