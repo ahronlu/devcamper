@@ -48,12 +48,6 @@ export const listReviewDetails = (id) => async (dispatch) => {
       data: { data },
     } = await axios.get(`/api/reviews/${id}`);
 
-    const {
-      data: { data: courses },
-    } = await axios.get(`/api/reviews/${id}/courses`);
-
-    data.courses = courses;
-
     dispatch({
       type: REVIEW_DETAILS_SUCCESS,
       payload: data,

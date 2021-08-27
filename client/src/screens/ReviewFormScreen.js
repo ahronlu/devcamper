@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { Card, Col, Row, Form } from "react-bootstrap";
 import { createBootcampReview } from "../actions/reviewActions";
@@ -10,7 +10,7 @@ function ReviewAddScreen({ match, history }) {
   const {
     register,
     handleSubmit,
-    setValue,
+    // setValue,
     watch,
     formState: { errors, isSubmitting, isValid, dirtyFields },
   } = useForm({

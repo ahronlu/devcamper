@@ -7,8 +7,10 @@ import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 
 const BootcampScreen = ({ match, history }) => {
   const { bootcampId } = match.params;
+
+  const [canReview, setCanReview] = useState(false);
+
   const dispatch = useDispatch();
-  const [cantReview, setCantReview] = useState(true);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -24,10 +26,10 @@ const BootcampScreen = ({ match, history }) => {
 
   useEffect(() => {
     bootcamp &&
-      setCantReview(
-        bootcamp.reviews.some((review) => review.user._id === userInfo.id)
+      setCanReview(
+        bootcamp.reviews.some((review) => review.user._id !== userInfo?.id)
       );
-  }, [bootcamp]);
+  }, [bootcamp, userInfo?.id]);
 
   return (
     <>
@@ -95,7 +97,7 @@ const BootcampScreen = ({ match, history }) => {
               >
                 <i className="fas fa-comments"></i> Read Reviews
               </Link>
-              {userInfo.role === "user" && !cantReview && (
+              {userInfo?.role === "user" && canReview && (
                 <Link
                   to={`/bootcamp/${bootcamp.id}/add-review`}
                   className="btn btn-light btn-block my-3"

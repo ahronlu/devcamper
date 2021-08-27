@@ -1,14 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, Badge, Card, Col, Row, Spinner } from "react-bootstrap";
+import { Alert, Badge, Button, Card, Col, Row, Spinner } from "react-bootstrap";
 import { listBootcampDetails } from "../actions/bootcampActions";
 import { REVIEW_LIST_RESET } from "../constants/reviewConstants";
+import { deleteReview } from "../actions/reviewActions";
 
 const BootcampReviewsScreen = ({ match }) => {
   const { bootcampId } = match.params;
 
+  const [canReview, setCanReview] = useState(false);
+
   const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const bootcampDetails = useSelector((state) => state.bootcampDetails);
   const { loading, error, bootcamp } = bootcampDetails;
@@ -17,6 +23,19 @@ const BootcampReviewsScreen = ({ match }) => {
     dispatch(listBootcampDetails(bootcampId));
     return () => dispatch({ type: REVIEW_LIST_RESET });
   }, [bootcampId, dispatch]);
+
+  useEffect(() => {
+    bootcamp &&
+      setCanReview(
+        bootcamp.reviews.some((review) => review.user._id == userInfo?.id)
+      );
+  }, [bootcamp, userInfo?.id]);
+
+  const handleDelete = (courseId) => {
+    if (!window.confirm("Are you sure?")) return;
+    dispatch(deleteReview(courseId));
+    window.location.reload();
+  };
 
   return (
     <Row>
@@ -38,8 +57,24 @@ const BootcampReviewsScreen = ({ match }) => {
             </Link>
             {bootcamp.reviews.map((review) => (
               <Card key={review._id} className="mb-3">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-dark text-white d-flex justify-content-between align-items-center">
                   {review.title}
+                  {userInfo?.id === review.user._id && (
+                    <div>
+                      <Link
+                        to={`/bootcamp/${bootcamp.id}/review/${review._id}/edit`}
+                        className="btn btn-secondary"
+                      >
+                        <i className="fas fa-pencil-alt" aria-hidden="true"></i>
+                      </Link>
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDelete(review._id)}
+                      >
+                        <i className="fas fa-times" aria-hidden="true"></i>
+                      </Button>
+                    </div>
+                  )}
                 </Card.Header>
                 <Card.Body>
                   <Card.Title>
@@ -63,12 +98,14 @@ const BootcampReviewsScreen = ({ match }) => {
               </Badge>
               Rating
             </h1>
-            <Link
-              to={`/bootcamp/${bootcampId}/add-review`}
-              className="btn btn-primary btn-block my-3"
-            >
-              <i className="fas fa-pencil-alt"></i> Review This Bootcamp
-            </Link>
+            {userInfo?.role === "user" && canReview && (
+              <Link
+                to={`/bootcamp/${bootcampId}/add-review`}
+                className="btn btn-primary btn-block my-3"
+              >
+                <i className="fas fa-pencil-alt"></i> Review This Bootcamp
+              </Link>
+            )}
           </Col>
         </>
       )}

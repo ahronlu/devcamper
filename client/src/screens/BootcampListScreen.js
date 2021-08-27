@@ -6,7 +6,6 @@ import Paginate from "../components/Paginate";
 import BootcampItem from "../components/BootcampItem";
 
 const BootcampListScreen = (props) => {
-  console.log(props.location.search);
   const dispatch = useDispatch();
   const page = props.match.params.page || 1;
 
