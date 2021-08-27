@@ -11,6 +11,7 @@ import {
 } from "../actions/courseActions";
 import {
   MY_COURSE_DETAILS_RESET,
+  MY_COURSE_LIST_RESET,
   MY_COURSE_CREATE_RESET,
   MY_COURSE_UPDATE_RESET,
 } from "../constants/courseConstants";
@@ -85,10 +86,12 @@ const CourseFormScreen = ({ match, history }) => {
   useEffect(() => {
     if (createSuccess) {
       dispatch({ type: MY_COURSE_CREATE_RESET });
+      dispatch({ type: MY_COURSE_LIST_RESET });
       history.push("/manage-courses");
     }
     if (updateSuccess) {
       dispatch({ type: MY_COURSE_UPDATE_RESET });
+      dispatch({ type: MY_COURSE_LIST_RESET });
       history.push("/manage-courses");
     }
     return () => dispatch({ type: MY_COURSE_DETAILS_RESET });
@@ -125,7 +128,7 @@ const CourseFormScreen = ({ match, history }) => {
           <Card className="bg-white py-2 px-4">
             <Card.Body>
               <Link
-                to="manage-courses"
+                to="/manage-courses"
                 className="btn btn-link text-secondary my-3"
               >
                 <i className="fas fa-chevron-left"></i> Manage Courses

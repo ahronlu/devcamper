@@ -2,6 +2,7 @@ import {
   MY_COURSE_LIST_REQUEST,
   MY_COURSE_LIST_SUCCESS,
   MY_COURSE_LIST_FAIL,
+  MY_COURSE_LIST_RESET,
   MY_COURSE_DETAILS_REQUEST,
   MY_COURSE_DETAILS_SUCCESS,
   MY_COURSE_DETAILS_FAIL,
@@ -32,6 +33,8 @@ export const courseListReducer = (state = { courses: [] }, action) => {
       };
     case MY_COURSE_LIST_FAIL:
       return { ...state, loading: false, error: action.payload };
+    case MY_COURSE_LIST_RESET:
+      return { courses: [] };
     default:
       return state;
   }
