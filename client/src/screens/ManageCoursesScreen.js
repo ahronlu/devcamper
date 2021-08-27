@@ -78,15 +78,15 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
                       <tr key={course._id}>
                         <td>{course.title}</td>
                         <td>
-                          <a
-                            href="add-course.html"
+                          <Link
+                            to={`/bootcamp/${bootcamp.id}/course/${course._id}/edit`}
                             className="btn btn-secondary"
                           >
                             <i
                               className="fas fa-pencil-alt"
                               aria-hidden="true"
                             ></i>
-                          </a>
+                          </Link>
                           <Button
                             variant="danger"
                             onClick={() => handleDelete(course._id)}

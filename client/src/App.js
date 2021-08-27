@@ -13,7 +13,7 @@ import ManageBootcampScreen from "./screens/ManageBootcampScreen";
 import ManageCoursesScreen from "./screens/ManageCoursesScreen";
 import BootcampFormScreen from "./screens/BootcampFormScreen";
 import ReviewAddScreen from "./screens/ReviewAddScreen";
-import AddCourseScreen from "./screens/CourseFormScreen";
+import CourseFormScreen from "./screens/CourseFormScreen";
 import EditCourseScreen from "./screens/EditCourseScreen";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -69,11 +69,11 @@ function App() {
           />
           <PrivateRoute
             path="/bootcamp/:bootcampId/add-course"
-            component={AddCourseScreen}
+            component={CourseFormScreen}
           />
           <PrivateRoute
             path="/bootcamp/:bootcampId/course/:courseId/edit"
-            component={EditCourseScreen}
+            component={CourseFormScreen}
           />
         </Container>
       </Switch>
