@@ -15,11 +15,14 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 // @route   GET /api/bootcamps/:id
 // @access  Public
 exports.getBootcamp = asyncHandler(async (req, res, next) => {
-  const bootcamp = await Bootcamp.findById(req.params.id).populate({
-    path: "courses",
-    path: "reviews",
-    populate: "user",
-  });
+  const bootcamp = await Bootcamp.findById(req.params.id)
+    .populate({
+      path: "reviews",
+      populate: "user",
+    })
+    .populate({
+      path: "courses",
+    });
 
   if (!bootcamp)
     return next(

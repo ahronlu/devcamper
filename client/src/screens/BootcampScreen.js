@@ -1,21 +1,33 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Card, Col, Spinner, Row, ListGroup } from "react-bootstrap";
 import { listBootcampDetails } from "../actions/bootcampActions";
 import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 
-const BootcampScreen = ({ match }) => {
+const BootcampScreen = ({ match, history }) => {
   const { bootcampId } = match.params;
   const dispatch = useDispatch();
+  const [cantReview, setCantReview] = useState(true);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const bootcampDetails = useSelector((state) => state.bootcampDetails);
   const { loading, error, bootcamp } = bootcampDetails;
 
   useEffect(() => {
     dispatch(listBootcampDetails(bootcampId));
+
     return () => dispatch({ type: BOOTCAMP_DETAILS_RESET });
-  }, [dispatch, bootcampId]);
+  }, [dispatch, bootcampId, history]);
+
+  useEffect(() => {
+    bootcamp &&
+      setCantReview(
+        bootcamp.reviews.some((review) => review.user._id === userInfo.id)
+      );
+  }, [bootcamp]);
 
   return (
     <>
@@ -83,12 +95,14 @@ const BootcampScreen = ({ match }) => {
               >
                 <i className="fas fa-comments"></i> Read Reviews
               </Link>
-              <Link
-                to={`/bootcamp/${bootcamp.id}/add-review`}
-                className="btn btn-light btn-block my-3"
-              >
-                <i className="fas fa-pencil-alt"></i> Write a Review
-              </Link>
+              {userInfo.role === "user" && !cantReview && (
+                <Link
+                  to={`/bootcamp/${bootcamp.id}/add-review`}
+                  className="btn btn-light btn-block my-3"
+                >
+                  <i className="fas fa-pencil-alt"></i> Write a Review
+                </Link>
+              )}
               <a
                 href="https://google.com"
                 className="btn btn-secondary btn-block my-3"
