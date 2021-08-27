@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Badge, Card, Col, Row, Spinner } from "react-bootstrap";
+import { Badge, Card, Col, Row, Alert, Spinner } from "react-bootstrap";
 import { listBootcampDetails } from "../actions/bootcampActions";
 
 const BootcampReviewsScreen = ({ match }) => {
@@ -18,6 +18,11 @@ const BootcampReviewsScreen = ({ match }) => {
 
   return (
     <Row>
+      {error && (
+        <Alert variant="danger" dismissible>
+          {error}
+        </Alert>
+      )}
       {loading ? (
         <Spinner animation="border" />
       ) : (

@@ -14,7 +14,6 @@ import ManageCoursesScreen from "./screens/ManageCoursesScreen";
 import BootcampFormScreen from "./screens/BootcampFormScreen";
 import ReviewAddScreen from "./screens/ReviewAddScreen";
 import CourseFormScreen from "./screens/CourseFormScreen";
-import EditCourseScreen from "./screens/EditCourseScreen";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {

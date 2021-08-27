@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Alert, Card, Col, Spinner, Row, Form } from "react-bootstrap";
+import React from "react";
+// import { useSelector } from "react-redux";
+import { Card, Col, Row, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function ReviewAddScreen({ match }) {
@@ -9,6 +9,7 @@ function ReviewAddScreen({ match }) {
   const submit = (e) => {
     e.preventDefault();
   };
+
   return (
     <Row>
       <Col md={8} className="m-auto">

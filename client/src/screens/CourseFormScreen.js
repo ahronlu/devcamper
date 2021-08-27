@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,10 @@ import {
   listCourseDetails,
   updateCourse,
 } from "../actions/courseActions";
+import {
+  MY_COURSE_CREATE_RESET,
+  MY_COURSE_UPDATE_RESET,
+} from "../constants/courseConstants";
 
 const fields = [
   "_id",
@@ -64,11 +68,28 @@ const CourseFormScreen = ({ match, history }) => {
       courseId && !course?.title && dispatch(listCourseDetails(courseId));
       course.title && fields.map((f) => setValue(f, course[f]));
     }
-  }, [bootcampId, dispatch, createSuccess]);
+  }, [
+    bootcamp,
+    bootcampId,
+    course,
+    history,
+    dispatch,
+    courseId,
+    course.title,
+    setValue,
+    userInfo.role,
+  ]);
 
   useEffect(() => {
-    if (createSuccess || updateSuccess) history.push("/manage-courses");
-  }, [updateSuccess, course]);
+    if (createSuccess) {
+      dispatch({ type: MY_COURSE_CREATE_RESET });
+      history.push("/manage-courses");
+    }
+    if (updateSuccess) {
+      dispatch({ type: MY_COURSE_UPDATE_RESET });
+      history.push("/manage-courses");
+    }
+  }, [updateSuccess, createSuccess, history]);
 
   const submitCourse = async (data) => {
     try {
@@ -109,7 +130,6 @@ const CourseFormScreen = ({ match, history }) => {
               <h1 className="mb-2">{bootcamp.name}</h1>
               {loading ||
                 updateLoading ||
-                bootcampLoading ||
                 (createLoading && <Spinner animation="border" />)}
               <h3 className="text-primary mb-4">Add Course</h3>
               <Form onSubmit={handleSubmit(submitCourse)}>

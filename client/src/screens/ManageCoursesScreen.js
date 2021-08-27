@@ -34,7 +34,14 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
       !bootcamp?.id && dispatch(getMyBootcamp());
       bootcamp?.id && !courses.length && dispatch(listMyCourses(bootcamp.id));
     }
-  }, [history, dispatch, deleteSuccess, bootcamp, courses.length]);
+  }, [
+    history,
+    dispatch,
+    deleteSuccess,
+    bootcamp,
+    courses.length,
+    userInfo.role,
+  ]);
 
   return (
     <Row>

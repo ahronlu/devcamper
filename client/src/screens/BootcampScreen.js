@@ -15,7 +15,7 @@ const BootcampScreen = ({ match }) => {
   useEffect(() => {
     dispatch(listBootcampDetails(bootcampId));
     return () => dispatch({ type: BOOTCAMP_DETAILS_RESET });
-  }, [match, dispatch]);
+  }, [dispatch, bootcampId]);
 
   return (
     <>

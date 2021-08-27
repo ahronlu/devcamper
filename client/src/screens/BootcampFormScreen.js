@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -14,6 +14,7 @@ import {
 } from "../constants/bootcampConstants";
 
 const fields = [
+  "_id",
   "name",
   "description",
   "website",
@@ -79,6 +80,7 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
       }
     }
   }, [
+    setValue,
     bootcampId,
     dispatch,
     userInfo,
@@ -280,6 +282,11 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
             </Col>
           </Row>
           {updateLoading || (createLoading && <Spinner animation="border" />)}
+          {error && (
+            <Alert variant="danger" dismissible>
+              {error}
+            </Alert>
+          )}
           {updateError && (
             <Alert variant="danger" dismissible>
               {updateError}
