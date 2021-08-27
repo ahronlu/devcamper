@@ -25,16 +25,16 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
   const handleDelete = (id) => {
     if (!window.confirm("Are you sure?")) return;
     dispatch(deleteCourse(id));
-    dispatch(listMyCourses(bootcamp.id));
   };
 
   useEffect(() => {
-    if (userInfo.role === "user") history.push("/");
-    else {
+    if (userInfo.role === "user") {
+      history.push("/");
+    } else {
       !bootcamp?.id && dispatch(getMyBootcamp());
       bootcamp?.id && !courses.length && dispatch(listMyCourses(bootcamp.id));
     }
-  }, [history, dispatch, deleteSuccess, bootcamp.id]);
+  }, [history, dispatch, deleteSuccess, bootcamp, courses.length]);
 
   return (
     <Row>
@@ -66,7 +66,7 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
                 Add Bootcamp Course
               </Link>
               {courses?.length ? (
-                <table class="table table-striped">
+                <table className="table table-striped">
                   <thead>
                     <tr>
                       <th scope="col">Title</th>
@@ -78,14 +78,20 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
                       <tr key={course._id}>
                         <td>{course.title}</td>
                         <td>
-                          <a href="add-course.html" class="btn btn-secondary">
-                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                          <a
+                            href="add-course.html"
+                            className="btn btn-secondary"
+                          >
+                            <i
+                              className="fas fa-pencil-alt"
+                              aria-hidden="true"
+                            ></i>
                           </a>
                           <Button
                             variant="danger"
                             onClick={() => handleDelete(course._id)}
                           >
-                            <i class="fas fa-times" aria-hidden="true"></i>
+                            <i className="fas fa-times" aria-hidden="true"></i>
                           </Button>
                         </td>
                       </tr>

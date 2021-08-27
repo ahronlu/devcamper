@@ -182,7 +182,7 @@ const EditCourseScreen = ({ match, history, userInfo }) => {
                   name="scholarshipAvailable"
                   id="scholarshipAvailable"
                 />
-                <Form.Check.Label for="scholarshipAvailable">
+                <Form.Check.Label htmlFor="scholarshipAvailable">
                   Scholarship Available
                 </Form.Check.Label>
               </Form.Check>

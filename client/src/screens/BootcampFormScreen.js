@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 import { Alert, Row, Col, Card, Form, Spinner } from "react-bootstrap";
 import {
   updateBootcamp,
@@ -12,24 +13,30 @@ import {
   BOOTCAMP_UPDATE_RESET,
 } from "../constants/bootcampConstants";
 
-const initialState = {
-  name: "",
-  description: "",
-  website: "",
-  phone: "",
-  email: "",
-  address: "",
-  careers: [],
-  jobAssistance: false,
-  jobGuarantee: false,
-  acceptGi: false,
-  housing: false,
-};
+const fields = [
+  "name",
+  "description",
+  "website",
+  "phone",
+  "email",
+  "careers",
+  "jobAssistance",
+  "jobGuarantee",
+  "acceptGi",
+  "housing",
+];
 
 const BootcampFormScreen = ({ match, history, userInfo }) => {
   const { bootcampId } = match.params;
 
-  const [bootcamp, setBootcamp] = useState(initialState);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting, isValid, dirtyFields },
+  } = useForm({
+    mode: "onChange",
+  });
 
   const dispatch = useDispatch();
 
@@ -48,7 +55,7 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
   } = bootcampCreate;
 
   const bootcampDetails = useSelector((state) => state.bootcampDetails);
-  const { loading, error, bootcamp: myBootcamp } = bootcampDetails;
+  const { loading, error, bootcamp } = bootcampDetails;
 
   useEffect(() => {
     if (userInfo.role === "user") history.push("/");
@@ -61,15 +68,14 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
       history.push("/manage-bootcamp");
     }
     if (bootcampId) {
-      if (!myBootcamp || !myBootcamp._id) {
+      if (!bootcamp || !bootcamp._id) {
         dispatch(getMyBootcamp());
       } else {
-        setBootcamp({
-          ...myBootcamp,
-          address:
-            myBootcamp.location &&
-            `${myBootcamp.location.street}, ${myBootcamp.location.city}, ${myBootcamp.location.state}, ${myBootcamp.location.zipcode}`,
-        });
+        fields.map((f) => setValue(f, bootcamp[f]));
+        setValue(
+          "address",
+          `${bootcamp.location.street}, ${bootcamp.location.city}, ${bootcamp.location.state}, ${bootcamp.location.zipcode}`
+        );
       }
     }
   }, [
@@ -77,41 +83,17 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
     dispatch,
     userInfo,
     history,
-    myBootcamp,
+    bootcamp,
     updateSuccess,
     createSuccess,
   ]);
 
-  const handleChange = (e) => {
-    e.target.type === "checkbox"
-      ? setBootcamp({
-          ...bootcamp,
-          [e.target.name]: e.target.checked,
-        })
-      : setBootcamp({
-          ...bootcamp,
-          [e.target.name]: e.target.value,
-        });
-  };
-
-  const handleCareersChange = (e) => {
-    const options = e.target;
-    let value = [];
-    for (let i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    setBootcamp({ ...bootcamp, careers: value });
-  };
-
-  const SubmitBoocamp = async (e) => {
-    e.preventDefault();
+  const SubmitBoocamp = async (data) => {
     try {
       if (bootcampId) {
-        await dispatch(updateBootcamp(bootcamp));
+        await dispatch(updateBootcamp(data));
       } else {
-        await dispatch(createBootcamp(bootcamp));
+        await dispatch(createBootcamp(data));
       }
     } catch (err) {
       console.error(err);
@@ -127,7 +109,7 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
       {loading ? (
         <Spinner animation="border" />
       ) : (
-        <Form onSubmit={(e) => SubmitBoocamp(e)}>
+        <Form onSubmit={handleSubmit(SubmitBoocamp)}>
           <Row>
             <Col md={6}>
               <Card className="bg-white py-2 px-4">
@@ -139,24 +121,30 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
                   <Form.Group>
                     <Form.Label>Name</Form.Label>
                     <Form.Control
-                      type="text"
-                      name="name"
-                      value={bootcamp.name}
                       placeholder="Bootcamp Name"
-                      onChange={handleChange}
-                      required
+                      isInvalid={!!errors.name}
+                      isValid={!errors.name && dirtyFields.name}
+                      {...register("name", {
+                        required: "Name is required",
+                      })}
                     />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.name?.message}
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Address</Form.Label>
                     <Form.Control
-                      type="text"
-                      name="address"
-                      value={bootcamp.address}
-                      onChange={handleChange}
-                      placeholder="Full Address"
-                      required
+                      placeholder="Address"
+                      isInvalid={!!errors.address}
+                      isValid={!errors.address && dirtyFields.address}
+                      {...register("address", {
+                        required: "Address is required",
+                      })}
                     />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.address?.message}
+                    </Form.Control.Feedback>
                     <Form.Text className="text-muted">
                       Street, city, state, etc
                     </Form.Text>
@@ -164,32 +152,46 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
                   <Form.Group>
                     <Form.Label>Phone Number</Form.Label>
                     <Form.Control
-                      type="text"
-                      name="phone"
-                      value={bootcamp.phone}
-                      onChange={handleChange}
                       placeholder="Phone"
+                      isInvalid={!!errors.phone}
+                      isValid={!errors.phone && dirtyFields.phone}
+                      {...register("phone", {
+                        required: "phone is required",
+                      })}
                     />
+                    <Form.Control.Feedback type="invalid">
+                      {errors.phone?.message}
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Email</Form.Label>
                     <Form.Control
-                      type="text"
-                      name="email"
-                      value={bootcamp.email}
-                      onChange={handleChange}
-                      placeholder="Contact Email"
-                    />
+                      placeholder="Email"
+                      isInvalid={!!errors.email}
+                      isValid={!errors.email && dirtyFields.email}
+                      {...register("email", {
+                        required: "Email is required",
+                        pattern: {
+                          value:
+                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          message: "Please enter a valid email",
+                        },
+                      })}
+                    ></Form.Control>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.email?.message}
+                    </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Website</Form.Label>
                     <Form.Control
-                      type="text"
-                      name="website"
-                      value={bootcamp.website}
-                      onChange={handleChange}
-                      placeholder="Website URL"
-                    />
+                      isInvalid={!!errors.website}
+                      isValid={!errors.website && dirtyFields.website}
+                      {...register("website")}
+                    ></Form.Control>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.website?.message}
+                    </Form.Control.Feedback>
                   </Form.Group>
                 </Card.Body>
               </Card>
@@ -202,26 +204,22 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
                     <Form.Label>Description</Form.Label>
                     <Form.Control
                       as="textarea"
-                      name="description"
-                      value={bootcamp.description}
-                      onChange={handleChange}
-                      rows="5"
-                      placeholder="Description (What you offer, etc)"
-                      maxLength="500"
+                      isInvalid={!!errors.description}
+                      isValid={!errors.description && dirtyFields.description}
+                      {...register("description", {
+                        required: "Description is required",
+                      })}
                     ></Form.Control>
+                    <Form.Control.Feedback type="invalid">
+                      {errors.description?.message}
+                    </Form.Control.Feedback>
                     <Form.Text className="text-muted">
                       No more than 500 characters
                     </Form.Text>
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Careers</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="careers"
-                      value={bootcamp.careers}
-                      onChange={handleCareersChange}
-                      multiple
-                    >
+                    <Form.Control as="select" {...register("careers")} multiple>
                       <option disabled>Select all that apply</option>
                       <option value="Web Development">Web Development</option>
                       <option value="Mobile Development">
@@ -236,9 +234,7 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
                   <Form.Check>
                     <Form.Check.Input
                       type="checkbox"
-                      name="housing"
-                      checked={bootcamp.housing}
-                      onChange={handleChange}
+                      {...register("housing")}
                       id="housing"
                     />
                     <Form.Check.Label htmlFor="housing">
@@ -248,9 +244,7 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
                   <Form.Check>
                     <Form.Check.Input
                       type="checkbox"
-                      name="jobAssistance"
-                      checked={bootcamp.jobAssistance}
-                      onChange={handleChange}
+                      {...register("jobAssistance")}
                       id="jobAssistance"
                     />
                     <Form.Check.Label htmlFor="jobAssistance">
@@ -260,9 +254,7 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
                   <Form.Check>
                     <Form.Check.Input
                       type="checkbox"
-                      name="jobGuarantee"
-                      checked={bootcamp.jobGuarantee}
-                      onChange={handleChange}
+                      {...register("jobGuarantee")}
                       id="jobGuarantee"
                     />
                     <Form.Check.Label htmlFor="jobGuarantee">
@@ -272,9 +264,7 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
                   <Form.Check>
                     <Form.Check.Input
                       type="checkbox"
-                      name="acceptGi"
-                      value={bootcamp.acceptGi}
-                      onChange={handleChange}
+                      {...register("acceptGi")}
                       id="acceptGi"
                     />
                     <Form.Check.Label htmlFor="acceptGi">
@@ -314,6 +304,7 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
             <Form.Control
               type="submit"
               value="Submit Bootcamp"
+              disabled={isSubmitting || !isValid}
               className="btn btn-success btn-block my-4"
             />
             <Link

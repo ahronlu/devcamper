@@ -1,29 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Alert, Card, Col, Form, Row, Spinner } from "react-bootstrap";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { Alert, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 import { getUserDetails, updateUserDetails } from "../actions/userActions";
 
 const ManageAccountScreen = ({ history, userInfo }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-
   const dispatch = useDispatch();
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting, isValid, dirtyFields },
+  } = useForm({
+    mode: "onChange",
+  });
 
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user, success } = userDetails;
 
   useEffect(() => {
-    if (!user.name) {
+    if (!user?.name) {
       dispatch(getUserDetails());
     } else {
-      setName(user.name);
-      setEmail(user.email);
+      setValue("name", user.name);
+      setValue("email", user.email);
     }
-  }, [userInfo, history, dispatch, user]);
+  }, [userInfo, history, dispatch, user, setValue]);
 
-  const submit = (e) => {
-    e.preventDefault();
+  const submit = ({ name, email }) => {
     dispatch(updateUserDetails({ name, email }));
   };
 
@@ -46,26 +52,39 @@ const ManageAccountScreen = ({ history, userInfo }) => {
                   Account Updated
                 </Alert>
               )}
-              <Form onSubmit={submit}>
+              <Form onSubmit={handleSubmit(submit)}>
                 <Form.Group>
                   <Form.Label>Name</Form.Label>
                   <Form.Control
-                    type="text"
-                    name="name"
                     placeholder="Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    isInvalid={!!errors.name}
+                    isValid={!errors.name && dirtyFields.name}
+                    {...register("name", {
+                      required: "Name is required",
+                    })}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.name?.message}
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Email</Form.Label>
                   <Form.Control
-                    type="email"
-                    name="email"
                     placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
+                    isInvalid={!!errors.email}
+                    isValid={!errors.email && dirtyFields.email}
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value:
+                          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        message: "Please enter a valid email",
+                      },
+                    })}
+                  ></Form.Control>
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email?.message}
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group>
                   <Row>
@@ -73,6 +92,7 @@ const ManageAccountScreen = ({ history, userInfo }) => {
                       <Form.Control
                         type="submit"
                         value="Save"
+                        disabled={isSubmitting || !isValid}
                         className="btn btn-success btn-block"
                       />
                     </Col>

@@ -64,6 +64,10 @@ function App() {
             component={ManageCoursesScreen}
           />
           <PrivateRoute
+            path="/bootcamp/:bootcampId/manage-courses"
+            component={ManageCoursesScreen}
+          />
+          <PrivateRoute
             path="/bootcamp/:bootcampId/add-course"
             component={AddCourseScreen}
           />
