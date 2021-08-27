@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -62,7 +62,7 @@ const CourseFormScreen = ({ match, history }) => {
   const { bootcamp } = bootcampDetails;
 
   const courseDetails = useSelector((state) => state.courseDetails);
-  const { loading, course } = courseDetails;
+  const { loading, course, error } = courseDetails;
 
   useEffect(() => {
     if (userInfo.role === "user") history.push("/");
@@ -95,7 +95,7 @@ const CourseFormScreen = ({ match, history }) => {
       history.push("/manage-courses");
     }
     return () => dispatch({ type: MY_COURSE_DETAILS_RESET });
-  }, [updateSuccess, createSuccess, history]);
+  }, [dispatch, updateSuccess, createSuccess, history]);
 
   const submitCourse = async (data) => {
     try {
@@ -112,6 +112,11 @@ const CourseFormScreen = ({ match, history }) => {
   return (
     <Row>
       <Col md={8} className="m-auto">
+        {error && (
+          <Alert variant="danger" dismissible>
+            {error}
+          </Alert>
+        )}
         {updateError && (
           <Alert variant="danger" dismissible>
             {updateError}

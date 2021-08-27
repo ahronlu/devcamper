@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Badge, Card, Col, Row, Alert, Spinner } from "react-bootstrap";
+import { Alert, Badge, Card, Col, Row, Spinner } from "react-bootstrap";
 import { listBootcampDetails } from "../actions/bootcampActions";
+import { REVIEW_LIST_RESET } from "../constants/reviewConstants";
 
 const BootcampReviewsScreen = ({ match }) => {
   const { bootcampId } = match.params;
@@ -14,6 +15,7 @@ const BootcampReviewsScreen = ({ match }) => {
 
   useEffect(() => {
     dispatch(listBootcampDetails(bootcampId));
+    return () => dispatch({ type: REVIEW_LIST_RESET });
   }, [bootcampId, dispatch]);
 
   return (

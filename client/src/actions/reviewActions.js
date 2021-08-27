@@ -15,18 +15,15 @@ import {
   REVIEW_UPDATE_REQUEST,
   REVIEW_UPDATE_SUCCESS,
   REVIEW_UPDATE_FAIL,
-  REVIEW_CREATE_REVIEW_REQUEST,
-  REVIEW_CREATE_REVIEW_SUCCESS,
-  REVIEW_CREATE_REVIEW_FAIL,
 } from "../constants/reviewConstants";
 
-export const listReviews = () => async (dispatch) => {
+export const listBootcampReviews = (bootcampId) => async (dispatch) => {
   try {
     dispatch({ type: REVIEW_LIST_REQUEST });
 
     const {
       data: { data },
-    } = await axios.get("/api/reviews");
+    } = await axios.get(`/api/bootcamps/${bootcampId}/reviews`);
 
     dispatch({
       type: REVIEW_LIST_SUCCESS,
@@ -104,39 +101,6 @@ export const deleteReview = (id) => async (dispatch, getState) => {
   }
 };
 
-export const createReview = () => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: REVIEW_CREATE_REQUEST,
-    });
-
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.post(`/api/reviews`, {}, config);
-
-    dispatch({
-      type: REVIEW_CREATE_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: REVIEW_CREATE_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
-
 export const updateReview = (review) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -175,11 +139,11 @@ export const updateReview = (review) => async (dispatch, getState) => {
   }
 };
 
-export const createReviewReview =
-  (reviewId, review) => async (dispatch, getState) => {
+export const createBootcampReview =
+  (bootcampId, review) => async (dispatch, getState) => {
     try {
       dispatch({
-        type: REVIEW_CREATE_REVIEW_REQUEST,
+        type: REVIEW_CREATE_REQUEST,
       });
 
       const {
@@ -193,14 +157,14 @@ export const createReviewReview =
         },
       };
 
-      await axios.post(`/api/reviews/${reviewId}/reviews`, review, config);
+      await axios.post(`/api/bootcamps/${bootcampId}/reviews`, review, config);
 
       dispatch({
-        type: REVIEW_CREATE_REVIEW_SUCCESS,
+        type: REVIEW_CREATE_SUCCESS,
       });
     } catch (error) {
       dispatch({
-        type: REVIEW_CREATE_REVIEW_FAIL,
+        type: REVIEW_CREATE_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

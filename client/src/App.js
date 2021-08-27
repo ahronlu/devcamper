@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import HomeScreen from "./screens/HomeScreen";
@@ -12,7 +11,7 @@ import BootcampReviewsScreen from "./screens/BootcampReviewsScreen";
 import ManageBootcampScreen from "./screens/ManageBootcampScreen";
 import ManageCoursesScreen from "./screens/ManageCoursesScreen";
 import BootcampFormScreen from "./screens/BootcampFormScreen";
-import ReviewAddScreen from "./screens/ReviewAddScreen";
+import ReviewFormScreen from "./screens/ReviewFormScreen";
 import CourseFormScreen from "./screens/CourseFormScreen";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -48,7 +47,7 @@ function App() {
           />
           <PrivateRoute
             path="/bootcamp/:bootcampId/add-review"
-            component={ReviewAddScreen}
+            component={ReviewFormScreen}
           />
           <PrivateRoute
             path="/manage-account"
