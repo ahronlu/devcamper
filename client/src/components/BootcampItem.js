@@ -16,7 +16,7 @@ const BootcampItem = ({ bootcamp }) => {
               <Link to={`/bootcamp/${id}`}>
                 {name}
                 <Badge pill className="float-right badge-success">
-                  {averageRating}
+                  {parseInt(averageRating)}
                 </Badge>
               </Link>
             </Card.Title>

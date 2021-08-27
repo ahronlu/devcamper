@@ -27,14 +27,13 @@ const BootcampReviewsScreen = ({ match }) => {
   useEffect(() => {
     bootcamp &&
       setCanReview(
-        bootcamp.reviews.some((review) => review.user._id == userInfo?.id)
+        bootcamp.reviews.some((review) => review.user._id !== userInfo?.id)
       );
   }, [bootcamp, userInfo?.id]);
 
   const handleDelete = (courseId) => {
     if (!window.confirm("Are you sure?")) return;
     dispatch(deleteReview(courseId));
-    window.location.reload();
   };
 
   return (
@@ -94,7 +93,7 @@ const BootcampReviewsScreen = ({ match }) => {
                 pill
                 className=" badge-secondary badge-success rounded-circle p-3"
               >
-                {bootcamp && bootcamp.averageRating}
+                {bootcamp && parseInt(bootcamp.averageRating)}
               </Badge>
               Rating
             </h1>

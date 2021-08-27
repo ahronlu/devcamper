@@ -86,7 +86,7 @@ const BootcampScreen = ({ match, history }) => {
 
               <h1 className="text-center my-4">
                 <span className="badge badge-secondary badge-success rounded-circle p-3">
-                  {bootcamp.averageRating}
+                  {parseInt(bootcamp.averageRating)}
                 </span>
                 Rating
               </h1>
