@@ -8,6 +8,7 @@ import {
   MY_COURSE_DELETE_REQUEST,
   MY_COURSE_DELETE_SUCCESS,
   MY_COURSE_DELETE_FAIL,
+  MY_COURSE_DELETE_RESET,
   MY_COURSE_CREATE_RESET,
   MY_COURSE_CREATE_FAIL,
   MY_COURSE_CREATE_SUCCESS,
@@ -59,6 +60,8 @@ export const courseDeleteReducer = (state = {}, action) => {
       return { loading: false, success: true };
     case MY_COURSE_DELETE_FAIL:
       return { loading: false, error: action.payload };
+    case MY_COURSE_DELETE_RESET:
+      return {};
     default:
       return state;
   }

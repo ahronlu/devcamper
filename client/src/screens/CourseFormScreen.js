@@ -10,6 +10,7 @@ import {
   updateCourse,
 } from "../actions/courseActions";
 import {
+  MY_COURSE_DETAILS_RESET,
   MY_COURSE_CREATE_RESET,
   MY_COURSE_UPDATE_RESET,
 } from "../constants/courseConstants";
@@ -21,6 +22,7 @@ const fields = [
   "tuition",
   "minimumSkill",
   "description",
+  "scholarshipAvailable",
 ];
 
 const CourseFormScreen = ({ match, history }) => {
@@ -89,6 +91,7 @@ const CourseFormScreen = ({ match, history }) => {
       dispatch({ type: MY_COURSE_UPDATE_RESET });
       history.push("/manage-courses");
     }
+    return () => dispatch({ type: MY_COURSE_DETAILS_RESET });
   }, [updateSuccess, createSuccess, history]);
 
   const submitCourse = async (data) => {
@@ -210,8 +213,8 @@ const CourseFormScreen = ({ match, history }) => {
                 <Form.Check>
                   <Form.Check.Input
                     type="checkbox"
-                    name="scholarshipAvailable"
                     id="scholarshipAvailable"
+                    {...register("scholarshipAvailable")}
                   />
                   <Form.Check.Label htmlFor="scholarshipAvailable">
                     Scholarship Available

@@ -5,6 +5,7 @@ import { Alert, Button, Card, Col, Row, Spinner } from "react-bootstrap";
 import { getMyBootcamp } from "../actions/bootcampActions";
 import { deleteCourse, listMyCourses } from "../actions/courseActions";
 import BootcampItem from "../components/BootcampItem";
+import { MY_COURSE_DELETE_RESET } from "../constants/courseConstants";
 
 const ManageCoursesScreen = ({ history, userInfo }) => {
   const dispatch = useDispatch();
@@ -31,8 +32,14 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
     if (userInfo.role === "user") {
       history.push("/");
     } else {
-      !bootcamp?.id && dispatch(getMyBootcamp());
-      bootcamp?.id && !courses.length && dispatch(listMyCourses(bootcamp.id));
+      if (!bootcamp?.id) {
+        dispatch(getMyBootcamp());
+      } else {
+        if (!courses.length || deleteSuccess) {
+          dispatch(listMyCourses(bootcamp.id));
+          dispatch({ type: MY_COURSE_DELETE_RESET });
+        }
+      }
     }
   }, [
     history,
