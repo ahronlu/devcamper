@@ -20,9 +20,9 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <Switch>
-        <Route exact path="/" component={HomeScreen} />
-        <Container className="mt-5">
+      <Container className="mt-5">
+        <Switch>
+          <Route exact path="/" component={HomeScreen} />
           <Route path="/login" component={LoginScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route exact path="/bootcamps/:page" component={BootcampListScreen} />
@@ -74,8 +74,8 @@ function App() {
             path="/bootcamp/:bootcampId/course/:courseId/edit"
             component={CourseFormScreen}
           />
-        </Container>
-      </Switch>
+        </Switch>
+      </Container>
     </BrowserRouter>
   );
 }
