@@ -77,7 +77,7 @@ const FilterBootcampsForm = ({ counter, setCounter = null }) => {
       <Form.Control
         type="submit"
         value="Find Bootcamps"
-        className="btn btn-primary btn-block"
+        className="btn btn-primary mb-4 btn-block"
         disabled={isSubmitting || !isValid}
       />
     </Form>
