@@ -30,10 +30,10 @@ const ManageReviewsScreen = ({ history, userInfo }) => {
     } else {
       if (!reviews?.length || deleteSuccess) {
         dispatch(listMyReviews());
-        // dispatch({ type: REVIEW_DELETE_RESET });
+        dispatch({ type: REVIEW_DELETE_RESET });
       }
     }
-  }, [history, dispatch, deleteSuccess, userInfo.role]);
+  }, [history, dispatch, reviews?.length, deleteSuccess, userInfo.role]);
 
   return (
     <Row>

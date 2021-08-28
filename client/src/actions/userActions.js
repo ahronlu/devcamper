@@ -130,3 +130,36 @@ export const updateUserDetails = (user) => async (dispatch, getState) => {
     });
   }
 };
+
+export const updatePassword = (passwords) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_UPDATE_DETAILS_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      "/api/auth/updatepassword",
+      passwords,
+      config
+    );
+
+    dispatch({ type: USER_UPDATE_DETAILS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

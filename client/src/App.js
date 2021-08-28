@@ -15,6 +15,7 @@ import BootcampFormScreen from "./screens/BootcampFormScreen";
 import ReviewFormScreen from "./screens/ReviewFormScreen";
 import CourseFormScreen from "./screens/CourseFormScreen";
 import PrivateRoute from "./components/PrivateRoute";
+import UpdatePasswordScreen from "./screens/UpdatePasswordScreen";
 
 function App() {
   return (
@@ -24,10 +25,10 @@ function App() {
         <Switch>
           <Route exact path="/" component={HomeScreen} />
           <Route path="/login" component={LoginScreen} />
+          <Route path="/update-password" component={UpdatePasswordScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route exact path="/bootcamps/:page" component={BootcampListScreen} />
           <Route exact path="/bootcamps/" component={BootcampListScreen} />
-
           <PrivateRoute
             path="/bootcamp/:bootcampId/edit"
             component={BootcampFormScreen}
@@ -53,6 +54,10 @@ function App() {
           <PrivateRoute
             path="/manage-account"
             component={ManageAccountScreen}
+          />
+          <PrivateRoute
+            path="/update-password"
+            component={UpdatePasswordScreen}
           />
           <PrivateRoute
             path="/manage-bootcamp"
