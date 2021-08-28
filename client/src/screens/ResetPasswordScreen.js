@@ -11,6 +11,10 @@ const ResetPasswordScreen = () => {
     mode: "onChange",
   });
 
+  const submitHandler = (data) => {
+    console.log(data);
+  };
+
   return (
     <Row>
       <Col md={6} className="mx-auto">
@@ -22,7 +26,7 @@ const ResetPasswordScreen = () => {
               Use this form to reset your password using the registered email
               address.
             </p>
-            <Form>
+            <Form onSubmit={handleSubmit(submitHandler)}>
               <Form.Group>
                 <Form.Label>Enter Email</Form.Label>
                 <Form.Control
@@ -47,7 +51,7 @@ const ResetPasswordScreen = () => {
                   type="submit"
                   value="Reset Password"
                   className="btn btn-dark btn-block"
-                  disabled
+                  disabled={isSubmitting || !isValid}
                 />
               </Form.Group>
             </Form>

@@ -17,6 +17,7 @@ import {
   REVIEW_UPDATE_FAIL,
   REVIEW_UPDATE_RESET,
   REVIEW_LIST_RESET,
+  REVIEW_DELETE_RESET,
 } from "../constants/reviewConstants";
 
 export const reviewListReducer = (state = { reviews: [] }, action) => {
@@ -58,6 +59,8 @@ export const reviewDeleteReducer = (state = {}, action) => {
       return { loading: false, success: true };
     case REVIEW_DELETE_FAIL:
       return { loading: false, error: action.payload };
+    case REVIEW_DELETE_RESET:
+      return {};
     default:
       return state;
   }

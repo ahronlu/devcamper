@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Alert, Button, Card, Col, Row } from "react-bootstrap";
 import Loader from "../components/Loader";
-import { deleteReview, listMyReviews } from "../actions/reviewActions";
+import {
+  deleteReview,
+  listMyReviews,
+  listReviews,
+} from "../actions/reviewActions";
 import { REVIEW_DELETE_RESET } from "../constants/reviewConstants";
 
 const ManageReviewsScreen = ({ history, userInfo }) => {
@@ -29,11 +33,15 @@ const ManageReviewsScreen = ({ history, userInfo }) => {
       history.push("/");
     } else {
       if (!reviews?.length || deleteSuccess) {
-        dispatch(listMyReviews());
+        if ((userInfo.role = "admin")) {
+          dispatch(listReviews());
+        } else {
+          dispatch(listMyReviews());
+        }
         dispatch({ type: REVIEW_DELETE_RESET });
       }
     }
-  }, [history, dispatch, reviews?.length, deleteSuccess, userInfo.role]);
+  }, [history, dispatch, deleteSuccess, userInfo, reviews?.length]);
 
   return (
     <Row>
@@ -50,21 +58,21 @@ const ManageReviewsScreen = ({ history, userInfo }) => {
               {deleteError}
             </Alert>
           )}
-          {loading ? (
-            <Loader />
-          ) : (
-            <Card.Body>
-              <h1 className="mb-4">Manage Reviews</h1>
-              {reviews?.length ? (
-                <table className="table table-striped">
-                  <thead>
-                    <tr>
-                      <th scope="col">Title</th>
-                      <th scope="col"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {reviews.map((review) => (
+          <Card.Body>
+            <h1 className="mb-4">Manage Reviews</h1>
+            {reviews?.length ? (
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <Loader />
+                  ) : (
+                    reviews.map((review) => (
                       <tr key={review._id}>
                         <td>{review.title}</td>
                         <td>
@@ -85,16 +93,16 @@ const ManageReviewsScreen = ({ history, userInfo }) => {
                           </Button>
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : (
-                <>
-                  <p className="lead">You have not yet added any reviews</p>
-                </>
-              )}
-            </Card.Body>
-          )}
+                    ))
+                  )}
+                </tbody>
+              </table>
+            ) : (
+              <>
+                <p className="lead">You have not yet added any reviews</p>
+              </>
+            )}
+          </Card.Body>
         </Card>
       </Col>
     </Row>

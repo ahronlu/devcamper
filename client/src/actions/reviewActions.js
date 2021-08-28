@@ -17,6 +17,29 @@ import {
   REVIEW_UPDATE_FAIL,
 } from "../constants/reviewConstants";
 
+export const listReviews = (bootcampId) => async (dispatch) => {
+  try {
+    dispatch({ type: REVIEW_LIST_REQUEST });
+
+    const {
+      data: { data },
+    } = await axios.get(`/api/reviews`);
+
+    dispatch({
+      type: REVIEW_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: REVIEW_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 export const listBootcampReviews = (bootcampId) => async (dispatch) => {
   try {
     dispatch({ type: REVIEW_LIST_REQUEST });
