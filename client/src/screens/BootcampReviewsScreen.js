@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, Badge, Button, Card, Col, Row, Spinner } from "react-bootstrap";
+import { Alert, Badge, Button, Card, Col, Row } from "react-bootstrap";
 import { listBootcampDetails } from "../actions/bootcampActions";
 import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 import { deleteReview } from "../actions/reviewActions";
