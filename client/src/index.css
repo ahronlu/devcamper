@@ -12,7 +12,7 @@ header .navbar {
   background: url("./showcase.jpg") no-repeat center center/cover;
   min-height: calc(100vh - 56px);
   left: 0;
-  top: 56px
+  top: 56px;
   right: 0;
   bottom: 0;
   width: 100%;
