@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Badge, Button, Card, Col, Row, Spinner } from "react-bootstrap";
 import { listBootcampDetails } from "../actions/bootcampActions";
-import { REVIEW_LIST_RESET } from "../constants/reviewConstants";
+import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 import { deleteReview } from "../actions/reviewActions";
 
 const BootcampReviewsScreen = ({ match }) => {
@@ -27,18 +27,17 @@ const BootcampReviewsScreen = ({ match }) => {
   } = reviewDelete;
 
   useEffect(() => {
-    if (!bootcamp.id || deleteSuccess) {
-      dispatch(listBootcampDetails(bootcampId));
-    }
-    return () => dispatch({ type: REVIEW_LIST_RESET });
-  }, [bootcampId, dispatch]);
+    dispatch(listBootcampDetails(bootcampId));
+
+    return () => dispatch({ type: BOOTCAMP_DETAILS_RESET });
+  }, [bootcampId, dispatch, deleteSuccess]);
 
   useEffect(() => {
     bootcamp &&
       setCanReview(
-        bootcamp.reviews.some((review) => review.user._id !== userInfo?.id)
+        !bootcamp.reviews.some((review) => review.user._id === userInfo?.id)
       );
-  }, [bootcamp, userInfo?.id]);
+  }, [bootcamp, userInfo?.id, deleteSuccess]);
 
   const handleDelete = (courseId) => {
     if (!window.confirm("Are you sure?")) return;
@@ -75,12 +74,12 @@ const BootcampReviewsScreen = ({ match }) => {
                   {review.title}
                   {userInfo?.id === review.user._id && (
                     <div>
-                      <Link
+                      {/* <Link
                         to={`/bootcamp/${bootcamp.id}/review/${review._id}/edit`}
                         className="btn btn-secondary"
                       >
                         <i className="fas fa-pencil-alt" aria-hidden="true"></i>
-                      </Link>
+                      </Link> */}
                       <Button
                         variant="danger"
                         onClick={() => handleDelete(review._id)}
@@ -108,7 +107,7 @@ const BootcampReviewsScreen = ({ match }) => {
                 pill
                 className=" badge-secondary badge-success rounded-circle p-3"
               >
-                {bootcamp && parseInt(bootcamp.averageRating)}
+                {bootcamp && String(parseInt(bootcamp.averageRating))}
               </Badge>
               Rating
             </h1>

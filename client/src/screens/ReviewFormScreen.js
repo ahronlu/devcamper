@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { Card, Col, Row, Form } from "react-bootstrap";
 import { createBootcampReview } from "../actions/reviewActions";
+import { listBootcampDetails } from "../actions/bootcampActions";
 
 function ReviewAddScreen({ match, history }) {
   const { bootcampId } = match.params;
@@ -21,6 +22,7 @@ function ReviewAddScreen({ match, history }) {
 
   const submitHandler = (data) => {
     dispatch(createBootcampReview(bootcampId, data));
+    dispatch(listBootcampDetails(bootcampId));
     history.push(`/bootcamp/${bootcampId}/reviews`);
   };
 

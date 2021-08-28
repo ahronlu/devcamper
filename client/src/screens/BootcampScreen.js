@@ -27,7 +27,7 @@ const BootcampScreen = ({ match, history }) => {
   useEffect(() => {
     bootcamp &&
       setCanReview(
-        bootcamp.reviews.some((review) => review.user._id !== userInfo?.id)
+        !bootcamp.reviews.some((review) => review.user._id === userInfo?.id)
       );
   }, [bootcamp, userInfo?.id]);
 
@@ -86,7 +86,7 @@ const BootcampScreen = ({ match, history }) => {
 
               <h1 className="text-center my-4">
                 <span className="badge badge-secondary badge-success rounded-circle p-3">
-                  {parseInt(bootcamp.averageRating)}
+                  {String(parseInt(bootcamp.averageRating))}
                 </span>
                 Rating
               </h1>
