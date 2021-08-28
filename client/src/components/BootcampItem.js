@@ -8,7 +8,7 @@ const BootcampItem = ({ bootcamp }) => {
     <Card key={id} className="mb-3">
       <Row className="no-gutters">
         <Col className="md-4">
-          <img src="img/image_1.jpg" alt={name} />
+          <Card.Img src="img/image_1.jpg" alt={name} />
         </Col>
         <Col md={8}>
           <Card.Body>
