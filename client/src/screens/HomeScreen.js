@@ -17,15 +17,15 @@ const HomeScreen = ({ history }) => {
 
   return (
     <div className="showcase ">
-      {loading && <Spinner animation="border" />}
-      {error && <Alert variant="danger">{error}</Alert>}
+      {/* {loading && <Spinner animation="border" />}
+      {error && <Alert variant="danger">{error}</Alert>} */}
       <div className="dark-overlay">
         <div className="showcase-inner">
           <h1 className="display-4">Find a Code Bootcamp</h1>
           <p className="lead">
             Find, rate and read reviews on coding bootcamps
           </p>
-          <Link to="/bootcamps" className="btn btn-primary btn-block my-3">
+          <Link to="/bootcamps" className="btn btn-primary my-3">
             Find Bootcamps
           </Link>
         </div>
