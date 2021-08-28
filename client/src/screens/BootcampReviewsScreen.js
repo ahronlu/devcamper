@@ -19,9 +19,6 @@ const BootcampReviewsScreen = ({ match }) => {
   const bootcampDetails = useSelector((state) => state.bootcampDetails);
   const { loading, error, bootcamp } = bootcampDetails;
 
-  const bootcampDetails = useSelector((state) => state.bootcampDetails);
-  const { loading, error, bootcamp } = bootcampDetails;
-
   const reviewDelete = useSelector((state) => state.reviewDelete);
   const {
     success: deleteSuccess,
@@ -60,8 +57,7 @@ const BootcampReviewsScreen = ({ match }) => {
           {deleteError}
         </Alert>
       )}
-      {deleteLoading ? (
-        <Spinner animation="border" />}
+      {deleteLoading && <Spinner animation="border" />}
       {loading ? (
         <Spinner animation="border" />
       ) : (
