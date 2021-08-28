@@ -19,8 +19,20 @@ const BootcampReviewsScreen = ({ match }) => {
   const bootcampDetails = useSelector((state) => state.bootcampDetails);
   const { loading, error, bootcamp } = bootcampDetails;
 
+  const bootcampDetails = useSelector((state) => state.bootcampDetails);
+  const { loading, error, bootcamp } = bootcampDetails;
+
+  const reviewDelete = useSelector((state) => state.reviewDelete);
+  const {
+    success: deleteSuccess,
+    loading: deleteLoading,
+    error: deleteError,
+  } = reviewDelete;
+
   useEffect(() => {
-    dispatch(listBootcampDetails(bootcampId));
+    if (!bootcamp.id || deleteSuccess) {
+      dispatch(listBootcampDetails(bootcampId));
+    }
     return () => dispatch({ type: REVIEW_LIST_RESET });
   }, [bootcampId, dispatch]);
 
@@ -43,6 +55,13 @@ const BootcampReviewsScreen = ({ match }) => {
           {error}
         </Alert>
       )}
+      {deleteError && (
+        <Alert variant="danger" dismissible>
+          {deleteError}
+        </Alert>
+      )}
+      {deleteLoading ? (
+        <Spinner animation="border" />}
       {loading ? (
         <Spinner animation="border" />
       ) : (
