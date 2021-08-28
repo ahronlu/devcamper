@@ -23,6 +23,7 @@ const Map = ({ lat, lng, name }) => {
       ref={mapContainer}
       style={{
         height: "100%",
+        overflow: "hidden",
       }}
     ></div>
   );
