@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Alert, Card, Col, Spinner, Row, ListGroup } from "react-bootstrap";
+import { Alert, Card, Col, Row, ListGroup } from "react-bootstrap";
 import Map from "../components/Map";
+import Loader from "../components/Loader";
 import { listBootcampDetails } from "../actions/bootcampActions";
 import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 
@@ -41,7 +42,7 @@ const BootcampScreen = ({ match, history }) => {
       )}
 
       {!bootcamp && loading ? (
-        <Spinner animation="border" />
+        <Loader />
       ) : (
         bootcamp && (
           <Row>

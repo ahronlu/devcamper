@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { Alert, Card, Col, Form, Row, Spinner } from "react-bootstrap";
+import { Alert, Card, Col, Form, Row } from "react-bootstrap";
 import { getUserDetails, updateUserDetails } from "../actions/userActions";
+import Loader from "../components/Loader";
 
 const ManageAccountScreen = ({ history, userInfo }) => {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const ManageAccountScreen = ({ history, userInfo }) => {
       <Col md={8} className="m-auto">
         <Card className="bg-white py-2 px-4">
           {loading ? (
-            <Spinner animation="border" />
+            <Loader />
           ) : (
             <Card.Body>
               <h1 className="mb-2">Manage Account</h1>

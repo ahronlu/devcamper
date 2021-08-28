@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { Alert, Row, Col, Card, Form, Spinner } from "react-bootstrap";
+import { Alert, Row, Col, Card, Form } from "react-bootstrap";
+import Loader from "../components/Loader";
 import { getMyBootcamp } from "../actions/bootcampActions";
 import {
   createCourse,
@@ -129,7 +130,7 @@ const CourseFormScreen = ({ match, history }) => {
           </Alert>
         )}
         {loading ? (
-          <Spinner animation="border" />
+          <Loader />
         ) : (
           <Card className="bg-white py-2 px-4">
             <Card.Body>
@@ -140,9 +141,7 @@ const CourseFormScreen = ({ match, history }) => {
                 <i className="fas fa-chevron-left"></i> Manage Courses
               </Link>
               <h1 className="mb-2">{bootcamp.name}</h1>
-              {loading ||
-                updateLoading ||
-                (createLoading && <Spinner animation="border" />)}
+              {loading || updateLoading || (createLoading && <Loader />)}
               <h3 className="text-primary mb-4">Add Course</h3>
               <Form onSubmit={handleSubmit(submitCourse)}>
                 <Form.Group>

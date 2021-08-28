@@ -1,8 +1,9 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { Row, Col, Form, Spinner, Alert, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Row, Col, Form, Alert, Card } from "react-bootstrap";
+import Loader from "../components/Loader";
 import { login } from "../actions/userActions";
 
 const LoginScreen = ({ history }) => {
@@ -37,7 +38,7 @@ const LoginScreen = ({ history }) => {
             <h1>
               <i className="fas fa-sign-in-alt"></i> Login
             </h1>
-            {loading && <Spinner animation="border" />}
+            {loading && <Loader />}
             {error && (
               <Alert variant="danger" dismissible>
                 {error}

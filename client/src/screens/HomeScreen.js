@@ -1,7 +1,8 @@
 // import { useEffect } from "react";
 import { Link } from "react-router-dom";
 // import { useSelector } from "react-redux";
-// import { Alert, Spinner } from "react-bootstrap";
+// import { Alert } from "react-bootstrap";
+// import Loader from "../components/Loader.js"
 // import { useState } from "react";
 
 const HomeScreen = ({ history }) => {
@@ -17,7 +18,7 @@ const HomeScreen = ({ history }) => {
 
   return (
     <div className="showcase ">
-      {/* {loading && <Spinner animation="border" />}
+      {/* {loading && <Loader/>}
       {error && <Alert variant="danger">{error}</Alert>} */}
       <div className="dark-overlay">
         <div className="showcase-inner">

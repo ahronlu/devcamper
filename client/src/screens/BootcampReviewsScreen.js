@@ -5,6 +5,7 @@ import { Alert, Badge, Button, Card, Col, Row, Spinner } from "react-bootstrap";
 import { listBootcampDetails } from "../actions/bootcampActions";
 import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 import { deleteReview } from "../actions/reviewActions";
+import Loader from "../components/Loader";
 
 const BootcampReviewsScreen = ({ match }) => {
   const { bootcampId } = match.params;
@@ -56,9 +57,9 @@ const BootcampReviewsScreen = ({ match }) => {
           {deleteError}
         </Alert>
       )}
-      {deleteLoading && <Spinner animation="border" />}
+      {deleteLoading && <Loader />}
       {loading ? (
-        <Spinner animation="border" />
+        <Loader />
       ) : (
         <>
           <Col md={8}>

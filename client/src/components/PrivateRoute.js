@@ -1,6 +1,7 @@
 import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Spinner } from "react-bootstrap";
+import Loader from "./Loader";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const userLogin = useSelector((state) => state.userLogin);
@@ -11,7 +12,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={(props) =>
         loading ? (
-          <Spinner loading="border" />
+          <Loader />
         ) : userInfo ? (
           <Component {...props} userInfo={userInfo} />
         ) : (

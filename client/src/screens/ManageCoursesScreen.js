@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Alert, Button, Card, Col, Row, Spinner } from "react-bootstrap";
+import { Alert, Button, Card, Col, Row } from "react-bootstrap";
+import Loader from "../components/Loader";
 import { getMyBootcamp } from "../actions/bootcampActions";
 import { deleteCourse, listMyCourses } from "../actions/courseActions";
 import BootcampItem from "../components/BootcampItem";
@@ -54,15 +55,15 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
     <Row>
       <Col md={8} className="m-auto">
         <Card className="bg-white py-2 px-4">
-          {deleteLoading && <Spinner animation="border" />}
-          {deleteLoading && <Spinner animation="boder" />}
+          {deleteLoading && <Loader />}
+          {deleteLoading && <Loader />}
           {deleteError && (
             <Alert variant="danger" dismissible>
               {deleteError}
             </Alert>
           )}
           {loading && !bootcamp ? (
-            <Spinner animation="border" />
+            <Loader />
           ) : (
             <Card.Body>
               <Link

@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Alert, Button, Card, Col, Row, Spinner } from "react-bootstrap";
+import { Alert, Button, Card, Col, Row } from "react-bootstrap";
 import { deleteBootcamp, getMyBootcamp } from "../actions/bootcampActions";
 import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 import BootcampItem from "../components/BootcampItem";
 import AddBootcampImgForm from "../components/AddBootcampImgForm";
+import Loader from "../components/Loader";
 
 const ManageBootcampScreen = ({ history, userInfo }) => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const ManageBootcampScreen = ({ history, userInfo }) => {
             </Alert>
           )}
           {loading ? (
-            <Spinner animation="border" />
+            <Loader />
           ) : (
             <Card.Body>
               <h1 className="mb-4">Manage Bootcamp</h1>
@@ -70,7 +71,7 @@ const ManageBootcampScreen = ({ history, userInfo }) => {
                   >
                     Remove Bootcamp
                   </Button>
-                  {deleteLoading && <Spinner animation="boder" />}
+                  {deleteLoading && <Loader />}
                   {deleteError && (
                     <Alert variant="danger" dismissible>
                       {deleteError}

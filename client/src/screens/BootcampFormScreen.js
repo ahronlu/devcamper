@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { Alert, Row, Col, Card, Form, Spinner } from "react-bootstrap";
+import { Alert, Row, Col, Card, Form } from "react-bootstrap";
+import Loader from "../components/Loader";
 import {
   updateBootcamp,
   createBootcamp,
@@ -109,7 +110,7 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
         Important: You must be affiliated with a bootcamp to add to DevCamper
       </p>
       {loading ? (
-        <Spinner animation="border" />
+        <Loader />
       ) : (
         <Form onSubmit={handleSubmit(SubmitBoocamp)}>
           <Row>
@@ -281,7 +282,7 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
               </Card>
             </Col>
           </Row>
-          {updateLoading || (createLoading && <Spinner animation="border" />)}
+          {updateLoading || (createLoading && <Loader />)}
           {error && (
             <Alert variant="danger" dismissible>
               {error}

@@ -1,8 +1,9 @@
 import { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { Row, Col, Form, Card, Spinner, Alert } from "react-bootstrap";
+import { Row, Col, Form, Card, Alert } from "react-bootstrap";
 import { register as registerUser } from "../actions/userActions";
+import Loader from "../components/Loader";
 
 const RegisterScreen = ({ history }) => {
   const {
@@ -40,7 +41,7 @@ const RegisterScreen = ({ history }) => {
             <h1>
               <i className="fas fa-user-plus"></i> Register
             </h1>
-            {loading && <Spinner animation="border" />}
+            {loading && <Loader />}
             {error && (
               <Alert variant="danger" dismissible>
                 {error}

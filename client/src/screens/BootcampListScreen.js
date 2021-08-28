@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Col, Row, Card, Spinner, Alert } from "react-bootstrap";
+import { Col, Row, Card, Alert } from "react-bootstrap";
 import { listBootcamps } from "../actions/bootcampActions";
 import Paginate from "../components/Paginate";
 import BootcampItem from "../components/BootcampItem";
 import BootcampByLocationForm from "../components/BootcampByLocationForm";
 import FilterBootcampsForm from "../components/FilterBootcampsForm";
+import Loader from "../components/Loader";
 
 const BootcampListScreen = (props) => {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const BootcampListScreen = (props) => {
             </Alert>
           )}
           {loading ? (
-            <Spinner animation="border" />
+            <Loader />
           ) : (
             bootcamps &&
             bootcamps.map((bootcamp) => (
