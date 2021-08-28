@@ -1,7 +1,7 @@
 // import { useEffect } from "react";
 import { Link } from "react-router-dom";
 // import { useSelector } from "react-redux";
-import { Alert, Spinner } from "react-bootstrap";
+// import { Alert, Spinner } from "react-bootstrap";
 // import { useState } from "react";
 
 const HomeScreen = ({ history }) => {

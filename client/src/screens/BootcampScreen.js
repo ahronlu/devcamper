@@ -115,12 +115,15 @@ const BootcampScreen = ({ match, history }) => {
                 <i className="fas fa-globe"></i> Visit Website
               </a>
 
-              <div id="map" style={{ width: "100%", height: "300px" }}>
-                <Map
-                  name={bootcamp.name}
-                  position={bootcamp.location?.coordinates}
-                />
-              </div>
+              {bootcamp?.location?.coordinates.length ? (
+                <div id="map" style={{ width: "100%", height: "300px" }}>
+                  <Map
+                    name={bootcamp.name}
+                    lat={bootcamp?.location?.coordinates[1]}
+                    lng={bootcamp?.location?.coordinates[0]}
+                  />
+                </div>
+              ) : null}
 
               <ListGroup className="mt-4 list-group-flush">
                 <ListGroup.Item>
