@@ -20,6 +20,30 @@ import {
   BOOTCAMP_DETAILS_FAIL,
 } from "../constants/bootcampConstants";
 
+export const listBootcampsByRadius =
+  (zipcode, distance) => async (dispatch) => {
+    try {
+      dispatch({ type: BOOTCAMP_LIST_REQUEST });
+
+      const {
+        data: { data },
+      } = await axios.get(`/api/bootcamps/radius/${zipcode}/${distance}`);
+
+      dispatch({
+        type: BOOTCAMP_LIST_SUCCESS,
+        payload: { bootcamps: data },
+      });
+    } catch (error) {
+      dispatch({
+        type: BOOTCAMP_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
 export const listBootcamps =
   (page = 1) =>
   async (dispatch) => {

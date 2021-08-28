@@ -4,6 +4,7 @@ import { Col, Row, Card, Form, Spinner, Alert } from "react-bootstrap";
 import { listBootcamps } from "../actions/bootcampActions";
 import Paginate from "../components/Paginate";
 import BootcampItem from "../components/BootcampItem";
+import BootcampByLocationForm from "../components/BootcampByLocationForm";
 
 const BootcampListScreen = (props) => {
   const dispatch = useDispatch();
@@ -14,8 +15,8 @@ const BootcampListScreen = (props) => {
   );
 
   useEffect(() => {
-    dispatch(listBootcamps(page));
-  }, [dispatch, page]);
+    !bootcamps?.length && dispatch(listBootcamps(page));
+  }, [dispatch, page, bootcamps?.length]);
 
   return (
     <>
@@ -23,33 +24,7 @@ const BootcampListScreen = (props) => {
         <Col md={4}>
           <Card body className="mb-4">
             <h4 className="mb-3">By Location</h4>
-            <Form>
-              <Row>
-                <Col md={6}>
-                  <Form.Group>
-                    <Form.Control
-                      type="text"
-                      name="miles"
-                      placeholder="Miles From"
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group>
-                    <Form.Control
-                      type="text"
-                      name="zipcode"
-                      placeholder="Enter Zipcode"
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Form.Control
-                type="submit"
-                value="Find Bootcamps"
-                className="btn btn-primary btn-block"
-              />
-            </Form>
+            <BootcampByLocationForm />
           </Card>
 
           <h4>Filter</h4>

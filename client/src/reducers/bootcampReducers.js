@@ -21,6 +21,7 @@ import {
   BOOTCAMP_CREATE_REVIEW_FAIL,
   BOOTCAMP_CREATE_REVIEW_RESET,
   BOOTCAMP_DETAILS_RESET,
+  BOOTCAMP_LIST_RESET,
 } from "../constants/bootcampConstants";
 
 export const bootcampListReducer = (
@@ -38,6 +39,8 @@ export const bootcampListReducer = (
       };
     case BOOTCAMP_LIST_FAIL:
       return { ...state, loading: false, error: action.payload };
+    case BOOTCAMP_LIST_RESET:
+      return { bootcamps: [], pagination: {} };
     default:
       return state;
   }
