@@ -19,6 +19,7 @@ import {
   BOOTCAMP_DETAILS_SUCCESS,
   BOOTCAMP_DETAILS_FAIL,
 } from "../constants/bootcampConstants";
+import composeUrl from "../utils/composeUrl";
 
 export const listBootcampsByRadius =
   (zipcode, distance) => async (dispatch) => {
@@ -44,30 +45,33 @@ export const listBootcampsByRadius =
     }
   };
 
-export const listBootcamps =
-  (page = 1) =>
-  async (dispatch) => {
-    try {
-      dispatch({ type: BOOTCAMP_LIST_REQUEST });
+export const listBootcamps = (filters) => async (dispatch) => {
+  let url = `/api/bootcamps?limit=4&`;
 
-      const {
-        data: { data, pages },
-      } = await axios.get(`/api/bootcamps?limit=4&page=${page}`);
+  if (filters) {
+    url = composeUrl(url, filters);
+  }
+  try {
+    dispatch({ type: BOOTCAMP_LIST_REQUEST });
 
-      dispatch({
-        type: BOOTCAMP_LIST_SUCCESS,
-        payload: { bootcamps: data, pages },
-      });
-    } catch (error) {
-      dispatch({
-        type: BOOTCAMP_LIST_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
+    const {
+      data: { data, pages },
+    } = await axios.get(url);
+
+    dispatch({
+      type: BOOTCAMP_LIST_SUCCESS,
+      payload: { bootcamps: data, pages },
+    });
+  } catch (error) {
+    dispatch({
+      type: BOOTCAMP_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const listBootcampDetails = (id) => async (dispatch) => {
   try {

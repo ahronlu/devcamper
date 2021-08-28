@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Col, Row, Card, Form, Spinner, Alert } from "react-bootstrap";
+import { Col, Row, Card, Spinner, Alert } from "react-bootstrap";
 import { listBootcamps } from "../actions/bootcampActions";
 import Paginate from "../components/Paginate";
 import BootcampItem from "../components/BootcampItem";
 import BootcampByLocationForm from "../components/BootcampByLocationForm";
+import FilterBootcampsForm from "../components/FilterBootcampsForm";
 
 const BootcampListScreen = (props) => {
   const dispatch = useDispatch();
@@ -15,8 +16,8 @@ const BootcampListScreen = (props) => {
   );
 
   useEffect(() => {
-    !bootcamps?.length && dispatch(listBootcamps(page));
-  }, [dispatch, page, bootcamps?.length]);
+    dispatch(listBootcamps({ page }));
+  }, [dispatch, page]);
 
   return (
     <>
@@ -28,50 +29,7 @@ const BootcampListScreen = (props) => {
           </Card>
 
           <h4>Filter</h4>
-          <Form>
-            <Form.Group>
-              <Form.Label> Rating</Form.Label>
-              <Form.Control
-                as="select"
-                defaultValue="any"
-                className="mb-2"
-                custom
-              >
-                <option value="any">Any</option>
-                <option value="9">9+</option>
-                <option value="8">8+</option>
-                <option value="7">7+</option>
-                <option value="6">6+</option>
-                <option value="5">5+</option>
-                <option value="4">4+</option>
-                <option value="3">3+</option>
-                <option value="2">2+</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label> Budget</Form.Label>
-              <Form.Control
-                as="select"
-                defaultValue="any"
-                className="mb-2"
-                custom
-              >
-                <option value="any">Any</option>
-                <option value="20000">$20,000</option>
-                <option value="15000">$15,000</option>
-                <option value="10000">$10,000</option>
-                <option value="8000">$8,000</option>
-                <option value="6000">$6,000</option>
-                <option value="4000">$4,000</option>
-                <option value="2000">$2,000</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Control
-              type="submit"
-              value="Find Bootcamps"
-              className="btn btn-primary btn-block"
-            />
-          </Form>
+          <FilterBootcampsForm />
         </Col>
         <Col md={8}>
           {error && (
