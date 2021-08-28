@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { Alert, Col, Form, Row, Spinner } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { Col, Form, Row } from "react-bootstrap";
 import { listBootcampsByRadius } from "../actions/bootcampActions";
 
 const BootcampByLocationForm = ({ counter, setCounter = null }) => {
@@ -18,6 +18,7 @@ const BootcampByLocationForm = ({ counter, setCounter = null }) => {
     dispatch(listBootcampsByRadius(zipcode, distance));
     setCounter && setCounter(counter + 1);
   };
+
   return (
     <Form onSubmit={handleSubmit(submit)}>
       <Row>
