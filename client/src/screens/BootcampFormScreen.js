@@ -72,7 +72,7 @@ const BootcampFormScreen = ({ match, history, userInfo }) => {
       if (!bootcamp || !bootcamp._id) {
         dispatch(getMyBootcamp());
       } else {
-        fields.map((f) => setValue(f, bootcamp[f]));
+        fields.map((f) => setValue(f, bootcamp[f], { shouldValidate: true }));
         setValue(
           "address",
           `${bootcamp.location.street}, ${bootcamp.location.city}, ${bootcamp.location.state}, ${bootcamp.location.zipcode}`

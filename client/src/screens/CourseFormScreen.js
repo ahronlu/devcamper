@@ -69,7 +69,8 @@ const CourseFormScreen = ({ match, history }) => {
     else {
       !bootcamp && dispatch(getMyBootcamp());
       courseId && !course?.title && dispatch(listCourseDetails(courseId));
-      course.title && fields.map((f) => setValue(f, course[f]));
+      course.title &&
+        fields.map((f) => setValue(f, course[f], { shouldValidate: true }));
     }
   }, [
     bootcamp,

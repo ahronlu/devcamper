@@ -24,8 +24,8 @@ const ManageAccountScreen = ({ history, userInfo }) => {
     if (!user?.name) {
       dispatch(getUserDetails());
     } else {
-      setValue("name", user.name);
-      setValue("email", user.email);
+      setValue("name", user.name, { shouldValidate: true });
+      setValue("email", user.email, { shouldValidate: true });
     }
   }, [userInfo, history, dispatch, user, setValue]);
 
