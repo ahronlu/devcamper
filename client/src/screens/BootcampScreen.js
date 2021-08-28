@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Card, Col, Spinner, Row, ListGroup } from "react-bootstrap";
+import Map from "../components/Map";
 import { listBootcampDetails } from "../actions/bootcampActions";
 import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 
@@ -23,6 +24,8 @@ const BootcampScreen = ({ match, history }) => {
 
     return () => dispatch({ type: BOOTCAMP_DETAILS_RESET });
   }, [dispatch, bootcampId, history]);
+
+  console.log(bootcamp?.location?.coordinates);
 
   useEffect(() => {
     bootcamp &&
@@ -112,7 +115,12 @@ const BootcampScreen = ({ match, history }) => {
                 <i className="fas fa-globe"></i> Visit Website
               </a>
 
-              <div id="map" style={{ width: "100%", height: "300px" }}></div>
+              <div id="map" style={{ width: "100%", height: "300px" }}>
+                <Map
+                  name={bootcamp.name}
+                  position={bootcamp.location?.coordinates}
+                />
+              </div>
 
               <ListGroup className="mt-4 list-group-flush">
                 <ListGroup.Item>
