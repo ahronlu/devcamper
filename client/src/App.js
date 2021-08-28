@@ -2,10 +2,13 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import HomeScreen from "./screens/HomeScreen";
 import Header from "./components/Header";
+import PrivateRoute from "./components/PrivateRoute";
+
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import BootcampListScreen from "./screens/BootcampListScreen";
 import ManageAccountScreen from "./screens/ManageAccountScreen";
+import UpdatePasswordScreen from "./screens/UpdatePasswordScreen";
 import BootcampScreen from "./screens/BootcampScreen";
 import BootcampReviewsScreen from "./screens/BootcampReviewsScreen";
 import ManageBootcampScreen from "./screens/ManageBootcampScreen";
@@ -14,8 +17,7 @@ import ManageReviewsScreen from "./screens/ManageReviewsScreen";
 import BootcampFormScreen from "./screens/BootcampFormScreen";
 import ReviewFormScreen from "./screens/ReviewFormScreen";
 import CourseFormScreen from "./screens/CourseFormScreen";
-import PrivateRoute from "./components/PrivateRoute";
-import UpdatePasswordScreen from "./screens/UpdatePasswordScreen";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 
 function App() {
   return (
@@ -25,7 +27,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={HomeScreen} />
           <Route path="/login" component={LoginScreen} />
-          <Route path="/update-password" component={UpdatePasswordScreen} />
+          <Route path="/reset-password" component={ResetPasswordScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route exact path="/bootcamps/:page" component={BootcampListScreen} />
           <Route exact path="/bootcamps/" component={BootcampListScreen} />

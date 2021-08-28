@@ -1,15 +1,23 @@
-import React from "react";
-import { Card, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Card, Col, Form, Row } from "react-bootstrap";
 
 const ResetPasswordScreen = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid, dirtyFields },
+  } = useForm({
+    mode: "onChange",
+  });
+
   return (
     <Row>
-      <Col md={8} class="m-auto">
-        <Card class="bg-white py-2 px-4">
+      <Col md={6} className="mx-auto">
+        <Card className="bg-white py-2 px-4">
           <Card.Body>
             <Link to="/login">Back to login</Link>
-            <h1 class="mb-2">Reset Password</h1>
+            <h1 className="mb-2">Reset Password</h1>
             <p>
               Use this form to reset your password using the registered email
               address.
@@ -18,17 +26,28 @@ const ResetPasswordScreen = () => {
               <Form.Group>
                 <Form.Label>Enter Email</Form.Label>
                 <Form.Control
-                  type="email"
                   placeholder="Email address"
-                  name="email"
-                  class="form-control"
-                />
+                  isInvalid={!!errors.email}
+                  isValid={!errors.email && dirtyFields.email}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value:
+                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                      message: "Please enter a valid email",
+                    },
+                  })}
+                ></Form.Control>
+                <Form.Control.Feedback type="invalid">
+                  {errors.email?.message}
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group>
                 <Form.Control
                   type="submit"
                   value="Reset Password"
-                  class="btn btn-dark btn-block"
+                  className="btn btn-dark btn-block"
+                  disabled
                 />
               </Form.Group>
             </Form>
