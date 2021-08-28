@@ -1,19 +1,19 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+// import { useEffect } from "react";
+import { Link } from "react-router-dom";
+// import { useSelector } from "react-redux";
 import { Alert, Spinner } from "react-bootstrap";
-import { useState } from "react";
-import BootcampByLocationForm from "../components/BootcampByLocationForm";
+// import { useState } from "react";
 
 const HomeScreen = ({ history }) => {
-  const [counter, setCounter] = useState(0);
+  // const [counter, setCounter] = useState(0);
 
-  const { bootcamps, loading, error } = useSelector(
-    (state) => state.bootcampList
-  );
+  // const { bootcamps, loading, error } = useSelector(
+  //   (state) => state.bootcampList
+  // );
 
-  useEffect(() => {
-    bootcamps.length > 0 && counter && history.push("/bootcamps");
-  }, [bootcamps.length, counter, history]);
+  // useEffect(() => {
+  //   bootcamps.length > 0 && counter && history.push("/bootcamps");
+  // }, [bootcamps.length, history]);
 
   return (
     <div className="showcase ">
@@ -25,7 +25,9 @@ const HomeScreen = ({ history }) => {
           <p className="lead">
             Find, rate and read reviews on coding bootcamps
           </p>
-          <BootcampByLocationForm counter={counter} setCounter={setCounter} />
+          <Link to="/bootcamps" className="btn btn-primary btn-block my-3">
+            Find Bootcamps
+          </Link>
         </div>
       </div>
     </div>
