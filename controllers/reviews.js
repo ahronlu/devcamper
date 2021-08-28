@@ -139,3 +139,16 @@ exports.deleteReview = asyncHandler(async (req, res, next) => {
     data: {},
   });
 });
+
+// @desc    Get logged in user reviews
+// @route   GET /api/reviews/getmyreviews
+// @access  Private
+exports.getMyReviews = asyncHandler(async (req, res) => {
+  const reviews = await Review.find({ user: req.user.id }).populate(
+    "courses reviews"
+  );
+
+  if (!reviews) return res.json({ succes: true, data: null });
+
+  res.json({ success: true, data: reviews });
+});

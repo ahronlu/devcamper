@@ -32,6 +32,11 @@ const Header = () => {
                       <NavDropdown.Item>Manage Bootcamp</NavDropdown.Item>
                     </LinkContainer>
                   )}
+                  {userInfo.role === "user" && (
+                    <LinkContainer to="/manage-reviews">
+                      <NavDropdown.Item>Manage Reviews</NavDropdown.Item>
+                    </LinkContainer>
+                  )}
                   {userInfo.role === "admin" && (
                     <LinkContainer to="/manage-reviews">
                       <NavDropdown.Item>Manage Reviews</NavDropdown.Item>

@@ -3,53 +3,37 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Alert, Button, Card, Col, Row } from "react-bootstrap";
 import Loader from "../components/Loader";
-import { getMyBootcamp } from "../actions/bootcampActions";
-import { deleteCourse, listMyCourses } from "../actions/courseActions";
-import BootcampItem from "../components/BootcampItem";
-import { MY_COURSE_DELETE_RESET } from "../constants/courseConstants";
+import { deleteReview, listMyReviews } from "../actions/reviewActions";
+import { REVIEW_DELETE_RESET } from "../constants/reviewConstants";
 
-const ManageCoursesScreen = ({ history, userInfo }) => {
+const ManageReviewsScreen = ({ history, userInfo }) => {
   const dispatch = useDispatch();
 
-  const bootcampDetails = useSelector((state) => state.bootcampDetails);
-  const { loading, bootcamp } = bootcampDetails;
+  const reviewList = useSelector((state) => state.reviewList);
+  const { reviews, loading, error } = reviewList;
 
-  const courseList = useSelector((state) => state.courseList);
-  const { courses, error } = courseList;
-
-  const courseDelete = useSelector((state) => state.courseDelete);
+  const reviewDelete = useSelector((state) => state.reviewDelete);
   const {
     success: deleteSuccess,
     loading: deleteLoading,
     error: deleteError,
-  } = courseDelete;
+  } = reviewDelete;
 
   const handleDelete = (id) => {
     if (!window.confirm("Are you sure?")) return;
-    dispatch(deleteCourse(id));
+    dispatch(deleteReview(id));
   };
 
   useEffect(() => {
-    if (userInfo.role === "user") {
+    if (userInfo.role === "publisher") {
       history.push("/");
     } else {
-      if (!bootcamp?.id) {
-        dispatch(getMyBootcamp());
-      } else {
-        if (!courses.length || deleteSuccess) {
-          dispatch(listMyCourses(bootcamp.id));
-          dispatch({ type: MY_COURSE_DELETE_RESET });
-        }
+      if (!reviews?.length || deleteSuccess) {
+        dispatch(listMyReviews());
+        // dispatch({ type: REVIEW_DELETE_RESET });
       }
     }
-  }, [
-    history,
-    dispatch,
-    deleteSuccess,
-    bootcamp,
-    courses.length,
-    userInfo.role,
-  ]);
+  }, [history, dispatch, deleteSuccess, userInfo.role]);
 
   return (
     <Row>
@@ -66,25 +50,12 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
               {deleteError}
             </Alert>
           )}
-          {loading && !bootcamp ? (
+          {loading ? (
             <Loader />
           ) : (
             <Card.Body>
-              <Link
-                to="/manage-bootcamp"
-                className="btn btn-link text-secondary my-3"
-              >
-                <i className="fas fa-chevron-left"></i> Manage Bootcamp
-              </Link>
-              <h1 className="mb-4">Manage Courses</h1>
-              {bootcamp?.location && <BootcampItem bootcamp={bootcamp} />}
-              <Link
-                to={`/bootcamp/${bootcamp?.id}/add-course`}
-                className="btn btn-primary btn-block mb-4"
-              >
-                Add Bootcamp Course
-              </Link>
-              {courses?.length ? (
+              <h1 className="mb-4">Manage Reviews</h1>
+              {reviews?.length ? (
                 <table className="table table-striped">
                   <thead>
                     <tr>
@@ -93,12 +64,12 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {courses.map((course) => (
-                      <tr key={course._id}>
-                        <td>{course.title}</td>
+                    {reviews.map((review) => (
+                      <tr key={review._id}>
+                        <td>{review.title}</td>
                         <td>
                           <Link
-                            to={`/bootcamp/${bootcamp.id}/course/${course._id}/edit`}
+                            // to={`/bootcamp/${bootcamp.id}/review/${review._id}/edit`}
                             className="btn btn-secondary"
                           >
                             <i
@@ -108,7 +79,7 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
                           </Link>
                           <Button
                             variant="danger"
-                            onClick={() => handleDelete(course._id)}
+                            onClick={() => handleDelete(review._id)}
                           >
                             <i className="fas fa-times" aria-hidden="true"></i>
                           </Button>
@@ -119,7 +90,7 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
                 </table>
               ) : (
                 <>
-                  <p className="lead">You have not yet added any courses</p>
+                  <p className="lead">You have not yet added any reviews</p>
                 </>
               )}
             </Card.Body>
@@ -130,4 +101,4 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
   );
 };
 
-export default ManageCoursesScreen;
+export default ManageReviewsScreen;

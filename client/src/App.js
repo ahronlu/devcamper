@@ -10,6 +10,7 @@ import BootcampScreen from "./screens/BootcampScreen";
 import BootcampReviewsScreen from "./screens/BootcampReviewsScreen";
 import ManageBootcampScreen from "./screens/ManageBootcampScreen";
 import ManageCoursesScreen from "./screens/ManageCoursesScreen";
+import ManageReviewsScreen from "./screens/ManageReviewsScreen";
 import BootcampFormScreen from "./screens/BootcampFormScreen";
 import ReviewFormScreen from "./screens/ReviewFormScreen";
 import CourseFormScreen from "./screens/CourseFormScreen";
@@ -64,6 +65,10 @@ function App() {
           <PrivateRoute
             path="/bootcamp/:bootcampId/manage-courses"
             component={ManageCoursesScreen}
+          />
+          <PrivateRoute
+            path="/manage-reviews"
+            component={ManageReviewsScreen}
           />
           <PrivateRoute
             path="/bootcamp/:bootcampId/add-course"

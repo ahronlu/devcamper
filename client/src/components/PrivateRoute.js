@@ -1,6 +1,5 @@
 import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Spinner } from "react-bootstrap";
 import Loader from "./Loader";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
