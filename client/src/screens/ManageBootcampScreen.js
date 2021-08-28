@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Alert, Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
+import { Alert, Button, Card, Col, Row, Spinner } from "react-bootstrap";
 import { deleteBootcamp, getMyBootcamp } from "../actions/bootcampActions";
 import { BOOTCAMP_DETAILS_RESET } from "../constants/bootcampConstants";
 import BootcampItem from "../components/BootcampItem";
+import AddBootcampImgForm from "../components/AddBootcampImgForm";
 
 const ManageBootcampScreen = ({ history, userInfo }) => {
   const dispatch = useDispatch();
@@ -48,26 +49,8 @@ const ManageBootcampScreen = ({ history, userInfo }) => {
               {bootcamp?.location ? (
                 <>
                   <BootcampItem bootcamp={bootcamp} />
-                  <Form className="mb-4">
-                    <Form.Group>
-                      <div className="custom-file">
-                        <input
-                          type="file"
-                          name="photo"
-                          className="custom-file-input"
-                          id="photo"
-                        />
-                        <label className="custom-file-label" htmlFor="photo">
-                          Add Bootcamp Image
-                        </label>
-                      </div>
-                    </Form.Group>
-                    <input
-                      type="submit"
-                      className="btn btn-light btn-block"
-                      value="Upload Image"
-                    />
-                  </Form>
+
+                  <AddBootcampImgForm />
                   <Link
                     to={`/bootcamp/${bootcamp._id}/edit`}
                     className="btn btn-primary btn-block mt-2"

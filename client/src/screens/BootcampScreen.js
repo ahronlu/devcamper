@@ -25,8 +25,6 @@ const BootcampScreen = ({ match, history }) => {
     return () => dispatch({ type: BOOTCAMP_DETAILS_RESET });
   }, [dispatch, bootcampId, history]);
 
-  console.log(bootcamp?.location?.coordinates);
-
   useEffect(() => {
     bootcamp &&
       setCanReview(
@@ -85,8 +83,11 @@ const BootcampScreen = ({ match, history }) => {
             </Col>
 
             <Col md={4}>
-              <img src="image_1.jpg" className="img-thumbnail" alt="" />
-
+              <img
+                src="/img/image_1.jpg"
+                className="img-thumbnail"
+                alt={bootcamp.name}
+              />
               <h1 className="text-center my-4">
                 <span className="badge badge-secondary badge-success rounded-circle p-3">
                   {String(parseInt(bootcamp.averageRating))}
