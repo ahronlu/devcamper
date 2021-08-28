@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Alert, Button, Card, Col, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Row, Table } from "react-bootstrap";
 import Loader from "../components/Loader";
 import { getMyBootcamp } from "../actions/bootcampActions";
 import { deleteCourse, listMyCourses } from "../actions/courseActions";
@@ -85,7 +85,7 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
                 Add Bootcamp Course
               </Link>
               {courses?.length ? (
-                <table className="table table-striped">
+                <Table striped bordered hover>
                   <thead>
                     <tr>
                       <th scope="col">Title</th>
@@ -116,7 +116,7 @@ const ManageCoursesScreen = ({ history, userInfo }) => {
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </Table>
               ) : (
                 <>
                   <p className="lead">You have not yet added any courses</p>

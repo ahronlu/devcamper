@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Alert, Button, Card, Col, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Row, Table } from "react-bootstrap";
 import Loader from "../components/Loader";
 import {
   deleteReview,
@@ -61,7 +61,7 @@ const ManageReviewsScreen = ({ history, userInfo }) => {
           <Card.Body>
             <h1 className="mb-4">Manage Reviews</h1>
             {reviews?.length ? (
-              <table className="table table-striped">
+              <Table striped bordered hover>
                 <thead>
                   <tr>
                     <th scope="col">Title</th>
@@ -76,10 +76,7 @@ const ManageReviewsScreen = ({ history, userInfo }) => {
                       <tr key={review._id}>
                         <td>{review.title}</td>
                         <td>
-                          <Link
-                            // to={`/bootcamp/${bootcamp.id}/review/${review._id}/edit`}
-                            className="btn btn-secondary"
-                          >
+                          <Link to="#" className="btn btn-secondary">
                             <i
                               className="fas fa-pencil-alt"
                               aria-hidden="true"
@@ -96,7 +93,7 @@ const ManageReviewsScreen = ({ history, userInfo }) => {
                     ))
                   )}
                 </tbody>
-              </table>
+              </Table>
             ) : (
               <>
                 <p className="lead">You have not yet added any reviews</p>
