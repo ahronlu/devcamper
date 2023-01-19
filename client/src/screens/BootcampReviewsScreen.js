@@ -21,11 +21,7 @@ const BootcampReviewsScreen = ({ match }) => {
   const { loading, error, bootcamp } = bootcampDetails;
 
   const reviewDelete = useSelector((state) => state.reviewDelete);
-  const {
-    success: deleteSuccess,
-    loading: deleteLoading,
-    error: deleteError,
-  } = reviewDelete;
+  const { success: deleteSuccess, loading: deleteLoading, error: deleteError } = reviewDelete;
 
   useEffect(() => {
     dispatch(listBootcampDetails(bootcampId));
@@ -34,10 +30,7 @@ const BootcampReviewsScreen = ({ match }) => {
   }, [bootcampId, dispatch, deleteSuccess]);
 
   useEffect(() => {
-    bootcamp &&
-      setCanReview(
-        !bootcamp.reviews.some((review) => review.user._id === userInfo?.id)
-      );
+    bootcamp && setCanReview(!bootcamp.reviews.some((review) => review.user._id === userInfo?.id));
   }, [bootcamp, userInfo?.id, deleteSuccess]);
 
   const handleDelete = (courseId) => {
@@ -68,23 +61,19 @@ const BootcampReviewsScreen = ({ match }) => {
             <Card key={review._id} className="mb-3">
               <Card.Header className="bg-dark text-white d-flex justify-content-between align-items-center">
                 {review.title}
-                {userInfo?.id === review.user._id ||
-                  (userInfo.role === "admin" && (
-                    <div>
-                      {/* <Link
-                        to={`/bootcamp/${bootcamp.id}/review/${review._id}/edit`}
-                        className="btn btn-secondary"
-                      >
-                        <i className="fas fa-pencil-alt" aria-hidden="true"></i>
-                      </Link> */}
-                      <Button
-                        variant="danger"
-                        onClick={() => handleDelete(review._id)}
-                      >
-                        <i className="fas fa-times" aria-hidden="true"></i>
-                      </Button>
-                    </div>
-                  ))}
+                {(userInfo?.id === review.user._id || userInfo.role === "admin") && (
+                  <div>
+                    {/* <Link
+                      to={`/bootcamp/${bootcamp.id}/review/${review._id}/edit`}
+                      className="btn btn-secondary"
+                    >
+                      <i className="fas fa-pencil-alt" aria-hidden="true"></i>
+                    </Link> */}
+                    <Button variant="danger" onClick={() => handleDelete(review._id)}>
+                      <i className="fas fa-times" aria-hidden="true"></i>
+                    </Button>
+                  </div>
+                )}
               </Card.Header>
               <Card.Body>
                 <Card.Title>
@@ -100,19 +89,13 @@ const BootcampReviewsScreen = ({ match }) => {
 
       <Col md={4}>
         <h1 className="text-center my-4">
-          <Badge
-            pill
-            className=" badge-secondary badge-success rounded-circle p-3"
-          >
+          <Badge pill className=" badge-secondary badge-success rounded-circle p-3">
             {bootcamp && String(parseInt(bootcamp.averageRating))}
           </Badge>
           Rating
         </h1>
         {userInfo?.role === "user" && canReview && (
-          <Link
-            to={`/bootcamp/${bootcampId}/add-review`}
-            className="btn btn-primary btn-block my-3"
-          >
+          <Link to={`/bootcamp/${bootcampId}/add-review`} className="btn btn-primary btn-block my-3">
             <i className="fas fa-pencil-alt"></i> Review This Bootcamp
           </Link>
         )}
